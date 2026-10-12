@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+:root {
+  --theme: #234d3d;
+  --cream-background: #fbf0dc;
+}
+
+body {
+  margin: 0;
+  background: var(--theme);
+  color: #000;
+}
+
+@keyframes bump-breathe {
+  0%,
+  100% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes bump-ghost {
+  0%,
+  22%,
+  100% {
+    opacity: 0;
+  }
+  42%,
+  68% {
+    opacity: 0.1;
+  }
+}
+
+.bump-body {
+  animation: bump-breathe var(--bump-dur, 2.8s) ease-in-out infinite;
+  animation-delay: var(--bump-delay, 0s);
+}
+
+.bump-label {
+  animation: bump-ghost var(--label-dur, 4.2s) ease-in-out infinite;
+  animation-delay: var(--label-delay, 0s);
+}
+
+.group:hover > .bump-label,
+.group:focus-visible > .bump-label {
+  animation: none;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bump-body,
+  .bump-label {
+    animation: none;
+  }
+}
