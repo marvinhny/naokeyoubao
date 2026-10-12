@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { GoogleAnalytics } from "@/components/google-analytics";
 import "./globals.css";
 
 const inter = Inter({
@@ -13,6 +14,13 @@ export const metadata: Metadata = {
     template: "%s · 脑壳有包",
   },
   description: "有的会消，有的会长大，有的一直疼。想法、正在做的事、做成的和没做成的，都记在脑壳上。",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -23,6 +31,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           {children}
           <p className="mt-6 text-center text-[10px] text-white/80">naokeyoubao.com · 作者 Marvin</p>
         </div>
+        <GoogleAnalytics />
       </body>
     </html>
   );
