@@ -25,7 +25,7 @@ body {
 .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px 80px; }
 /* ---------- 顶部 ---------- */
 .topbar {
-  display: flex; justify-content: space-between; align-items: baseline;
+  display: flex; justify-content: space-between; align-items: center;
   padding: 18px 0 14px; border-bottom: 1px solid var(--line);
   font-size: 14px; color: var(--muted);
 }
@@ -143,32 +143,37 @@ footer {
 @media print { .toolbar { display: none; } .card { break-inside: avoid; } .codex-rail { display: none; } }
 
 .codex-rail {
-  position: fixed; left: 28px; top: 50%; transform: translateY(-50%);
-  z-index: 40; display: flex; flex-direction: column; gap: 16px;
+  position: fixed; left: 22px; top: 50%; transform: translateY(-50%);
+  z-index: 40; display: flex; flex-direction: column; gap: 4px;
+  max-height: calc(100vh - 48px); overflow-y: auto; overflow-x: visible;
+  scrollbar-width: none; padding: 6px 0;
 }
+.codex-rail::-webkit-scrollbar { width: 0; height: 0; }
 .tick {
-  position: relative; width: 44px; height: 22px; padding: 0; border: 0;
-  background: transparent; cursor: pointer; display: flex; align-items: center;
+  position: relative; width: 44px; height: 10px; padding: 0; border: 0;
+  background: transparent; cursor: pointer; display: flex; align-items: center; flex: none;
 }
 .tick i {
-  display: block; width: 16px; height: 3px; border-radius: 99px; background: var(--tick);
-  transition: width .28s cubic-bezier(.2,.8,.2,1), background .2s ease;
+  display: block; width: 10px; height: 2px; border-radius: 99px; background: var(--primary);
+  opacity: .38;
+  transition: width .28s cubic-bezier(.2,.8,.2,1), opacity .2s ease, background .2s ease;
 }
-.tick.on i { width: 26px; }
-.tick:hover i, .tick:focus-visible i { width: 36px; background: #171717; }
-.tip {
-  position: absolute; left: 52px; top: 50%; width: max-content; max-width: 280px;
+.tick.on i { width: 22px; opacity: 1; background: var(--primary); }
+.tick:hover i, .tick:focus-visible i { width: 28px; opacity: 1; background: var(--primary); }
+.tick .tip { display: none; }
+.codex-tip {
+  position: fixed; z-index: 80; left: 0; top: 0; width: max-content; max-width: 280px;
   padding: 12px 14px 13px; background: #fff; border-radius: 14px;
   box-shadow: 0 10px 30px rgba(20, 28, 24, .12), 0 0 0 1px rgba(0,0,0,.05);
   opacity: 0; pointer-events: none;
   transform: translateY(-50%) translateX(-8px);
   transition: opacity .2s ease, transform .28s cubic-bezier(.2,.8,.2,1);
 }
-.tick:hover .tip, .tick:focus-visible .tip {
+.codex-tip.on {
   opacity: 1; transform: translateY(-50%) translateX(0);
 }
-.tip b { display: block; font-size: 15px; font-weight: 700; color: #1a1a1a; letter-spacing: -0.01em; }
-.tip span { display: block; margin-top: 4px; font-size: 13px; line-height: 1.45; color: #8a8a8a; font-weight: 400; }
+.codex-tip b { display: block; font-size: 15px; font-weight: 700; color: #1a1a1a; letter-spacing: -0.01em; line-height: 1.35; }
+.codex-tip span { display: block; margin-top: 4px; font-size: 13px; line-height: 1.45; color: #8a8a8a; font-weight: 400; }
 @media (max-width: 1100px) { .codex-rail { display: none; } }
 @media (prefers-reduced-motion: reduce) {
   .tick i, .tip { transition: none; }
@@ -176,42 +181,494 @@ footer {
 </style>
 </head>
 <body>
-<nav class="codex-rail" aria-label="半天目录">
-  <button type="button" class="tick" data-target="forum-232" style="--tick:#9bb5a8" aria-label="9月22日上午，主论坛">
+<nav class="codex-rail" aria-label="议程目录">
+  <button type="button" class="tick talk" data-day="2026-09-22-上午" data-target="forum-232" aria-label="开幕式｜云栖主论坛">
     <i></i>
-    <span class="tip"><b>主论坛</b><span>9月22日上午 · 开幕式，模型、算力与产业落地放在同一场。</span></span>
+    <span class="tip"><b>开幕式｜云栖主论坛</b><span>9月22日 09:00–12:00 · Agent 开发与Agentic 应用</span></span>
   </button>
-  <button type="button" class="tick" data-target="forum-180" style="--tick:#7d9d8e" aria-label="9月22日下午，全面铺开">
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-180" aria-label="2026云栖大会AI Native 组织论坛">
     <i></i>
-    <span class="tip"><b>全面铺开</b><span>9月22日下午 · 组织转型、算力底座和行业实践一起出现。</span></span>
+    <span class="tip"><b>2026云栖大会AI Native 组织论坛</b><span>9月22日 13:30–17:30 · 组织转型</span></span>
   </button>
-  <button type="button" class="tick" data-target="forum-228" style="--tick:#5e8474" aria-label="9月23日上午，场景落地">
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-171" aria-label="AI Native 数据基础设施论坛暨全栈自研 CPFS 商业化发布">
     <i></i>
-    <span class="tip"><b>场景落地</b><span>9月23日上午 · 行业实践最密，Agentic Cloud 与存储、可观测跟上。</span></span>
+    <span class="tip"><b>AI Native 数据基础设施论坛暨全栈自研 CPFS 商业化发布</b><span>9月22日 13:30–17:30 · 算力与 AI 基础设施</span></span>
   </button>
-  <button type="button" class="tick" data-target="forum-183" style="--tick:#3f6a58" aria-label="9月23日下午，走进生产">
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-107" aria-label="AI 实时数据智能">
     <i></i>
-    <span class="tip"><b>走进生产</b><span>9月23日下午 · 算力工程和 Agent 工程化，开始谈怎么进生产。</span></span>
+    <span class="tip"><b>AI 实时数据智能</b><span>9月22日 13:30–17:30 · Agentic Cloud</span></span>
   </button>
-  <button type="button" class="tick" data-target="forum-162" style="--tick:#234d3d" aria-label="9月24日上午，收束">
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-131" aria-label="AI+教育科研：智能体时代的创新跃迁">
     <i></i>
-    <span class="tip"><b>收束</b><span>9月24日上午 · 场次少下来，留在智能体、开源和产品实践。</span></span>
+    <span class="tip"><b>AI+教育科研：智能体时代的创新跃迁</b><span>9月22日 13:30–17:30 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-186" aria-label="AI原生·重塑企业生产力">
+    <i></i>
+    <span class="tip"><b>AI原生·重塑企业生产力</b><span>9月22日 13:30–17:30 · 组织转型</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-194" aria-label="AI驱动的服务进化：从解题、感知到组织重塑">
+    <i></i>
+    <span class="tip"><b>AI驱动的服务进化：从解题、感知到组织重塑</b><span>9月22日 13:30–17:30 · 组织转型</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-212" aria-label="AMD专场：构建AI新未来">
+    <i></i>
+    <span class="tip"><b>AMD专场：构建AI新未来</b><span>9月22日 13:30–17:30 · 算力与 AI 基础设施</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-112" aria-label="Agent 友好的计算服务，加速企业 AI 进化">
+    <i></i>
+    <span class="tip"><b>Agent 友好的计算服务，加速企业 AI 进化</b><span>9月22日 13:30–17:30 · 算力与 AI 基础设施</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-164" aria-label="Agentic AI 时代的算力与存储服务器革新">
+    <i></i>
+    <span class="tip"><b>Agentic AI 时代的算力与存储服务器革新</b><span>9月22日 13:30–17:30 · 算力与 AI 基础设施</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-200" aria-label="Qoder 助力 AI Native 超级组织">
+    <i></i>
+    <span class="tip"><b>Qoder 助力 AI Native 超级组织</b><span>9月22日 13:30–17:30 · 组织转型</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-144" aria-label="“AI+文化传媒”技术发展论坛">
+    <i></i>
+    <span class="tip"><b>“AI+文化传媒”技术发展论坛</b><span>9月22日 13:30–17:30 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-128" aria-label="万镜一刻：Agentic AI驱动下一代视频生产力">
+    <i></i>
+    <span class="tip"><b>万镜一刻：Agentic AI驱动下一代视频生产力</b><span>9月22日 13:30–17:30 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-169" aria-label="专业决策，智能执行：财务价值再升级">
+    <i></i>
+    <span class="tip"><b>专业决策，智能执行：财务价值再升级</b><span>9月22日 13:30–17:30 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-148" aria-label="从 CDN 到 AI Agent 运行底座：在边缘构建全球化应用">
+    <i></i>
+    <span class="tip"><b>从 CDN 到 AI Agent 运行底座：在边缘构建全球化应用</b><span>9月22日 13:30–17:30 · Agentic Cloud</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-163" aria-label="从 Demo 到生产：Agent 的构建、评测与自主交付实战">
+    <i></i>
+    <span class="tip"><b>从 Demo 到生产：Agent 的构建、评测与自主交付实战</b><span>9月22日 13:30–17:30 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-120" aria-label="从 Model 到 Token：阿里云百炼模型服务的技术创新、规模服务与行业实践">
+    <i></i>
+    <span class="tip"><b>从 Model 到 Token：阿里云百炼模型服务的技术创新、规模服务与行业实践</b><span>9月22日 13:30–17:30 · 模型与模型服务</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-207" aria-label="从智能到行动 ：东南亚AI落地实践">
+    <i></i>
+    <span class="tip"><b>从智能到行动 ：东南亚AI落地实践</b><span>9月22日 13:30–17:30 · 组织转型</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-185" aria-label="以信为基，智体可寻 —— DNS 构筑智能体时代的可信服务发现">
+    <i></i>
+    <span class="tip"><b>以信为基，智体可寻 —— DNS 构筑智能体时代的可信服务发现</b><span>9月22日 13:30–17:30 · Agentic Cloud</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-152" aria-label="企业级Agent实践峰会">
+    <i></i>
+    <span class="tip"><b>企业级Agent实践峰会</b><span>9月22日 13:30–17:30 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-179" aria-label="千问办公专场">
+    <i></i>
+    <span class="tip"><b>千问办公专场</b><span>9月22日 13:30–17:30 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-193" aria-label="千问大模型：迈向智能体时代的最新进展">
+    <i></i>
+    <span class="tip"><b>千问大模型：迈向智能体时代的最新进展</b><span>9月22日 13:30–17:30 · 模型与模型服务</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-140" aria-label="可信智行：金融智能体实战峰会">
+    <i></i>
+    <span class="tip"><b>可信智行：金融智能体实战峰会</b><span>9月22日 13:30–17:30 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-130" aria-label="可预期网络2.0：Token Performance Network">
+    <i></i>
+    <span class="tip"><b>可预期网络2.0：Token Performance Network</b><span>9月22日 13:30–17:30 · 算力与 AI 基础设施</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-221" aria-label="埃森哲专场：成为AI原生企业——从智能体到全面重塑">
+    <i></i>
+    <span class="tip"><b>埃森哲专场：成为AI原生企业——从智能体到全面重塑</b><span>9月22日 13:30–17:30 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-230" aria-label="技术主论坛·Agentic Cloud">
+    <i></i>
+    <span class="tip"><b>技术主论坛·Agentic Cloud</b><span>9月22日 13:30–17:30 · Agentic Cloud</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-229" aria-label="技术主论坛·MaaS &amp;amp; Agent">
+    <i></i>
+    <span class="tip"><b>技术主论坛·MaaS &amp;amp; Agent</b><span>9月22日 13:30–17:30 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-206" aria-label="数智法途｜AI时代法务与律师的实战跃迁">
+    <i></i>
+    <span class="tip"><b>数智法途｜AI时代法务与律师的实战跃迁</b><span>9月22日 13:30–17:30 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-134" aria-label="日本企业AI实战：一线转型故事与落地成效">
+    <i></i>
+    <span class="tip"><b>日本企业AI实战：一线转型故事与落地成效</b><span>9月22日 13:30–17:30 · 算力与 AI 基础设施</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-154" aria-label="智造·未来：先进制造AI论坛">
+    <i></i>
+    <span class="tip"><b>智造·未来：先进制造AI论坛</b><span>9月22日 13:30–17:30 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-124" aria-label="模型时代：AI驱动的安全进化">
+    <i></i>
+    <span class="tip"><b>模型时代：AI驱动的安全进化</b><span>9月22日 13:30–17:30 · 安全与治理</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-166" aria-label="看见“她”的无限可能">
+    <i></i>
+    <span class="tip"><b>看见“她”的无限可能</b><span>9月22日 13:30–17:30 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-132" aria-label="第十七期“现代新国企”研讨会">
+    <i></i>
+    <span class="tip"><b>第十七期“现代新国企”研讨会</b><span>9月22日 13:30–17:30 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-225" aria-label="能力到价值：大模型解决方案实践论坛">
+    <i></i>
+    <span class="tip"><b>能力到价值：大模型解决方案实践论坛</b><span>9月22日 13:30–17:30 · 模型与模型服务</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-170" aria-label="视听生成：多模态创作与文化娱乐">
+    <i></i>
+    <span class="tip"><b>视听生成：多模态创作与文化娱乐</b><span>9月22日 13:30–17:30 · 模型与模型服务</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-173" aria-label="让每1分投入变成看得见的增长：AI重构跨境电商经营">
+    <i></i>
+    <span class="tip"><b>让每1分投入变成看得见的增长：AI重构跨境电商经营</b><span>9月22日 13:30–17:30 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-139" aria-label="阿里云万网：以AI重塑中小企业经营入口">
+    <i></i>
+    <span class="tip"><b>阿里云万网：以AI重塑中小企业经营入口</b><span>9月22日 13:30–17:30 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-216" aria-label="高德技术峰会：空间智能·AI生万物">
+    <i></i>
+    <span class="tip"><b>高德技术峰会：空间智能·AI生万物</b><span>9月22日 13:30–17:30 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-22-下午" data-target="forum-151" aria-label="魔搭社区：从开源模型到开放资源">
+    <i></i>
+    <span class="tip"><b>魔搭社区：从开源模型到开放资源</b><span>9月22日 13:30–17:30 · 开源与生态</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-228" aria-label="2026“直通乌镇”全球互联网大赛OPC特色赛复赛杭州站">
+    <i></i>
+    <span class="tip"><b>2026“直通乌镇”全球互联网大赛OPC特色赛复赛杭州站</b><span>9月23日 09:00–12:00 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-176" aria-label="AI Native视频云">
+    <i></i>
+    <span class="tip"><b>AI Native视频云</b><span>9月23日 09:00–12:00 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-143" aria-label="AI and Agentic 存储解决方案">
+    <i></i>
+    <span class="tip"><b>AI and Agentic 存储解决方案</b><span>9月23日 09:00–12:00 · 算力与 AI 基础设施</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-205" aria-label="AI 原生设计专场｜Design to Build：重新构建设计">
+    <i></i>
+    <span class="tip"><b>AI 原生设计专场｜Design to Build：重新构建设计</b><span>9月23日 09:00–12:00 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-199" aria-label="AI 时代的可观测与智能开发运维">
+    <i></i>
+    <span class="tip"><b>AI 时代的可观测与智能开发运维</b><span>9月23日 09:00–12:00 · Agentic Cloud</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-160" aria-label="AI 短漫剧工业化：版权、制作与平台协同">
+    <i></i>
+    <span class="tip"><b>AI 短漫剧工业化：版权、制作与平台协同</b><span>9月23日 09:00–12:00 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-196" aria-label="AI+校园：算力普惠与人才培养新实践">
+    <i></i>
+    <span class="tip"><b>AI+校园：算力普惠与人才培养新实践</b><span>9月23日 09:00–12:00 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-116" aria-label="AI时代的语言数据消费方式">
+    <i></i>
+    <span class="tip"><b>AI时代的语言数据消费方式</b><span>9月23日 09:00–12:00 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-188" aria-label="Agent Native 数据基础设施论坛">
+    <i></i>
+    <span class="tip"><b>Agent Native 数据基础设施论坛</b><span>9月23日 09:00–12:00 · Agentic Cloud</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-174" aria-label="Agent 驱动的全模态大数据计算创新">
+    <i></i>
+    <span class="tip"><b>Agent 驱动的全模态大数据计算创新</b><span>9月23日 09:00–12:00 · Agentic Cloud</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-136" aria-label="Agent工程化：重构云接口，让 Agent 用好云管好云">
+    <i></i>
+    <span class="tip"><b>Agent工程化：重构云接口，让 Agent 用好云管好云</b><span>9月23日 09:00–12:00 · Agentic Cloud</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-113" aria-label="SAP：AI智能体时代，迈向自主运营企业">
+    <i></i>
+    <span class="tip"><b>SAP：AI智能体时代，迈向自主运营企业</b><span>9月23日 09:00–12:00 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-190" aria-label="SaaS迎来Agent时刻：从研发提效到商业增长">
+    <i></i>
+    <span class="tip"><b>SaaS迎来Agent时刻：从研发提效到商业增长</b><span>9月23日 09:00–12:00 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-138" aria-label="世界模型：从构建数字世界到物理世界">
+    <i></i>
+    <span class="tip"><b>世界模型：从构建数字世界到物理世界</b><span>9月23日 09:00–12:00 · 模型与模型服务</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-197" aria-label="为Agent重构数据库：Agentic Database 的架构与实践">
+    <i></i>
+    <span class="tip"><b>为Agent重构数据库：Agentic Database 的架构与实践</b><span>9月23日 09:00–12:00 · Agentic Cloud</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-118" aria-label="从繁星到灯塔：数据与评测共筑AI智能新高度">
+    <i></i>
+    <span class="tip"><b>从繁星到灯塔：数据与评测共筑AI智能新高度</b><span>9月23日 09:00–12:00 · 数据</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-182" aria-label="从连接万物到连接智能，加速客户AI创新">
+    <i></i>
+    <span class="tip"><b>从连接万物到连接智能，加速客户AI创新</b><span>9月23日 09:00–12:00 · Agentic Cloud</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-175" aria-label="伶鹊自进化智能体：让实时对话创造企业生产力">
+    <i></i>
+    <span class="tip"><b>伶鹊自进化智能体：让实时对话创造企业生产力</b><span>9月23日 09:00–12:00 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-187" aria-label="创造·无界：阿里云 AI 游戏行业论坛">
+    <i></i>
+    <span class="tip"><b>创造·无界：阿里云 AI 游戏行业论坛</b><span>9月23日 09:00–12:00 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-114" aria-label="千问AI平台进化：为 Agent 而生的全新服务方式">
+    <i></i>
+    <span class="tip"><b>千问AI平台进化：为 Agent 而生的全新服务方式</b><span>9月23日 09:00–12:00 · 模型与模型服务</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-168" aria-label="友盟+｜AI 时代开发者增长新路径：造得出，更要长得起">
+    <i></i>
+    <span class="tip"><b>友盟+｜AI 时代开发者增长新路径：造得出，更要长得起</b><span>9月23日 09:00–12:00 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-111" aria-label="可信 AI 云：专有云全栈 AI 产品与实践论坛">
+    <i></i>
+    <span class="tip"><b>可信 AI 云：专有云全栈 AI 产品与实践论坛</b><span>9月23日 09:00–12:00 · Agentic Cloud</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-172" aria-label="国际Agentic AI峰会">
+    <i></i>
+    <span class="tip"><b>国际Agentic AI峰会</b><span>9月23日 09:00–12:00 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-178" aria-label="多模态数据处理与模型训推论坛">
+    <i></i>
+    <span class="tip"><b>多模态数据处理与模型训推论坛</b><span>9月23日 09:00–12:00 · 算力与 AI 基础设施</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-203" aria-label="平头哥算力峰会：云模之芯，共筑非凡">
+    <i></i>
+    <span class="tip"><b>平头哥算力峰会：云模之芯，共筑非凡</b><span>9月23日 09:00–12:00 · 算力与 AI 基础设施</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-211" aria-label="德勤AI创新论坛： 智领全球，数赋新程">
+    <i></i>
+    <span class="tip"><b>德勤AI创新论坛： 智领全球，数赋新程</b><span>9月23日 09:00–12:00 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-119" aria-label="携手产品伙伴赋能AI落地千行百业">
+    <i></i>
+    <span class="tip"><b>携手产品伙伴赋能AI落地千行百业</b><span>9月23日 09:00–12:00 · 开源与生态</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-213" aria-label="斑马智能AI终端论坛：原生智能，端上生长">
+    <i></i>
+    <span class="tip"><b>斑马智能AI终端论坛：原生智能，端上生长</b><span>9月23日 09:00–12:00 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-217" aria-label="新华三：打造Token极致性价比，下一代智算关键技术创新论坛">
+    <i></i>
+    <span class="tip"><b>新华三：打造Token极致性价比，下一代智算关键技术创新论坛</b><span>9月23日 09:00–12:00 · 算力与 AI 基础设施</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-231" aria-label="无法计算的价值主论坛">
+    <i></i>
+    <span class="tip"><b>无法计算的价值主论坛</b><span>9月23日 09:00–12:00 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-127" aria-label="智启新程：AI驱动创新企业">
+    <i></i>
+    <span class="tip"><b>智启新程：AI驱动创新企业</b><span>9月23日 09:00–12:00 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-156" aria-label="智涌全球：AI出海增长峰会">
+    <i></i>
+    <span class="tip"><b>智涌全球：AI出海增长峰会</b><span>9月23日 09:00–12:00 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-158" aria-label="智达四方：物流出行AI论坛">
+    <i></i>
+    <span class="tip"><b>智达四方：物流出行AI论坛</b><span>9月23日 09:00–12:00 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-126" aria-label="构建 Agent Infra - Agent Sandbox 重磅发布与技术架构揭秘">
+    <i></i>
+    <span class="tip"><b>构建 Agent Infra - Agent Sandbox 重磅发布与技术架构揭秘</b><span>9月23日 09:00–12:00 · Agentic Cloud</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-198" aria-label="筑基·智启：AI时代数据中心的进化之路">
+    <i></i>
+    <span class="tip"><b>筑基·智启：AI时代数据中心的进化之路</b><span>9月23日 09:00–12:00 · 算力与 AI 基础设施</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-上午" data-target="forum-195" aria-label="超节点 Scale-Up 开放互连与开源计算生态">
+    <i></i>
+    <span class="tip"><b>超节点 Scale-Up 开放互连与开源计算生态</b><span>9月23日 09:00–12:00 · 算力与 AI 基础设施</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-183" aria-label="AI Agent 原生操作系统">
+    <i></i>
+    <span class="tip"><b>AI Agent 原生操作系统</b><span>9月23日 13:30–17:30 · 算力与 AI 基础设施</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-117" aria-label="AI Native 磐久超节点服务器与硬件工程创新">
+    <i></i>
+    <span class="tip"><b>AI Native 磐久超节点服务器与硬件工程创新</b><span>9月23日 13:30–17:30 · 算力与 AI 基础设施</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-208" aria-label="AI 原生研发组织论坛">
+    <i></i>
+    <span class="tip"><b>AI 原生研发组织论坛</b><span>9月23日 13:30–17:30 · 组织转型</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-161" aria-label="AI设计原生力：Agentic Design工作坊">
+    <i></i>
+    <span class="tip"><b>AI设计原生力：Agentic Design工作坊</b><span>9月23日 13:30–17:30 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-109" aria-label="Agent工程化：AgentCore让企业智能体走进生产">
+    <i></i>
+    <span class="tip"><b>Agent工程化：AgentCore让企业智能体走进生产</b><span>9月23日 13:30–17:30 · Agentic Cloud</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-223" aria-label="NVIDIA 论坛：极致协同优化，全栈加速 Agentic AI 和物理 AI">
+    <i></i>
+    <span class="tip"><b>NVIDIA 论坛：极致协同优化，全栈加速 Agentic AI 和物理 AI</b><span>9月23日 13:30–17:30 · 算力与 AI 基础设施</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-181" aria-label="Qoder：AI Coding赋能超级个体">
+    <i></i>
+    <span class="tip"><b>Qoder：AI Coding赋能超级个体</b><span>9月23日 13:30–17:30 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-177" aria-label="“智启原生 研见未来” 阿里巴巴集团 AI Native 研发实践论坛">
+    <i></i>
+    <span class="tip"><b>“智启原生 研见未来” 阿里巴巴集团 AI Native 研发实践论坛</b><span>9月23日 13:30–17:30 · 组织转型</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-121" aria-label="“未来计算”前沿科技产业创新论坛">
+    <i></i>
+    <span class="tip"><b>“未来计算”前沿科技产业创新论坛</b><span>9月23日 13:30–17:30 · 算力与 AI 基础设施</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-133" aria-label="为 Agent 重塑 Data Agent 生态：Data Agent 的入口、协同与落地">
+    <i></i>
+    <span class="tip"><b>为 Agent 重塑 Data Agent 生态：Data Agent 的入口、协同与落地</b><span>9月23日 13:30–17:30 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-192" aria-label="为Agent重做数据层：一体化湖库与多模数据管理">
+    <i></i>
+    <span class="tip"><b>为Agent重做数据层：一体化湖库与多模数据管理</b><span>9月23日 13:30–17:30 · 数据</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-141" aria-label="云通信的Agentic演进：连接、编排与智能交互">
+    <i></i>
+    <span class="tip"><b>云通信的Agentic演进：连接、编排与智能交互</b><span>9月23日 13:30–17:30 · Agentic Cloud</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-123" aria-label="人工智能平台 PAI">
+    <i></i>
+    <span class="tip"><b>人工智能平台 PAI</b><span>9月23日 13:30–17:30 · Agentic Cloud</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-165" aria-label="从云基础设施到应用的全栈防护：AI Agent全生命周期安全体系">
+    <i></i>
+    <span class="tip"><b>从云基础设施到应用的全栈防护：AI Agent全生命周期安全体系</b><span>9月23日 13:30–17:30 · 安全与治理</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-147" aria-label="以智治算：Agentic AI 驱动的算力基础设施运维自进化">
+    <i></i>
+    <span class="tip"><b>以智治算：Agentic AI 驱动的算力基础设施运维自进化</b><span>9月23日 13:30–17:30 · 运维与成本</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-125" aria-label="企业级Agent基础设施，加速业务转型与落地">
+    <i></i>
+    <span class="tip"><b>企业级Agent基础设施，加速业务转型与落地</b><span>9月23日 13:30–17:30 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-157" aria-label="全模态Agentic Lake论坛">
+    <i></i>
+    <span class="tip"><b>全模态Agentic Lake论坛</b><span>9月23日 13:30–17:30 · Agentic Cloud</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-146" aria-label="千问语音大模型：重塑交互入口，释放声音生产力">
+    <i></i>
+    <span class="tip"><b>千问语音大模型：重塑交互入口，释放声音生产力</b><span>9月23日 13:30–17:30 · 模型与模型服务</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-145" aria-label="国际AI智能体技术论坛">
+    <i></i>
+    <span class="tip"><b>国际AI智能体技术论坛</b><span>9月23日 13:30–17:30 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-202" aria-label="平头哥算力峰会：T-Head SAIL软件栈技术论坛">
+    <i></i>
+    <span class="tip"><b>平头哥算力峰会：T-Head SAIL软件栈技术论坛</b><span>9月23日 13:30–17:30 · 算力与 AI 基础设施</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-115" aria-label="数启身动：阿里云具身智能应用论坛">
+    <i></i>
+    <span class="tip"><b>数启身动：阿里云具身智能应用论坛</b><span>9月23日 13:30–17:30 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-159" aria-label="无影：Agentic 时代，人与 Agent 共栖的工作空间">
+    <i></i>
+    <span class="tip"><b>无影：Agentic 时代，人与 Agent 共栖的工作空间</b><span>9月23日 13:30–17:30 · Agentic Cloud</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-218" aria-label="智启Agent · 算筑中枢，英特尔面向Agent时代的产品及创新">
+    <i></i>
+    <span class="tip"><b>智启Agent · 算筑中枢，英特尔面向Agent时代的产品及创新</b><span>9月23日 13:30–17:30 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-153" aria-label="智启万物：AI原生硬件论坛">
+    <i></i>
+    <span class="tip"><b>智启万物：AI原生硬件论坛</b><span>9月23日 13:30–17:30 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-201" aria-label="构建 Agent Infra - 智能体与大模型训推生产级实战与解析">
+    <i></i>
+    <span class="tip"><b>构建 Agent Infra - 智能体与大模型训推生产级实战与解析</b><span>9月23日 13:30–17:30 · Agentic Cloud</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-222" aria-label="汇正财经专场：产学研共融，AI 大模型赋能金融投研新范式">
+    <i></i>
+    <span class="tip"><b>汇正财经专场：产学研共融，AI 大模型赋能金融投研新范式</b><span>9月23日 13:30–17:30 · 模型与模型服务</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-110" aria-label="灵骏全面升级：Agentic 时代的 AI 超级计算机">
+    <i></i>
+    <span class="tip"><b>灵骏全面升级：Agentic 时代的 AI 超级计算机</b><span>9月23日 13:30–17:30 · 算力与 AI 基础设施</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-204" aria-label="用 Meoo 构建 AI 全栈应用的企业实践与思考">
+    <i></i>
+    <span class="tip"><b>用 Meoo 构建 AI 全栈应用的企业实践与思考</b><span>9月23日 13:30–17:30 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-149" aria-label="算电协同·智领全球——智算中心&amp;quot;人工智能+&amp;quot;能源论坛">
+    <i></i>
+    <span class="tip"><b>算电协同·智领全球——智算中心&amp;quot;人工智能+&amp;quot;能源论坛</b><span>9月23日 13:30–17:30 · 算力与 AI 基础设施</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-191" aria-label="经营 · 进化：Agent时代的零售新增长">
+    <i></i>
+    <span class="tip"><b>经营 · 进化：Agent时代的零售新增长</b><span>9月23日 13:30–17:30 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-142" aria-label="芯云一体·驶向智能：2026阿里云汽车行业峰会">
+    <i></i>
+    <span class="tip"><b>芯云一体·驶向智能：2026阿里云汽车行业峰会</b><span>9月23日 13:30–17:30 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-167" aria-label="蚂蚁密算专场：密算织域，融数成智">
+    <i></i>
+    <span class="tip"><b>蚂蚁密算专场：密算织域，融数成智</b><span>9月23日 13:30–17:30 · 数据</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-210" aria-label="超节点Scale-Up开放互连与开源计算生态：UALink实践">
+    <i></i>
+    <span class="tip"><b>超节点Scale-Up开放互连与开源计算生态：UALink实践</b><span>9月23日 13:30–17:30 · 算力与 AI 基础设施</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-137" aria-label="问AI要增长：AI员工能干能信能打">
+    <i></i>
+    <span class="tip"><b>问AI要增长：AI员工能干能信能打</b><span>9月23日 13:30–17:30 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-122" aria-label="阿里云AI 产品伙伴共创会">
+    <i></i>
+    <span class="tip"><b>阿里云AI 产品伙伴共创会</b><span>9月23日 13:30–17:30 · 开源与生态</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-108" aria-label="阿里云上的Salesforce：连接人、AI Agent与CRM平台共创客户成功">
+    <i></i>
+    <span class="tip"><b>阿里云上的Salesforce：连接人、AI Agent与CRM平台共创客户成功</b><span>9月23日 13:30–17:30 · 行业实践</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-220" aria-label="阿里巴巴ACCIO全球电商AI工作台发布会：AI大时代，全球生意新答案">
+    <i></i>
+    <span class="tip"><b>阿里巴巴ACCIO全球电商AI工作台发布会：AI大时代，全球生意新答案</b><span>9月23日 13:30–17:30 · 开源与生态</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-23-下午" data-target="forum-219" aria-label="高德开放平台开发者大会：空间智能为枢，融通AI与千行百业">
+    <i></i>
+    <span class="tip"><b>高德开放平台开发者大会：空间智能为枢，融通AI与千行百业</b><span>9月23日 13:30–17:30 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-24-上午" data-target="forum-162" aria-label="AI 搜索智能体 从检索到推理">
+    <i></i>
+    <span class="tip"><b>AI 搜索智能体 从检索到推理</b><span>9月24日 09:00–12:00 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-24-上午" data-target="forum-184" aria-label="Go Vibe Designing：AI时代的设计新编译">
+    <i></i>
+    <span class="tip"><b>Go Vibe Designing：AI时代的设计新编译</b><span>9月24日 09:00–12:00 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-24-上午" data-target="forum-227" aria-label="云栖学院Open Day">
+    <i></i>
+    <span class="tip"><b>云栖学院Open Day</b><span>9月24日 09:00–12:00 · 开源与生态</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-24-上午" data-target="forum-189" aria-label="产品经理状元秀：AI时代，人人都是产品经理">
+    <i></i>
+    <span class="tip"><b>产品经理状元秀：AI时代，人人都是产品经理</b><span>9月24日 09:00–12:00 · Agent 开发与Agentic 应用</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-24-上午" data-target="forum-135" aria-label="企业级AI云治理与最佳实践">
+    <i></i>
+    <span class="tip"><b>企业级AI云治理与最佳实践</b><span>9月24日 09:00–12:00 · 安全与治理</span></span>
+  </button>
+  <button type="button" class="tick talk" data-day="2026-09-24-上午" data-target="forum-214" aria-label="天猫3C数码专场：AI硬件新品牌增长论坛">
+    <i></i>
+    <span class="tip"><b>天猫3C数码专场：AI硬件新品牌增长论坛</b><span>9月24日 09:00–12:00 · 行业实践</span></span>
   </button>
 </nav>
 <div class="wrap">
   <nav class="topbar">
     <a class="back" href="/">回到脑壳</a>
-    <span>2026.09.22 — 09.24 · 杭州</span>
+    <a class="btn" href="https://yunqi.aliyun.com/" target="_blank" rel="noopener">大会官网</a>
   </nav>
 
   <header class="hero">
     <div class="kicker">APSARA CONFERENCE 2026</div>
     <h1>2026 云栖大会——议程目录</h1>
     <p class="sub">2026.09.22 — 09.24 · 杭州 · 覆盖全部 119 场论坛的议程、嘉宾与议题</p>
-    <div class="heroline">
-      <a class="btn solid" href="#cards">浏览议程目录</a>
-      <a class="btn" href="https://yunqi.aliyun.com/" target="_blank" rel="noopener">大会官网</a>
-    </div>
   </header>
 
   <section class="stats">
@@ -2329,21 +2786,69 @@ function applyFilter() {
   document.getElementById('matchN').textContent = shown;
 }
 (function () {
-  var ticks = Array.prototype.slice.call(document.querySelectorAll('.codex-rail .tick'));
-  function spy() {
-    var mark = window.innerHeight * 0.32, current = 0;
-    ticks.forEach(function (tick, i) {
-      var el = document.getElementById(tick.dataset.target);
-      if (el && el.getBoundingClientRect().top <= mark) current = i;
-    });
-    ticks.forEach(function (tick, i) { tick.classList.toggle('on', i === current); });
+  var rail = document.querySelector('.codex-rail');
+  var talks = Array.prototype.slice.call(document.querySelectorAll('.codex-rail .tick.talk'));
+  var last = -1;
+  var floater = document.createElement('div');
+  floater.className = 'codex-tip';
+  floater.innerHTML = '<b></b><span></span>';
+  document.body.appendChild(floater);
+  var floaterTitle = floater.querySelector('b');
+  var floaterSub = floater.querySelector('span');
+  function showTip(tick) {
+    var tip = tick.querySelector('.tip');
+    if (!tip) return;
+    var title = tip.querySelector('b');
+    var sub = tip.querySelector('span');
+    floaterTitle.textContent = title ? title.textContent : '';
+    floaterSub.textContent = sub ? sub.textContent : '';
+    var rect = tick.getBoundingClientRect();
+    var left = rect.right + 12;
+    var top = rect.top + rect.height / 2;
+    var height = floater.offsetHeight || 96;
+    var minTop = 16 + height / 2;
+    var maxTop = window.innerHeight - 16 - height / 2;
+    if (top < minTop) top = minTop;
+    if (top > maxTop) top = maxTop;
+    floater.style.left = left + 'px';
+    floater.style.top = top + 'px';
+    floater.classList.add('on');
   }
-  ticks.forEach(function (tick) {
+  function hideTip() { floater.classList.remove('on'); }
+  function reveal(tick) {
+    var top = tick.offsetTop;
+    var bottom = top + tick.offsetHeight;
+    if (top < rail.scrollTop + 28 || bottom > rail.scrollTop + rail.clientHeight - 28) {
+      rail.scrollTop = top - rail.clientHeight / 2;
+    }
+  }
+  function spy() {
+    var mark = window.innerHeight * 0.28, current = 0;
+    talks.forEach(function (tick, i) {
+      var el = document.getElementById(tick.dataset.target);
+      if (!el || el.classList.contains('hide')) return;
+      if (el.getBoundingClientRect().top <= mark) current = i;
+    });
+    talks.forEach(function (tick, i) { tick.classList.toggle('on', i === current); });
+    if (current !== last && talks[current]) {
+      last = current;
+      reveal(talks[current]);
+    }
+  }
+  talks.forEach(function (tick) {
+    tick.addEventListener('mouseenter', function () { showTip(tick); });
+    tick.addEventListener('mouseleave', hideTip);
     tick.addEventListener('click', function () {
+      hideTip();
       var el = document.getElementById(tick.dataset.target);
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
+  rail.addEventListener('scroll', function () {
+    var hovered = rail.querySelector('.tick:hover');
+    if (hovered) showTip(hovered);
+    else hideTip();
+  }, { passive: true });
   window.addEventListener('scroll', spy, { passive: true });
   spy();
 })();

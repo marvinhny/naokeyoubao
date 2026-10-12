@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
-const POKE = "哎哟！再点就长包了";
+const POKE = "哎哟！";
 
 export function IdlePoke() {
   const [tip, setTip] = useState<{ x: number; y: number } | null>(null);

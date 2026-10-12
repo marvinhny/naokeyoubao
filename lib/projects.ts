@@ -20,7 +20,7 @@ export const projects: Project[] = [
     slug: "yunqi-2026",
     name: "云栖大会2026",
     status: "已完成",
-    date: "2026.10",
+    date: "2026.09",
     href: "/yunqi-2026",
     summary: "在云栖大会上看到的、想到的、准备动手的。",
     notes: ["现场笔记待整理", "值得跟进的 AI 产品", "会后行动清单"],
