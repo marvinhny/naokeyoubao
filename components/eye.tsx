@@ -100,6 +100,7 @@ export function Eye({ isRightEye = false }: { isRightEye?: boolean }) {
         window.clearTimeout(holdTimer);
         holdTimer = 0;
       }
+      lookAt(touch.clientX, touch.clientY);
     };
 
     const handleContextMenu = (event: Event) => {
