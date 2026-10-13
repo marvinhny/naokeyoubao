@@ -10,17 +10,34 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://naokeyoubao.com"),
   title: {
     default: "脑壳有包",
     template: "%s · 脑壳有包",
   },
-  description: "有的会消，有的会长大，有的一直疼。想法、正在做的事、做成的和没做成的，都记在脑壳上。",
+  description: "naokeyoubao.com · 作者 Marvin",
+  authors: [{ name: "Marvin" }],
   icons: {
     icon: [
-      { url: "/icon.png?v=3", type: "image/png", sizes: "32x32" },
-      { url: "/favicon.ico?v=3", sizes: "48x48" },
+      { url: "/icon.png?v=4", type: "image/png", sizes: "32x32" },
+      { url: "/favicon.ico?v=4", sizes: "48x48" },
     ],
-    apple: "/apple-touch-icon.png?v=3",
+    apple: "/apple-touch-icon.png?v=4",
+  },
+  openGraph: {
+    title: "脑壳有包",
+    description: "naokeyoubao.com · 作者 Marvin",
+    url: "https://naokeyoubao.com",
+    siteName: "脑壳有包",
+    locale: "zh_CN",
+    type: "website",
+    images: [{ url: "/og.png?v=4", width: 512, height: 512, alt: "脑壳有包" }],
+  },
+  twitter: {
+    card: "summary",
+    title: "脑壳有包",
+    description: "naokeyoubao.com · 作者 Marvin",
+    images: ["/og.png?v=4"],
   },
 };
 
