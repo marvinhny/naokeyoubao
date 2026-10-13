@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2026 云栖大会 · 议程目录</title>
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" href="/icon.png" type="image/png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="/icon.png?v=3" type="image/png" sizes="32x32">
+<link rel="icon" href="/favicon.ico?v=3" sizes="48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
 <style>
 :root {
   --bg: #f5f5ef;
@@ -63,11 +63,18 @@ h1 { font-size: clamp(28px, 5vw, 40px); letter-spacing: -0.02em; line-height: 1.
 .note b { color: var(--ink); }
 /* ---------- 筛选 ---------- */
 .toolbar {
-  position: sticky; top: 0; z-index: 20; background: var(--bg);
-  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-  padding: 14px 0 12px; margin-bottom: 26px;
+  padding: 14px 0 0; margin-bottom: 0;
 }
 .fgroup { margin-bottom: 8px; }
+.fgroup.theme-pin {
+  position: sticky; top: 0; z-index: 20;
+  background: var(--bg);
+  margin: 0 -24px 26px;
+  padding: 10px 24px 12px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 10px 18px var(--bg);
+}
 .fgroup .glabel { font-size: 12px; color: var(--muted); margin-right: 8px; }
 .chips { display: inline-flex; flex-wrap: wrap; gap: 6px; vertical-align: middle; }
 .chip {
@@ -77,12 +84,10 @@ h1 { font-size: clamp(28px, 5vw, 40px); letter-spacing: -0.02em; line-height: 1.
 .chip .cnt { color: var(--muted); font-size: 11.5px; margin-left: 4px; }
 .chip.on { background: var(--primary); border-color: var(--primary); color: #fff; }
 .chip.on .cnt { color: #d4e3db; }
-.matchline { font-size: 13px; color: var(--muted); margin-top: 6px; }
-.matchline b { color: var(--primary); }
 /* ---------- 卡片 ---------- */
 .card {
   background: var(--card); border: 1px solid var(--line); border-radius: 14px;
-  padding: 20px 22px 16px; margin-bottom: 16px; scroll-margin-top: 90px;
+  padding: 20px 22px 16px; margin-bottom: 16px; scroll-margin-top: 120px;
 }
 .card.hide { display: none; }
 .meta { display: flex; flex-wrap: wrap; gap: 8px 14px; font-size: 13px; color: var(--muted); align-items: center; }
@@ -148,7 +153,7 @@ footer {
   font-size: 12.5px; color: var(--muted);
 }
 @media (max-width: 640px) { .stats { grid-template-columns: repeat(2, 1fr); } }
-@media print { .toolbar { display: none; } .card { break-inside: avoid; } .codex-rail { display: none; } }
+@media print { .toolbar, .theme-pin { display: none; } .card { break-inside: avoid; } .codex-rail { display: none; } }
 
 .codex-rail {
   position: fixed; left: 22px; top: 50%; transform: translateY(-50%);
@@ -715,10 +720,9 @@ footer {
   <div class="toolbar" id="toolbar">
     <div class="fgroup"><span class="glabel">日期</span><span class="chips"><button class="chip" data-group="date" data-value="all" onclick="toggleChip(this)">全部日期<span class="cnt">119</span></button><button class="chip" data-group="date" data-value="2026-09-22" onclick="toggleChip(this)">9月22日<span class="cnt">39</span></button><button class="chip" data-group="date" data-value="2026-09-23" onclick="toggleChip(this)">9月23日<span class="cnt">74</span></button><button class="chip" data-group="date" data-value="2026-09-24" onclick="toggleChip(this)">9月24日<span class="cnt">6</span></button></span></div>
     <div class="fgroup"><span class="glabel">时段</span><span class="chips"><button class="chip" data-group="ampm" data-value="all" onclick="toggleChip(this)">全部时段<span class="cnt">119</span></button><button class="chip" data-group="ampm" data-value="上午" onclick="toggleChip(this)">上午<span class="cnt">43</span></button><button class="chip" data-group="ampm" data-value="下午" onclick="toggleChip(this)">下午<span class="cnt">76</span></button></span></div>
-    <div class="fgroup"><span class="glabel">主题</span><span class="chips" data-multi="theme"><button class="chip on" data-group="theme" data-value="all" onclick="toggleChip(this)">全部主题<span class="cnt">119</span></button><button class="chip" data-group="theme" data-value="行业实践" onclick="toggleChip(this)">行业实践<span class="cnt">31</span></button><button class="chip" data-group="theme" data-value="跨境电商" onclick="toggleChip(this)">跨境电商<span class="cnt">4</span></button><button class="chip" data-group="theme" data-value="电商运营" onclick="toggleChip(this)">电商运营<span class="cnt">7</span></button><button class="chip" data-group="theme" data-value="内容种草" onclick="toggleChip(this)">内容种草<span class="cnt">2</span></button><button class="chip" data-group="theme" data-value="Agent 开发与Agentic 应用" onclick="toggleChip(this)">Agent 开发与Agentic 应用<span class="cnt">23</span></button><button class="chip" data-group="theme" data-value="算力与 AI 基础设施" onclick="toggleChip(this)">算力与 AI 基础设施<span class="cnt">20</span></button><button class="chip" data-group="theme" data-value="Agentic Cloud" onclick="toggleChip(this)">Agentic Cloud<span class="cnt">18</span></button><button class="chip" data-group="theme" data-value="模型与模型服务" onclick="toggleChip(this)">模型与模型服务<span class="cnt">8</span></button><button class="chip" data-group="theme" data-value="组织转型" onclick="toggleChip(this)">组织转型<span class="cnt">7</span></button><button class="chip" data-group="theme" data-value="开源与生态" onclick="toggleChip(this)">开源与生态<span class="cnt">5</span></button><button class="chip" data-group="theme" data-value="安全与治理" onclick="toggleChip(this)">安全与治理<span class="cnt">3</span></button><button class="chip" data-group="theme" data-value="数据" onclick="toggleChip(this)">数据<span class="cnt">3</span></button><button class="chip" data-group="theme" data-value="运维与成本" onclick="toggleChip(this)">运维与成本<span class="cnt">1</span></button></span></div>
     <div class="fgroup"><span class="glabel">摘要</span><span class="chips"><button class="chip" data-group="sum" data-value="all" onclick="toggleChip(this)">全部<span class="cnt">119</span></button><button class="chip" data-group="sum" data-value="1" onclick="toggleChip(this)">已收录摘要<span class="cnt">101</span></button><button class="chip" data-group="sum" data-value="rep" onclick="toggleChip(this)">公开报道整理<span class="cnt">1</span></button><button class="chip" data-group="sum" data-value="none" onclick="toggleChip(this)">无摘要<span class="cnt">17</span></button></span></div>
-    <div class="matchline">匹配 <b id="matchN">119</b> / 119 场</div>
   </div>
+  <div class="fgroup theme-pin"><span class="glabel">主题</span><span class="chips" data-multi="theme"><button class="chip on" data-group="theme" data-value="all" onclick="toggleChip(this)">全部主题<span class="cnt">119</span></button><button class="chip" data-group="theme" data-value="行业实践" onclick="toggleChip(this)">行业实践<span class="cnt">31</span></button><button class="chip" data-group="theme" data-value="跨境电商" onclick="toggleChip(this)">跨境电商<span class="cnt">4</span></button><button class="chip" data-group="theme" data-value="电商运营" onclick="toggleChip(this)">电商运营<span class="cnt">7</span></button><button class="chip" data-group="theme" data-value="内容种草" onclick="toggleChip(this)">内容种草<span class="cnt">2</span></button><button class="chip" data-group="theme" data-value="Agent 开发与Agentic 应用" onclick="toggleChip(this)">Agent 开发与Agentic 应用<span class="cnt">23</span></button><button class="chip" data-group="theme" data-value="算力与 AI 基础设施" onclick="toggleChip(this)">算力与 AI 基础设施<span class="cnt">20</span></button><button class="chip" data-group="theme" data-value="Agentic Cloud" onclick="toggleChip(this)">Agentic Cloud<span class="cnt">18</span></button><button class="chip" data-group="theme" data-value="模型与模型服务" onclick="toggleChip(this)">模型与模型服务<span class="cnt">8</span></button><button class="chip" data-group="theme" data-value="组织转型" onclick="toggleChip(this)">组织转型<span class="cnt">7</span></button><button class="chip" data-group="theme" data-value="开源与生态" onclick="toggleChip(this)">开源与生态<span class="cnt">5</span></button><button class="chip" data-group="theme" data-value="安全与治理" onclick="toggleChip(this)">安全与治理<span class="cnt">3</span></button><button class="chip" data-group="theme" data-value="数据" onclick="toggleChip(this)">数据<span class="cnt">3</span></button><button class="chip" data-group="theme" data-value="运维与成本" onclick="toggleChip(this)">运维与成本<span class="cnt">1</span></button></span></div>
 
   <main id="cards">
 <article class="card" data-date="2026-09-22" data-ampm="上午" data-theme="Agent 开发与Agentic 应用" data-sum="rep" id="forum-232">
@@ -2823,16 +2827,13 @@ function themeMatch(card) {
   return state.theme.some(function (t) { return packed.indexOf(',' + t + ',') !== -1; });
 }
 function applyFilter() {
-  var shown = 0;
   document.querySelectorAll('.card').forEach(function (card) {
     var ok = (state.date === 'all' || card.dataset.date === state.date)
           && (state.ampm === 'all' || card.dataset.ampm === state.ampm)
           && themeMatch(card)
           && (state.sum === 'all' || card.dataset.sum === state.sum);
     card.classList.toggle('hide', !ok);
-    if (ok) shown++;
   });
-  document.getElementById('matchN').textContent = shown;
 }
 (function () {
   var rail = document.querySelector('.codex-rail');
