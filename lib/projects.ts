@@ -31,7 +31,7 @@ export const projects: Project[] = [
     sub: "medregdata.com",
     status: "进行中",
     date: "2026.10",
-    href: "https://medregdata.com",
+    href: "/medregdata",
     summary: "全球医疗器械注册数据。",
     notes: [],
   },
