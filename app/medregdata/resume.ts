@@ -1,6 +1,7 @@
 const DATABASES: [string, string, string, string][] = [
-  ["美国", "FDA", "426,601", "510(k)、PMA、列名、De Novo、产品分类数据库等"],
-  ["欧盟", "CE/EUDAMED", "2,785,689", "EUDAMED 接口，以及各大注册机构"],
+  ["美国", "FDA", "651,397", "510(k)、PMA、列名、De Novo、产品分类数据库等"],
+  ["欧盟", "CE/EUDAMED", "2,785,689", "EUDAMED 数据库 与成员国独立数据库合并去重"],
+  ["意大利", "RDM", "2,425,862", "卫生部器械数据库快照"],
   ["中国", "NMPA", "135,690", "国家药监局医疗器械注册记录"],
   ["澳大利亚", "TGA ARTG", "98,554", "治疗用品登记册"],
   ["加拿大", "Health Canada", "153,183", "MDALL 器械许可"],
@@ -16,7 +17,6 @@ const DATABASES: [string, string, string, string][] = [
   ["阿根廷", "ANMAT", "28,753", "器械注册记录"],
   ["墨西哥", "COFEPRIS", "21,630", "年度发证文件中的卫生注册"],
   ["乌兹别克斯坦", "Uzpharm", "6,571", "器械与 IVD 国家登记"],
-  ["意大利", "RDM", "2,425,862", "卫生部器械数据库快照"],
   ["中国台湾", "TFDA", "93,348", "食药署开放数据中的许可证"],
   ["菲律宾", "FDA", "30,340", "CPR 与 CMDN 产品授权"],
   ["印度尼西亚", "Kemenkes", "83,135", "e-Info Alkes 的 AKD/AKL"],
@@ -43,7 +43,7 @@ export function renderResume(notice = "") {
   const tries = ["监护仪", "Insulin pump", "迈瑞", "Endoscope", "呼吸机"]
     .map(
       (query) =>
-        `<a href="https://cn.medregdata.com/search?q=${encodeURIComponent(query)}" target="_blank" rel="noreferrer">${query}</a>`,
+        `<a href="https://cn.medregdata.com" target="_blank" rel="noreferrer">${query}</a>`,
     )
     .join("");
 
@@ -110,7 +110,7 @@ a.gh svg { width: 16px; height: 16px; display: block; }
 }
 .back { color: var(--primary); text-decoration: none; font-weight: 650; }
 .back:hover { opacity: .72; }
-.mast { padding-top: 42px; max-width: 760px; }
+.mast { padding-top: 42px; max-width: 760px; margin-left: auto; margin-right: auto; }
 .kicker {
   margin: 0 0 12px;
   color: var(--primary);
@@ -127,7 +127,7 @@ h1 {
 .role { margin: 16px 0 0; font-size: 20px; font-weight: 600; }
 .meta { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
 .links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
-main { max-width: 760px; }
+main { max-width: 760px; margin-left: auto; margin-right: auto; }
 .btn {
   display: inline-flex; align-items: center;
   padding: 4px 12px; border-radius: 999px;
@@ -263,7 +263,7 @@ button.btn {
 <div class="wrap">
   <div class="topbar">
     <a class="back" href="/">‹ 回到脑壳</a>
-    <a class="btn" href="https://cn.medregdata.com/search" target="_blank" rel="noreferrer">前往搜索</a>
+    <a class="btn" href="https://cn.medregdata.com" target="_blank" rel="noreferrer">前往搜索</a>
   </div>
   <header class="mast">
     <p class="kicker">项目简历 · GLOBAL MED DEVICE REGISTRY</p>
@@ -283,11 +283,11 @@ button.btn {
         <div class="stats">
           <div class="stat">
             <div class="line"><b>22</b><span class="name">全球数据库</span></div>
-            <span class="more">预计收录 80 个数据库，覆盖全球 200 多个国家。</span>
+            <span class="more">持续收录全球数据库，预计覆盖100 多个国家。</span>
           </div>
           <div class="stat">
-            <div class="line"><b>1011 万</b><span class="name">注册记录</span></div>
-            <span class="more">预计收录 5000 万+。</span>
+            <div class="line"><b>1034 万</b><span class="name">注册记录</span></div>
+            <span class="more">持续收录，预计收录 5000 万+，同时进化独有字段</span>
           </div>
           <div class="stat">
             <div class="line"><b>中 / 英</b><span class="name">双语检索</span></div>
@@ -299,7 +299,7 @@ button.btn {
       <section id="pain">
         <h2>初衷</h2>
         <ul class="pains">
-          <li><b>数据分散</b><span>FDA、EUDAMED、NMPA、PMDA、TGA、Health Canada 各自一套系统。查一个产品要打开十几个官网，结果还放不到一起比。</span></li>
+          <li><b>数据分散</b><span>FDA、EUDAMED、PMDA、TGA 等，每个国家各有一套独立系统。即便同一联盟里的成员国也各自为战，查一个产品要对着几十个官网，结果还放不到一起比。</span></li>
           <li><b>路径隐蔽</b><span>官方入口层层嵌套，有的只给批量下载包。不熟悉那套法规的人，常常连从哪查都不知道。</span></li>
           <li><b>体量庞大</b><span>单个来源动辄数十万到数百万条。Excel 打不开、筛不动，原始文件又往往是 XML 或压缩包。</span></li>
           <li><b>语言障碍</b><span>日语、德语、俄语、泰语、阿拉伯语等界面和字段。同一类产品在不同国家叫法不同，关键词对不齐。</span></li>
@@ -311,10 +311,10 @@ button.btn {
       <section id="way">
         <h2>解决方案</h2>
         <ul class="pains">
-          <li><b>一键搜索</b><span>一个搜索框同时查多个监管机构。产品名、企业名、证号、分类代码都能作为入口。</span></li>
           <li><b>统一结构</b><span>企业、产品、分类、风险等级、日期、状态收成同一套字段，不同国家可以放在一张表里比。</span></li>
-          <li><b>多语言对齐</b><span>中英文都能检索，产品术语做了跨语言映射。用中文搜「血糖仪」，也能找到各国对应的记录。</span></li>
+          <li><b>一键搜索</b><span>一个搜索框同时查多个监管机构。产品名、企业名、证号、分类代码都能作为入口。</span></li>
           <li><b>关联分析</b><span>按企业或产品类别聚合，看趋势和分布。从一条记录延伸到竞品、上下游和它的注册历史。</span></li>
+          <li><b>多语言对齐</b><span>中英文都能检索，产品术语做了跨语言映射。用中文搜「血糖仪」，也能找到各国对应的记录。</span></li>
         </ul>
       </section>
 
@@ -335,7 +335,7 @@ button.btn {
         </article>
         <article class="rolecard">
           <header><h3>市场</h3></header>
-          <p>按国家、类别和时间统计下证数量和企业分布，用合规数据而不是传闻看格局和竞争。进入新市场、定年度策略时，依据可以回查到来源。</p>
+          <p>站在上帝视角，俯瞰全量数据，按国家、类别和时间统计下证数量和企业分布，用合规数据而不是传闻看格局和竞争。进入新市场、定年度策略时，依据可以回查到来源。</p>
         </article>
         <article class="rolecard">
           <header><h3>产品</h3></header>
@@ -345,7 +345,7 @@ button.btn {
 
       <section id="data">
         <h2>数据收录</h2>
-        <p>条数取自 2026 年 10 月 14 日中文站公开页面，合计 10,115,658 条。收录范围以 <a href="https://medregdata.com" target="_blank" rel="noreferrer">medregdata.com</a> 当时数据为准，会随各机构更新。</p>
+        <p>条数取自 2026 年 10 月 14 日中文站公开页面，合计 10,340,454 条。收录范围以 <a href="https://medregdata.com" target="_blank" rel="noreferrer">medregdata.com</a> 当时数据为准，会随各机构更新。</p>
         <div class="tablewrap">
           <table>
             <thead><tr><th>市场</th><th>来源</th><th>条数</th><th>收录内容</th></tr></thead>
@@ -359,7 +359,7 @@ button.btn {
         <h2>网页</h2>
         <p>提供多数据库串联的统一检索入口、以及每个国家独立专库检索入口。</p>
         <div class="outlinks">
-          <a class="btn solid" href="https://cn.medregdata.com/search" target="_blank" rel="noreferrer">统一检索入口</a>
+          <a class="btn solid" href="https://cn.medregdata.com" target="_blank" rel="noreferrer">统一检索入口</a>
           <a class="btn" href="https://cn.medregdata.com/fda" target="_blank" rel="noreferrer">FDA专库</a>
           <a class="btn" href="https://cn.medregdata.com/ce" target="_blank" rel="noreferrer">CE专库</a>
           <a class="btn" href="https://cn.medregdata.com/applicants" target="_blank" rel="noreferrer">持证企业库</a>
@@ -444,7 +444,7 @@ button.btn {
           <div class="when">2026.09</div>
           <div>
             <h3>记录查询 MCP</h3>
-            <p>发布记录查询 MCP，每把密钥有使用期限和用量。这些库可以接到企业自己的大模型。项目在 <a class="gh" href="https://github.com/marvinhny" target="_blank" rel="noreferrer" aria-label="GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.68 7.68 0 0 1 8 4.77c.68.003 1.36.092 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>，欢迎 Star。</p>
+            <p>将网站查询包装为标准化Skill，上线记录查询 MCP，可接入到 workbuddy、豆包、千问、Codex等，方便用自然语言查询。项目在 <a class="gh" href="https://github.com/marvinhny" target="_blank" rel="noreferrer" aria-label="GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.68 7.68 0 0 1 8 4.77c.68.003 1.36.092 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>，欢迎 Star。</p>
           </div>
         </article>
         <article class="row">
@@ -458,9 +458,9 @@ button.btn {
           <div class="when">2026.10</div>
           <div>
             <h3>中文站开放检索</h3>
-            <p><a href="https://cn.medregdata.com" target="_blank" rel="noreferrer">cn.medregdata.com</a> 接上。已收录的监管库可以在中文站用一个搜索框查询。</p>
+            <p><a href="https://cn.medregdata.com" target="_blank" rel="noreferrer">cn.medregdata.com</a> 上线。已收录的监管库可以在中文站用一个搜索框查询。更多数据库持续清洗入库中，敬请关注。</p>
             <div class="ask-actions">
-              <a class="btn solid" href="https://cn.medregdata.com/search" target="_blank" rel="noreferrer">前往搜索</a>
+              <a class="btn solid" href="https://cn.medregdata.com" target="_blank" rel="noreferrer">前往搜索</a>
               <button class="btn" type="button" id="showAsk" aria-expanded="${notice ? "true" : "false"}" aria-controls="askForm">提交需求</button>
             </div>
             ${askNote}
