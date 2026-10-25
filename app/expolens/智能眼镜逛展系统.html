@@ -4,8 +4,26 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="color-scheme" content="light dark" />
-<link rel="icon" href="data:," />
 <title>智能眼镜逛展系统 · ExpoLens 展镜</title>
+<meta name="description" content="naokeyoubao.com 关于逛展的一个点子" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="zh_CN" />
+<meta property="og:site_name" content="脑壳有包" />
+<meta property="og:url" content="https://naokeyoubao.com/expolens" />
+<meta property="og:title" content="智能眼镜逛展系统 · ExpoLens 展镜" />
+<meta property="og:description" content="naokeyoubao.com 关于逛展的一个点子" />
+<meta property="og:image" content="https://naokeyoubao.com/expolens/share.jpg?v=1" />
+<meta property="og:image:secure_url" content="https://naokeyoubao.com/expolens/share.jpg?v=1" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1080" />
+<meta property="og:image:height" content="1080" />
+<meta property="og:image:alt" content="佩戴智能眼镜逛展" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="智能眼镜逛展系统 · ExpoLens 展镜" />
+<meta name="twitter:description" content="naokeyoubao.com 关于逛展的一个点子" />
+<meta name="twitter:image" content="https://naokeyoubao.com/expolens/share.jpg?v=1" />
+<link rel="icon" href="/expolens/favicon.png" type="image/png" />
+<link rel="apple-touch-icon" href="/expolens/apple-touch-icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
@@ -220,17 +238,6 @@ input[type=range].tl-range{width:100%;accent-color:var(--teal);margin:2px 0 0}
 .video-thumb .play{width:42px;height:42px;border-radius:50%;border:2px solid #2dd4bf;display:grid;place-items:center;color:#2dd4bf}
 .video-thumb .dur{position:absolute;right:8px;bottom:8px;font-family:var(--mono);font-size:11px;background:rgba(0,0,0,.6);padding:1px 6px;border-radius:5px}
 
-/* 对比表 */
-.table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow)}
-table{border-collapse:collapse;width:100%;min-width:640px;font-size:14.5px}
-th,td{padding:13px 16px;text-align:left;vertical-align:top;border-top:1px solid var(--line)}
-thead th{background:var(--surface2);border-top:none;font-size:15px}
-thead th .sub{display:block;font-size:12.5px;font-weight:500;color:var(--ink3)}
-tbody th{font-weight:700;color:var(--ink);width:130px;background:color-mix(in srgb,var(--surface2) 55%,transparent)}
-td{color:var(--ink2)}
-td b{color:var(--ink)}
-.good{color:var(--green);font-weight:700}
-.warn{color:var(--amber);font-weight:700}
 .verdict{margin-top:14px;background:var(--teal-soft);border-radius:12px;padding:14px 18px;font-size:14.5px;color:var(--ink)}
 .verdict b{color:var(--teal-ink)}
 
@@ -294,24 +301,23 @@ footer p{margin:0}
 .story p{font-size:13.5px;color:var(--ink2);margin:0}
 .story .arr{position:absolute;right:-13px;top:50%;transform:translateY(-50%);z-index:2;width:24px;height:24px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:900}
 @media (prefers-color-scheme: dark){.story .arr{color:#06231f}}
-.demo-video{width:100%;aspect-ratio:16/9;background:#000;border:1px solid var(--line2);border-radius:18px;box-shadow:var(--shadow);display:block}
+.demo-video{width:100%;aspect-ratio:16/9;background:#000;border:1px solid var(--line2);border-radius:18px;box-shadow:var(--shadow);display:block;object-fit:cover}
+.like-sec{padding-top:8px}
+.like-card{display:flex;align-items:center;justify-content:space-between;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:22px 26px}
+.like-card p{margin:0;font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink)}
+.like-btn{appearance:none;border:1px solid var(--line2);background:var(--bg);color:var(--ink2);border-radius:999px;padding:10px 16px;display:inline-flex;align-items:center;gap:8px;font:inherit;font-weight:700;cursor:pointer}
+.like-btn svg{width:22px;height:22px;display:block}
+.like-btn .n{font-family:var(--mono);font-size:16px;color:var(--ink)}
+.like-btn[aria-pressed="true"]{background:var(--teal-soft);border-color:transparent;color:var(--teal-ink)}
+.like-btn[aria-pressed="true"] svg{fill:currentColor;stroke:currentColor}
 .toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,80px);background:var(--ink);color:var(--bg);padding:11px 20px;border-radius:99px;font-size:14px;font-weight:700;z-index:99;transition:transform .3s;box-shadow:var(--shadow);max-width:92vw;text-align:center}
 .toast.on{transform:translate(-50%,0)}
 
 @media (max-width:760px){
   .topbar-in{flex-wrap:wrap;gap:8px}
   .navlinks{margin-left:0;overflow:visible;flex-wrap:wrap}
-  /* 对比表在手机上改为纵向卡片，不横滑 */
-  .table-scroll{overflow:visible}
-  table{min-width:0}
-  table thead{display:none}
-  table,tbody,tbody tr,tbody th,tbody td{display:block;width:100%}
-  tbody tr{padding:12px 0 14px}
-  tbody th{background:none;padding:2px 16px 6px;font-size:15px;color:var(--teal-ink)}
-  tbody td{border-top:none;padding:4px 16px}
-  tbody td::before{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--ink3);margin-bottom:2px}
-  tbody td:nth-child(2)::before{content:"方案 A · 眼镜内置麦克风"}
-  tbody td:nth-child(3)::before{content:"方案 B · 外置肩带麦克风"}
+  .like-card{align-items:flex-start;flex-direction:column}
+  .like-card p{font-size:22px}
 }
 @media (max-width:960px){
   .hero-grid{grid-template-columns:1fr}
@@ -353,8 +359,7 @@ footer p{margin:0}
       <a href="#hardware">硬件形态</a>
       <a href="#video">演示视频</a>
       <a href="#demo">交互演示</a>
-      <a href="#record">录音双方案</a>
-      <a href="#plus">补充关键点</a>
+      <a href="#plus">迭代需求</a>
       <a href="#biz">商业模式</a>
     </nav>
   </div>
@@ -479,11 +484,11 @@ footer p{margin:0}
           </svg>
         </div>
         <ul class="marker-legend">
-          <li><span class="mk">1</span><span><b>波导镜片</b> — 单侧小视场，箭头和字幕浮在边缘</span></li>
-          <li><span class="mk">2</span><span><b>摄像头</b> — 认展位号、名片和展品</span></li>
-          <li><span class="mk">3</span><span><b>麦克风阵列</b> — 从展馆噪声里捞出对面人声</span></li>
+          <li><span class="mk">1</span><span><b>波导镜片</b> — 边缘显示箭头和字幕</span></li>
+          <li><span class="mk">2</span><span><b>摄像头</b> — 认展位、名片、展品</span></li>
+          <li><span class="mk">3</span><span><b>麦克风</b> — 从噪声里拾人声</span></li>
           <li><span class="mk">4</span><span><b>鼻托</b> — 长戴不压鼻梁</span></li>
-          <li><span class="mk" style="background:var(--orange)">5</span><span><b>可拆近视内框</b> — 磁吸定制镜片，不用戴隐形</span></li>
+          <li><span class="mk" style="background:var(--orange)">5</span><span><b>近视内框</b> — 磁吸镜片</span></li>
         </ul>
       </article>
 
@@ -519,10 +524,10 @@ footer p{margin:0}
           </svg>
         </div>
         <ul class="marker-legend">
-          <li><span class="mk">6</span><span><b>镜腿触控</b> — 轻触暂停录音，滑动翻卡片</span></li>
-          <li><span class="mk" style="background:var(--orange)">7</span><span><b>电池 / 芯片仓</b> — 所以镜腿比普通眼镜略粗</span></li>
-          <li><span class="mk">8</span><span><b>开放式扬声器</b> — 耳旁出声，不堵耳朵</span></li>
-          <li><span class="mk">3</span><span><b>前端拾音孔</b> — 和前框阵列一起收音</span></li>
+          <li><span class="mk">6</span><span><b>镜腿触控</b> — 轻触暂停，滑动翻页</span></li>
+          <li><span class="mk" style="background:var(--orange)">7</span><span><b>电池仓</b> — 镜腿略粗</span></li>
+          <li><span class="mk">8</span><span><b>扬声器</b> — 耳旁出声</span></li>
+          <li><span class="mk">3</span><span><b>拾音孔</b> — 和前框一起收音</span></li>
         </ul>
       </article>
 
@@ -552,9 +557,9 @@ footer p{margin:0}
           </svg>
         </div>
         <ul class="marker-legend">
-          <li><span class="mk">9</span><span><b>折叠铰链</b> — 折好滑进充电盒</span></li>
-          <li><span class="mk" style="background:var(--orange)">7</span><span><b>电池仓朝外</b> — 入盒即充</span></li>
-          <li><span style="flex:none;width:19px"></span><span><b>补电</b> — 摘下充 15 分钟，大约再用 2 小时</span></li>
+          <li><span class="mk">9</span><span><b>铰链</b> — 折好入盒</span></li>
+          <li><span class="mk" style="background:var(--orange)">7</span><span><b>电池仓</b> — 入盒即充</span></li>
+          <li><span style="flex:none;width:19px"></span><span><b>补电</b> — 充 15 分钟，再用约 2 小时</span></li>
         </ul>
       </article>
     </div>
@@ -631,7 +636,7 @@ footer p{margin:0}
       <div class="no">DEMO VIDEO</div>
       <h2>演示视频</h2>
     </div>
-    <video class="demo-video" controls playsinline preload="metadata" src="/expolens/expolens-58s-polished-en-voice.mp4">
+    <video class="demo-video" controls playsinline preload="none" poster="/expolens/poster.jpg" src="/expolens/expolens-58s-polished-en-voice.mp4">
       你的浏览器不支持视频播放。
     </video>
   </section>
@@ -748,40 +753,12 @@ footer p{margin:0}
     </div>
   </section>
 
-  <!-- ============ 录音双方案 ============ -->
-  <section id="record">
-    <div class="sec-head">
-      <div class="no">AUDIO</div>
-      <h2>两种录音</h2>
-      <p>肩带麦克风做主录音，眼镜麦克风做备份。</p>
-    </div>
-    <div class="table-scroll">
-      <table>
-        <thead>
-          <tr>
-            <th scope="col">对比维度</th>
-            <th scope="col">眼镜麦克风</th>
-            <th scope="col">肩带麦克风</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><th scope="row">位置</th><td>离自己近，离对方远</td><td><b>耳旁，接近人耳</b></td></tr>
-          <tr><th scope="row">对方声音</th><td><span class="warn">一般</span>，展馆噪声容易盖住</td><td><span class="good">更清楚</span>，可加指向麦</td></tr>
-          <tr><th scope="row">续航</th><td><span class="warn">和眼镜抢电</span></td><td><span class="good">独立电池</span>，可录一整天</td></tr>
-          <tr><th scope="row">负担</th><td><span class="good">不用多带东西</span></td><td>多一个小盒子</td></tr>
-          <tr><th scope="row">没电时</th><td>导航和录音一起停</td><td><span class="good">另一路还在录</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="verdict"><b>两路都留。</b>肩带做主录音，眼镜做备份，展后取更清楚的一路。</div>
-  </section>
-
-  <!-- ============ 补充关键点 ============ -->
+  <!-- ============ 迭代需求 ============ -->
   <section id="plus">
     <div class="supplement">
       <div class="sec-head">
         <div class="no" style="color:var(--orange)">SUPPLEMENT</div>
-        <h2>还要补上的 7 件事</h2>
+        <h2>迭代需求</h2>
       </div>
       <div class="sup-grid">
         <article class="sup-card">
@@ -857,6 +834,16 @@ footer p{margin:0}
     <div class="verdict" style="margin-top:16px">先卖单场给参展的人，有了几届数据，再谈主办方和展馆。</div>
   </section>
 
+  <section class="like-sec" aria-label="觉得不错">
+    <div class="like-card">
+      <p>觉得不错？</p>
+      <button class="like-btn" id="likeBtn" type="button" aria-pressed="false" aria-label="觉得不错，点赞，当前 12">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 11v10H4a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1h3z"/><path d="M7 11l3.6-6.6A2.2 2.2 0 0 1 12.6 3h.2a1.8 1.8 0 0 1 1.7 2.3L13.6 9H19a2 2 0 0 1 2 2.2l-.8 7.2A2 2 0 0 1 18.2 20H7"/></svg>
+        <span class="n" id="likeCount">12</span>
+      </button>
+    </div>
+  </section>
+
 </main>
 
 <footer>
@@ -870,6 +857,25 @@ footer p{margin:0}
 <script>
 (function(){
 "use strict";
+var likeBtn=document.getElementById("likeBtn");
+var likeCount=document.getElementById("likeCount");
+if(likeBtn&&likeCount){
+  var likeKey="expolens-like-v1";
+  var liked=false;
+  try{liked=localStorage.getItem(likeKey)==="1";}catch(e){}
+  function paintLike(){
+    var n=12+(liked?1:0);
+    likeCount.textContent=String(n);
+    likeBtn.setAttribute("aria-pressed",liked?"true":"false");
+    likeBtn.setAttribute("aria-label",(liked?"已点赞，":"觉得不错，点赞，")+"当前 "+n);
+  }
+  likeBtn.addEventListener("click",function(){
+    liked=!liked;
+    try{localStorage.setItem(likeKey,liked?"1":"0");}catch(e){}
+    paintLike();
+  });
+  paintLike();
+}
 /* ================= 数据（示例） ================= */
 var BOOTHS = {
  1:[
