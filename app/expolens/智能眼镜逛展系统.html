@@ -310,6 +310,7 @@ footer p{margin:0}
 .like-btn .n{font-family:var(--mono);font-size:16px;color:var(--ink)}
 .like-btn[aria-pressed="true"]{background:var(--teal-soft);border-color:transparent;color:var(--teal-ink)}
 .like-btn[aria-pressed="true"] svg{fill:currentColor;stroke:currentColor}
+.like-btn:disabled{cursor:default}
 .toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,80px);background:var(--ink);color:var(--bg);padding:11px 20px;border-radius:99px;font-size:14px;font-weight:700;z-index:99;transition:transform .3s;box-shadow:var(--shadow);max-width:92vw;text-align:center}
 .toast.on{transform:translate(-50%,0)}
 
@@ -837,9 +838,9 @@ footer p{margin:0}
   <section class="like-sec" aria-label="觉得不错">
     <div class="like-card">
       <p>觉得不错？</p>
-      <button class="like-btn" id="likeBtn" type="button" aria-pressed="false" aria-label="觉得不错，点赞，当前 12">
+      <button class="like-btn" id="likeBtn" type="button" aria-pressed="false" aria-label="觉得不错，点赞，当前 0">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 11v10H4a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1h3z"/><path d="M7 11l3.6-6.6A2.2 2.2 0 0 1 12.6 3h.2a1.8 1.8 0 0 1 1.7 2.3L13.6 9H19a2 2 0 0 1 2 2.2l-.8 7.2A2 2 0 0 1 18.2 20H7"/></svg>
-        <span class="n" id="likeCount">12</span>
+        <span class="n" id="likeCount">0</span>
       </button>
     </div>
   </section>
@@ -860,21 +861,36 @@ footer p{margin:0}
 var likeBtn=document.getElementById("likeBtn");
 var likeCount=document.getElementById("likeCount");
 if(likeBtn&&likeCount){
-  var likeKey="expolens-like-v1";
   var liked=false;
-  try{liked=localStorage.getItem(likeKey)==="1";}catch(e){}
-  function paintLike(){
-    var n=12+(liked?1:0);
+  function paintLike(n){
     likeCount.textContent=String(n);
+    likeBtn.disabled=false;
     likeBtn.setAttribute("aria-pressed",liked?"true":"false");
     likeBtn.setAttribute("aria-label",(liked?"已点赞，":"觉得不错，点赞，")+"当前 "+n);
   }
+  function loadLike(){
+    fetch("/expolens/like",{credentials:"same-origin"})
+      .then(function(r){return r.json();})
+      .then(function(data){
+        liked=!!data.liked;
+        paintLike(Number(data.count)||0);
+      })
+      .catch(function(){paintLike(0);});
+  }
   likeBtn.addEventListener("click",function(){
-    liked=!liked;
-    try{localStorage.setItem(likeKey,liked?"1":"0");}catch(e){}
-    paintLike();
+    if(likeBtn.disabled) return;
+    likeBtn.disabled=true;
+    fetch("/expolens/like",{
+      method:"POST",
+      credentials:"same-origin",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({liked:!liked})
+    }).then(function(r){return r.json();}).then(function(data){
+      liked=!!data.liked;
+      paintLike(Number(data.count)||0);
+    }).catch(function(){likeBtn.disabled=false;});
   });
-  paintLike();
+  loadLike();
 }
 /* ================= 数据（示例） ================= */
 var BOOTHS = {
