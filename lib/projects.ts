@@ -17,6 +17,16 @@ export interface Project {
 /** 新增一个包：在这里加一条，首页的包和入口卡片会一起出现。 */
 export const projects: Project[] = [
   {
+    slug: "expolens",
+    name: "AR逛展眼镜",
+    sub: "ExpoLens",
+    status: "想法",
+    date: "2026.10",
+    href: "/expolens",
+    summary: "跑在智能眼镜上的逛展系统：展前装资料，展中导航和录音，展后对齐成纪要。",
+    notes: [],
+  },
+  {
     slug: "yunqi-2026",
     name: "云栖大会2026",
     status: "已完成",

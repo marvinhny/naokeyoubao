@@ -1,0 +1,1330 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>智能眼镜逛展系统 · ExpoLens 展镜</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#f4f6f4; --bg2:#ecefec; --surface:#ffffff; --surface2:#eef2ef;
+  --ink:#15211d; --ink2:#43534d; --ink3:#718078;
+  --line:#d8e0da; --line2:#c3cec6;
+  --teal:#0b766e;
+  --teal-soft:#d9efec; --teal-ink:#075e57;
+  --orange:#e4572e; --orange-soft:#fdeae3;
+  --green:#1d9e57; --green-soft:#dcf3e5;
+  --amber:#b97e0e; --amber-soft:#f7ecd2;
+  --gray-soft:#e6eae7;
+  --red:#c93a2e; --red-soft:#fbe7e4;
+  --shadow:0 10px 30px rgba(21,33,29,.08);
+  --radius:14px;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --sans:"Noto Sans SC",-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+  --serif:"Noto Serif SC",serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0e1311; --bg2:#121816; --surface:#171e1b; --surface2:#1d2622;
+    --ink:#e8efec; --ink2:#a9bab2; --ink3:#7e9189;
+    --line:#2a3530; --line2:#3a4741;
+    --teal:#2dd4bf; --teal-soft:#123a36; --teal-ink:#7deddd;
+    --orange:#ff7a52; --orange-soft:#3d211a;
+    --green:#3ecf7e; --green-soft:#14301f;
+    --amber:#e8b13c; --amber-soft:#38300f;
+    --gray-soft:#232c28;
+    --red:#ff6b5e; --red-soft:#3a1d19;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%}
+a{color:var(--teal)}
+button{font-family:var(--sans);cursor:pointer}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+h1,h2,h3{line-height:1.35;margin:0}
+.mono{font-family:var(--mono)}
+
+/* ---------- 顶部导航 ---------- */
+.topbar{position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar-in{display:flex;align-items:center;gap:18px;padding:12px 0}
+.back-home{flex:none;display:inline-flex;align-items:center;gap:4px;color:var(--ink2);text-decoration:none;font-size:13.5px;font-weight:700;padding:7px 12px 7px 10px;border-radius:999px;border:1px solid var(--line2);background:var(--surface);white-space:nowrap}
+.back-home:hover{background:var(--surface2);color:var(--ink)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:17px;letter-spacing:.02em;white-space:nowrap}
+.logo .mark{width:34px;height:34px;border-radius:9px;background:var(--teal);color:#fff;display:grid;place-items:center;flex:none}
+.logo small{display:block;font-size:11px;font-weight:500;color:var(--ink3);letter-spacing:.14em}
+.navlinks{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.navlinks::-webkit-scrollbar{display:none}
+.navlinks a{color:var(--ink2);text-decoration:none;font-size:14px;font-weight:500;padding:7px 12px;border-radius:999px;white-space:nowrap}
+.navlinks a:hover{background:var(--surface2);color:var(--ink)}
+
+/* ---------- Hero ---------- */
+.hero{padding:52px 0 34px;border-bottom:1px solid var(--line);background:
+  radial-gradient(640px 300px at 88% -60px, var(--teal-soft), transparent 70%),
+  var(--bg)}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:start}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--teal-ink);background:var(--teal-soft);padding:5px 12px;border-radius:999px;margin-bottom:18px}
+.kicker i{width:7px;height:7px;border-radius:50%;background:var(--teal);display:inline-block}
+.hero h1{font-family:var(--serif);font-size:clamp(30px,4.6vw,46px);font-weight:900;letter-spacing:.01em}
+.hero h1 em{font-style:normal;color:var(--teal)}
+.hero .sub{margin:16px 0 0;color:var(--ink2);font-size:16.5px;max-width:34em}
+.hero-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.btn{border:1px solid var(--line2);background:var(--surface);color:var(--ink);border-radius:10px;padding:11px 18px;font-size:15px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:transform .15s, box-shadow .15s}
+.btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.btn.primary{background:var(--teal);border-color:var(--teal);color:#fff}
+@media (prefers-color-scheme: dark){.btn.primary{color:#06231f}}
+.btn.small{padding:7px 13px;font-size:13.5px;border-radius:8px}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.painbox{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow)}
+.painbox h3{font-size:15px;margin-bottom:10px}
+.painbox ul{margin:0;padding:0;list-style:none}
+.painbox li{padding:9px 0;border-top:1px dashed var(--line);font-size:14.5px;color:var(--ink2);display:flex;gap:10px}
+.painbox li:first-of-type{border-top:none}
+.painbox li b{color:var(--ink)}
+.painbox .tag{flex:none;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--orange);background:var(--orange-soft);border-radius:6px;padding:2px 7px;height:fit-content;margin-top:3px}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:30px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.stat b{font-family:var(--mono);font-size:24px;display:block;line-height:1.2}
+.stat span{font-size:13px;color:var(--ink3)}
+
+/* ---------- 通用区块 ---------- */
+section{padding:52px 0}
+.sec-head{max-width:46em;margin-bottom:26px}
+.sec-head .no{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--teal);letter-spacing:.18em}
+.sec-head h2{font-family:var(--serif);font-size:clamp(24px,3.4vw,32px);font-weight:900;margin-top:6px}
+.sec-head p{color:var(--ink2);margin:10px 0 0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+
+/* ---------- 阶段流程 ---------- */
+.phases{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.phase{padding:22px}
+.phase .ph-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.phase .ph-num{font-family:var(--mono);font-weight:700;font-size:13px;color:#fff;background:var(--teal);border-radius:8px;padding:3px 9px}
+.phase h3{font-size:18px}
+.phase p{color:var(--ink2);font-size:14.5px;margin:6px 0 12px}
+.phase ul{margin:0;padding-left:18px;color:var(--ink2);font-size:14.5px}
+.phase li{margin:4px 0}
+.phase li b{color:var(--ink)}
+
+/* ---------- 演示区 ---------- */
+.demo-shell{border:1px solid var(--line2);border-radius:18px;background:var(--surface);box-shadow:var(--shadow);overflow:hidden}
+.demo-tabs{display:flex;gap:6px;padding:12px 12px 0;flex-wrap:wrap}
+.dtab{border:1px solid var(--line);background:var(--surface2);color:var(--ink2);border-radius:10px 10px 0 0;border-bottom:none;padding:10px 16px;font-size:15px;font-weight:700}
+.dtab[aria-selected="true"]{background:var(--bg2);color:var(--ink);border-color:var(--line2);box-shadow:inset 0 2px 0 var(--teal)}
+.demo-body{background:var(--bg2);border-top:1px solid var(--line2);padding:20px}
+.dpanel{display:none}
+.dpanel.on{display:block}
+.demo-note{font-size:13.5px;color:var(--ink3);margin:0 0 14px}
+.demo-note b{color:var(--ink2)}
+
+/* 地图 */
+.map-layout{display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start}
+.map-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.fbtn{border:1px solid var(--line2);background:var(--surface);color:var(--ink2);border-radius:8px;padding:7px 14px;font-size:14px;font-weight:700}
+.fbtn[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
+@media (prefers-color-scheme: dark){.fbtn[aria-pressed="true"]{color:#06231f}}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--ink2);margin-left:auto}
+.legend i{width:12px;height:12px;border-radius:3px;display:inline-block;vertical-align:-1px;margin-right:5px}
+.mapbox{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px}
+.booth{cursor:pointer}
+.booth rect{stroke:var(--line2);stroke-width:1.4;transition:filter .15s}
+.booth:hover rect{filter:brightness(1.07)}
+.booth text{pointer-events:none;font-family:var(--sans)}
+.booth.sel rect{stroke:var(--orange);stroke-width:3}
+.progress-wrap{margin-top:12px}
+.progress-head{display:flex;justify-content:space-between;font-size:13.5px;color:var(--ink2);margin-bottom:6px}
+.progress-head b{color:var(--ink)}
+.pbar{height:10px;border-radius:99px;background:var(--gray-soft);overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--green);border-radius:99px;transition:width .4s}
+.route-info{margin-top:10px;font-size:13.5px;color:var(--ink2);background:var(--orange-soft);border-radius:8px;padding:9px 12px;display:none}
+.route-info.on{display:block}
+.side-panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;position:sticky;top:76px}
+.side-panel h3{font-size:17px}
+.side-panel .booth-no{font-family:var(--mono);font-size:12.5px;color:var(--teal);font-weight:700;letter-spacing:.08em}
+.side-panel dl{margin:12px 0;font-size:14px}
+.side-panel dl div{display:flex;gap:10px;padding:6px 0;border-top:1px dashed var(--line)}
+.side-panel dt{flex:none;width:64px;color:var(--ink3)}
+.side-panel dd{margin:0;color:var(--ink2)}
+.side-panel dd b{color:var(--ink)}
+.prio{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px}
+.prio.s{background:var(--red-soft);color:var(--red)}
+.prio.a{background:var(--amber-soft);color:var(--amber)}
+.prio.b{background:var(--gray-soft);color:var(--ink2)}
+.side-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+
+/* HUD */
+.hud-layout{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;align-items:start}
+.hud{background:#0c1210;border-radius:16px;padding:14px;position:relative;overflow:hidden;border:1px solid #22302a}
+.hud::before{content:"";position:absolute;inset:0;background:
+  linear-gradient(rgba(45,212,191,.05) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(45,212,191,.05) 1px,transparent 1px);
+  background-size:34px 34px;pointer-events:none}
+.hud-top{display:flex;justify-content:space-between;align-items:center;color:#9fd8cf;font-family:var(--mono);font-size:12px;position:relative;z-index:1}
+.hud-top .rec{display:flex;align-items:center;gap:6px;color:#ff8a75}
+.hud-top .rec i{width:8px;height:8px;border-radius:50%;background:#ff5c47;animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.25}}
+@media (prefers-reduced-motion: reduce){.hud-top .rec i{animation:none}}
+.hud-view{position:relative;z-index:1;margin-top:12px;min-height:230px;border:1px dashed rgba(45,212,191,.35);border-radius:12px;display:flex;align-items:flex-end;justify-content:space-between;padding:14px;gap:12px;background:radial-gradient(420px 200px at 50% 0%,rgba(45,212,191,.10),transparent)}
+.hud-arrow{text-align:center;color:#2dd4bf}
+.hud-arrow .dist{font-family:var(--mono);font-weight:700;font-size:26px;color:#eafffb}
+.hud-arrow .dir{font-size:13px;color:#9fd8cf}
+.hud-card{background:rgba(10,22,19,.88);border:1px solid rgba(45,212,191,.5);border-radius:12px;padding:14px 16px;color:#eafffb;max-width:330px;backdrop-filter:blur(4px)}
+.hud-card .bno{font-family:var(--mono);font-size:11.5px;color:#2dd4bf;letter-spacing:.1em}
+.hud-card h4{margin:3px 0 6px;font-size:18px}
+.hud-card p{margin:0;font-size:13px;color:#bfe6de;line-height:1.6}
+.hud-card .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.hud-card .tags span{font-size:11.5px;border:1px solid rgba(45,212,191,.45);border-radius:99px;padding:1px 8px;color:#9fd8cf}
+.hud-sub{position:relative;z-index:1;margin-top:12px;background:rgba(0,0,0,.55);border-radius:10px;padding:10px 14px;min-height:64px}
+.hud-sub .en{color:#fff;font-size:15.5px;font-weight:500}
+.hud-sub .zh{color:#9fd8cf;font-size:13.5px}
+.hud-sub .who{font-family:var(--mono);font-size:11px;color:#5f8f86;letter-spacing:.08em}
+.hud-ctl{display:flex;flex-wrap:wrap;gap:8px}
+.hud-side{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+.hud-side h3{font-size:16px;margin-bottom:6px}
+.hud-side p{font-size:14px;color:var(--ink2);margin:0 0 12px}
+.arrive-list{display:grid;gap:8px;margin-bottom:14px}
+.arrive-list button{text-align:left;border:1px solid var(--line);background:var(--surface2);border-radius:10px;padding:10px 12px;font-size:14px;color:var(--ink)}
+.arrive-list button b{font-family:var(--mono);font-size:12px;color:var(--teal);display:block}
+.arrive-list button[aria-pressed="true"]{border-color:var(--teal);background:var(--teal-soft)}
+
+/* 时间轴 */
+.tl-controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:6px}
+.tl-clock{font-family:var(--mono);font-size:22px;font-weight:700}
+.tl-track{position:relative;height:86px;margin:26px 4px 8px}
+.tl-line{position:absolute;left:0;right:0;top:40px;height:4px;border-radius:99px;background:var(--line2)}
+.tl-fill{position:absolute;left:0;top:40px;height:4px;border-radius:99px;background:var(--teal);width:0}
+.tl-play{position:absolute;top:43px;width:2px;height:0}
+.tl-head{position:absolute;top:32px;width:20px;height:20px;border-radius:50%;background:var(--teal);border:3px solid var(--surface);box-shadow:var(--shadow);transform:translateX(-50%);z-index:3}
+.tl-ev{position:absolute;top:0;transform:translateX(-50%);background:none;border:none;padding:0;text-align:center;width:64px}
+.tl-ev .dot{display:block;width:15px;height:15px;border-radius:50%;margin:33px auto 0;border:3px solid var(--surface);box-shadow:0 0 0 1px var(--line2)}
+.tl-ev .tm{position:absolute;top:-24px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:11px;color:var(--ink3);white-space:nowrap}
+.tl-ev .lb{position:absolute;top:60px;left:50%;transform:translateX(-50%);font-size:11.5px;color:var(--ink2);white-space:nowrap}
+.tl-ev.active .lb{color:var(--teal-ink);font-weight:700}
+input[type=range].tl-range{width:100%;accent-color:var(--teal);margin:2px 0 0}
+.tl-detail{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+.tl-col{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;min-height:170px}
+.tl-col h4{margin:0 0 8px;font-size:14px;display:flex;align-items:center;gap:8px}
+.tl-col h4 .ic{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;background:var(--teal-soft);color:var(--teal-ink);flex:none}
+.tl-col p{margin:0;font-size:14px;color:var(--ink2)}
+.tl-col .empty{color:var(--ink3);font-size:13.5px}
+.wave{display:flex;align-items:flex-end;gap:2.5px;height:34px;margin-bottom:10px}
+.wave i{flex:1;background:var(--teal);border-radius:2px;opacity:.75;min-height:4px}
+.photo-thumb{border-radius:10px;height:96px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:14px;margin-bottom:10px;text-align:center;padding:8px}
+.video-thumb{border-radius:10px;height:96px;background:#101614;display:grid;place-items:center;color:#eafffb;margin-bottom:10px;position:relative}
+.video-thumb .play{width:42px;height:42px;border-radius:50%;border:2px solid #2dd4bf;display:grid;place-items:center;color:#2dd4bf}
+.video-thumb .dur{position:absolute;right:8px;bottom:8px;font-family:var(--mono);font-size:11px;background:rgba(0,0,0,.6);padding:1px 6px;border-radius:5px}
+
+/* 对比表 */
+.table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14.5px}
+th,td{padding:13px 16px;text-align:left;vertical-align:top;border-top:1px solid var(--line)}
+thead th{background:var(--surface2);border-top:none;font-size:15px}
+thead th .sub{display:block;font-size:12.5px;font-weight:500;color:var(--ink3)}
+tbody th{font-weight:700;color:var(--ink);width:130px;background:color-mix(in srgb,var(--surface2) 55%,transparent)}
+td{color:var(--ink2)}
+td b{color:var(--ink)}
+.good{color:var(--green);font-weight:700}
+.warn{color:var(--amber);font-weight:700}
+.verdict{margin-top:14px;background:var(--teal-soft);border-radius:12px;padding:14px 18px;font-size:14.5px;color:var(--ink)}
+.verdict b{color:var(--teal-ink)}
+
+/* 补充能力 */
+.supplement{border:2px solid var(--teal);border-radius:18px;padding:26px;background:var(--surface);box-shadow:var(--shadow)}
+.supplement .sec-head{margin-bottom:20px}
+.sup-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.sup-card{border:1px solid var(--line);border-radius:12px;padding:18px;background:var(--bg)}
+.sup-card h3{font-size:16.5px;display:flex;gap:10px;align-items:flex-start}
+.sup-card h3 .n{font-family:var(--mono);font-size:12px;font-weight:700;background:var(--orange);color:#fff;border-radius:6px;padding:2px 7px;flex:none;margin-top:3px}
+.sup-card p{margin:8px 0 0;font-size:14.5px;color:var(--ink2)}
+.sup-card p b{color:var(--ink)}
+.sup-card .how{margin-top:10px;font-size:13.5px;background:var(--surface2);border-radius:8px;padding:9px 12px;color:var(--ink2)}
+.sup-card .how b{color:var(--teal-ink)}
+
+/* 商业模式 */
+.biz-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.biz{padding:22px}
+.biz .who{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--teal)}
+.biz h3{font-size:18px;margin:6px 0 8px}
+.biz p{font-size:14.5px;color:var(--ink2);margin:0 0 12px}
+.biz ul{margin:0;padding-left:18px;font-size:14.5px;color:var(--ink2)}
+.biz li{margin:5px 0}
+.biz .price{margin-top:14px;border-top:1px dashed var(--line);padding-top:12px;font-size:14px}
+.biz .price b{font-family:var(--mono);color:var(--ink)}
+
+/* 路线图 */
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.rm-step{padding:20px;border:1px solid var(--line);background:var(--surface);position:relative}
+.rm-step:first-child{border-radius:14px 0 0 14px}
+.rm-step:last-child{border-radius:0 14px 14px 0}
+.rm-step + .rm-step{border-left:none}
+.rm-step .when{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--orange)}
+.rm-step h3{font-size:16.5px;margin:5px 0 8px}
+.rm-step ul{margin:0;padding-left:17px;font-size:13.5px;color:var(--ink2)}
+.rm-step li{margin:4px 0}
+.rm-step .goal{margin-top:10px;font-size:13px;background:var(--teal-soft);color:var(--teal-ink);border-radius:8px;padding:7px 10px;font-weight:700}
+
+/* 页脚 */
+footer{border-top:1px solid var(--line);padding:34px 0 46px;color:var(--ink3);font-size:13.5px}
+footer .cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+footer h4{color:var(--ink2);font-size:14px;margin:0 0 8px}
+footer p{margin:0}
+
+/* ---------- 硬件形态 ---------- */
+.hw-banner{background:var(--teal-soft);border-radius:12px;padding:16px 20px;font-size:15px;color:var(--ink);margin-bottom:18px}
+.hw-banner b{color:var(--teal-ink)}
+.hw-banner .x{color:var(--red);font-weight:700}
+.hw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.view-card{padding:18px}
+.view-card h3{font-size:16.5px;margin-bottom:4px}
+.view-card h3 .en{font-family:var(--mono);font-size:11px;color:var(--ink3);letter-spacing:.1em;display:block;font-weight:500}
+.view-stage{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:10px 6px;margin:10px 0 12px}
+.marker-legend{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+.marker-legend li{display:flex;gap:9px;font-size:13.5px;color:var(--ink2);line-height:1.55;align-items:flex-start}
+.marker-legend li b{color:var(--ink)}
+.mk{flex:none;width:19px;height:19px;border-radius:50%;background:var(--teal);color:#fff;font-family:var(--mono);font-size:11px;font-weight:700;display:grid;place-items:center;margin-top:2px}
+@media (prefers-color-scheme: dark){.mk{color:#06231f}}
+.kit-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.kit-card{padding:20px;display:grid;grid-template-columns:220px 1fr;gap:18px;align-items:center}
+.kit-card h3{font-size:16.5px;margin-bottom:6px}
+.kit-card p{font-size:14px;color:var(--ink2);margin:0 0 8px}
+.kit-card ul{margin:0;padding-left:17px;font-size:14px;color:var(--ink2)}
+.kit-card li{margin:3px 0}
+.kit-card li b{color:var(--ink)}
+.spec-table{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--surface);box-shadow:var(--shadow);margin-top:14px}
+.spec-row{display:grid;grid-template-columns:170px 1fr 1fr;gap:0}
+.spec-row + .spec-row{border-top:1px solid var(--line)}
+.spec-row > div{padding:12px 16px;font-size:14px;color:var(--ink2)}
+.spec-row > div:first-child{font-weight:700;color:var(--ink);background:color-mix(in srgb,var(--surface2) 55%,transparent)}
+.spec-row.head > div{background:var(--surface2);font-weight:700;color:var(--ink);font-size:14.5px}
+.spec-row.head > div:first-child{background:var(--surface2)}
+.spec-note{font-size:13px;color:var(--ink3);margin-top:10px}
+.trade-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.trade{padding:20px}
+.trade .q{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--orange);letter-spacing:.06em}
+.trade h3{font-size:16px;margin:5px 0 8px}
+.trade p{font-size:14px;color:var(--ink2);margin:0}
+.trade p b{color:var(--ink)}
+
+/* ---------- 演示视频分镜 ---------- */
+.story-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:12px}
+.story{padding:14px 12px;position:relative}
+.story .tc{font-family:var(--mono);font-size:11.5px;font-weight:700;color:#fff;background:var(--orange);border-radius:6px;padding:2px 8px;display:inline-block}
+.story .scene{background:var(--surface2);border:1px solid var(--line);border-radius:10px;margin:12px 0 10px;padding:8px 4px}
+.story h3{font-size:15.5px;margin-bottom:5px}
+.story p{font-size:13.5px;color:var(--ink2);margin:0}
+.story .arr{position:absolute;right:-13px;top:50%;transform:translateY(-50%);z-index:2;width:24px;height:24px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:900}
+@media (prefers-color-scheme: dark){.story .arr{color:#06231f}}
+.demo-video{width:100%;aspect-ratio:16/9;background:#000;border:1px solid var(--line2);border-radius:18px;box-shadow:var(--shadow);display:block}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,80px);background:var(--ink);color:var(--bg);padding:11px 20px;border-radius:99px;font-size:14px;font-weight:700;z-index:99;transition:transform .3s;box-shadow:var(--shadow);max-width:92vw;text-align:center}
+.toast.on{transform:translate(-50%,0)}
+
+@media (max-width:760px){
+  .topbar-in{flex-wrap:wrap;gap:8px}
+  .navlinks{margin-left:0;overflow:visible;flex-wrap:wrap}
+  /* 对比表在手机上改为纵向卡片，不横滑 */
+  .table-scroll{overflow:visible}
+  table{min-width:0}
+  table thead{display:none}
+  table,tbody,tbody tr,tbody th,tbody td{display:block;width:100%}
+  tbody tr{padding:12px 0 14px}
+  tbody th{background:none;padding:2px 16px 6px;font-size:15px;color:var(--teal-ink)}
+  tbody td{border-top:none;padding:4px 16px}
+  tbody td::before{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--ink3);margin-bottom:2px}
+  tbody td:nth-child(2)::before{content:"方案 A · 眼镜内置麦克风"}
+  tbody td:nth-child(3)::before{content:"方案 B · 外置肩带麦克风"}
+}
+@media (max-width:960px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-stats{grid-template-columns:repeat(2,1fr)}
+  .phases,.biz-grid{grid-template-columns:1fr}
+  .hw-grid,.trade-grid{grid-template-columns:1fr}
+  .kit-grid{grid-template-columns:1fr}
+  .kit-card{grid-template-columns:1fr}
+  .story-grid{grid-template-columns:1fr}
+  .story .arr{right:auto;left:50%;top:auto;bottom:-13px;transform:translateX(-50%) rotate(90deg)}
+  .spec-row{grid-template-columns:104px 1fr 1fr}
+  .spec-row > div{padding:10px 11px;font-size:13px}
+  .map-layout,.hud-layout{grid-template-columns:1fr}
+  .side-panel{position:static}
+  .sup-grid{grid-template-columns:1fr}
+  .tl-detail{grid-template-columns:1fr}
+  .roadmap{grid-template-columns:1fr}
+  .rm-step{border-radius:0!important}
+  .rm-step:first-child{border-radius:14px 14px 0 0!important}
+  .rm-step:last-child{border-radius:0 0 14px 14px!important}
+  .rm-step + .rm-step{border-left:1px solid var(--line);border-top:none}
+  footer .cols{grid-template-columns:1fr}
+  .hud-view{flex-direction:column;align-items:stretch}
+  .hud-card{max-width:none}
+  .tl-ev .lb{display:none}
+  .tl-ev.active .lb{display:block}
+  section{padding:40px 0}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="back-home" href="/">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+      回到脑壳
+    </a>
+    <div class="logo">
+      <span class="mark" aria-hidden="true">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z"/><circle cx="12" cy="12" r="3"/></svg>
+      </span>
+      <span>ExpoLens 展镜<small>SMART GLASSES EXPO NAVIGATOR</small></span>
+    </div>
+    <nav class="navlinks" aria-label="页面导航">
+      <a href="#hardware">硬件形态</a>
+      <a href="#video">演示视频</a>
+      <a href="#demo">交互演示</a>
+      <a href="#record">录音双方案</a>
+      <a href="#plus">补充关键点</a>
+      <a href="#biz">商业模式</a>
+      <a href="#mvp">MVP 路线图</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="kicker"><i></i>产品概念方案 · 面向外贸厂家出海参展</span>
+        <h1>准备做得再足，<br />到了展会现场还是<em>找不到、记不住</em>？</h1>
+        <p class="sub">展前把地图和客户装进眼镜，展中抬头导航、谈话录音，展后对齐成纪要。</p>
+        <div class="hero-cta">
+          <a class="btn primary" href="#demo">看交互演示 ↓</a>
+          <a class="btn" href="#video">看演示视频</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><b>3 个阶段</b><span>展前规划 · 展中导航 · 展后复盘</span></div>
+          <div class="stat"><b>2 种录音</b><span>眼镜内置 / 肩带外置麦克风</span></div>
+          <div class="stat"><b>三轴合一</b><span>录音 + 照片 + 录像按时间对齐</span></div>
+          <div class="stat"><b>3 方客户</b><span>参展商 / 展馆 / 主办方</span></div>
+        </div>
+      </div>
+      <aside class="painbox" aria-label="现场痛点">
+        <h3>现场最容易翻车的四件事</h3>
+        <ul>
+          <li><span class="tag">1</span><span><b>找不到展位。</b>地图和手机都要低头看。</span></li>
+          <li><span class="tag">2</span><span><b>到了门口，忘了对方是谁。</b></span></li>
+          <li><span class="tag">3</span><span><b>一天谈十几家，晚上只剩个大概。</b></span></li>
+          <li><span class="tag">4</span><span><b>照片、录音、笔记对不上。</b></span></li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- ============ 三阶段 ============ -->
+  <section id="flow" style="padding-top:44px">
+    <div class="sec-head">
+      <div class="no">WORKFLOW</div>
+      <h2>展前、展中、展后</h2>
+    </div>
+    <div class="phases">
+      <article class="card phase">
+        <div class="ph-top"><span class="ph-num">展前</span><h3>把功课装进眼镜</h3></div>
+        <ul>
+          <li><b>地图</b>：按楼层导入</li>
+          <li><b>目标展商</b>：展位、背景、联系人、优先级</li>
+          <li><b>路线</b>：按优先级和距离排拜访顺序</li>
+          <li><b>离线</b>：现场断网也能用</li>
+        </ul>
+      </article>
+      <article class="card phase">
+        <div class="ph-top"><span class="ph-num">展中</span><h3>抬头看路</h3></div>
+        <ul>
+          <li><b>导航</b>：箭头和距离</li>
+          <li><b>到店</b>：走到展位，弹出这家的档案</li>
+          <li><b>进度</b>：已访绿色，未访灰色</li>
+          <li><b>录音</b>：眼镜或肩带麦克风</li>
+        </ul>
+      </article>
+      <article class="card phase">
+        <div class="ph-top"><span class="ph-num">展后</span><h3>一条时间轴</h3></div>
+        <ul>
+          <li><b>转写</b>：中英双语，分说话人</li>
+          <li><b>对齐</b>：录音、照片、录像在一条时间轴</li>
+          <li><b>纪要</b>：每家一份，带意向和待办</li>
+          <li><b>导出</b>：报告、客户清单、跟进邮件</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ 硬件形态 ============ -->
+  <section id="hardware">
+    <div class="sec-head">
+      <div class="no">HARDWARE FORM</div>
+      <h2>一副能戴一整天的眼镜</h2>
+      <p>接近普通眼镜，外加肩带麦克风和充电盒。真实世界是主画面，眼镜只提示箭头、卡片和字幕。</p>
+    </div>
+
+    <div class="hw-grid">
+      <!-- 正视图 -->
+      <article class="card view-card">
+        <h3><span class="en">FRONT VIEW</span>正视图 · 前框</h3>
+        <div class="view-stage">
+          <svg viewBox="0 0 320 178" role="img" aria-label="眼镜正视图示意：波导镜片、摄像头、麦克风阵列、鼻托与近视内框位置">
+            <!-- 镜腿根部 -->
+            <rect x="8" y="52" width="26" height="12" rx="6" style="fill:var(--line2)"/>
+            <rect x="286" y="52" width="26" height="12" rx="6" style="fill:var(--line2)"/>
+            <!-- 镜框 -->
+            <path d="M26 58 h118 a10 10 0 0 1 10 10 v34 a38 38 0 0 1 -38 38 h-52 a38 38 0 0 1 -38 -38 Z" style="fill:var(--surface);stroke:var(--ink2)" stroke-width="3"/>
+            <path d="M166 58 h118 a10 10 0 0 1 10 10 v34 a38 38 0 0 1 -38 38 h-52 a38 38 0 0 1 -38 -38 Z" style="fill:var(--surface);stroke:var(--ink2)" stroke-width="3"/>
+            <!-- 鼻梁 -->
+            <path d="M154 66 q6 -7 12 0" fill="none" style="stroke:var(--ink2)" stroke-width="3" stroke-linecap="round"/>
+            <!-- 波导显示区（右镜片，佩戴者视角左） -->
+            <rect x="182" y="72" width="96" height="56" rx="24" style="fill:var(--teal-soft)"/>
+            <path d="M196 92 h52 M196 104 h68 M196 116 h40" style="stroke:var(--teal)" stroke-width="3" stroke-linecap="round" opacity=".65"/>
+            <path d="M252 82 l8 8 l-8 8" fill="none" style="stroke:var(--orange)" stroke-width="3.5" stroke-linecap="round"/>
+            <!-- 可拆近视内框（左镜片虚线） -->
+            <rect x="46" y="70" width="88" height="60" rx="26" fill="none" style="stroke:var(--orange)" stroke-width="2" stroke-dasharray="5 4"/>
+            <!-- 摄像头 -->
+            <circle cx="160" cy="50" r="6" style="fill:var(--ink)"/>
+            <circle cx="160" cy="50" r="2.4" style="fill:var(--teal)"/>
+            <!-- 鼻托 -->
+            <ellipse cx="146" cy="128" rx="6" ry="9" style="fill:var(--line2)"/>
+            <ellipse cx="174" cy="128" rx="6" ry="9" style="fill:var(--line2)"/>
+            <!-- 麦克风阵列小孔 -->
+            <circle cx="58" cy="146" r="2.2" style="fill:var(--ink3)"/><circle cx="70" cy="148" r="2.2" style="fill:var(--ink3)"/><circle cx="82" cy="149" r="2.2" style="fill:var(--ink3)"/>
+            <circle cx="238" cy="149" r="2.2" style="fill:var(--ink3)"/><circle cx="250" cy="148" r="2.2" style="fill:var(--ink3)"/><circle cx="262" cy="146" r="2.2" style="fill:var(--ink3)"/>
+            <!-- 编号标记 -->
+            <g font-family="var(--mono)" font-size="10" font-weight="700" text-anchor="middle">
+              <circle cx="230" cy="66" r="9" style="fill:var(--teal)"/><text x="230" y="70" fill="#fff">1</text>
+              <circle cx="160" cy="30" r="9" style="fill:var(--teal)"/><text x="160" y="34" fill="#fff">2</text>
+              <circle cx="70" cy="164" r="9" style="fill:var(--teal)"/><text x="70" y="168" fill="#fff">3</text>
+              <circle cx="186" cy="128" r="9" style="fill:var(--teal)"/><text x="186" y="132" fill="#fff">4</text>
+              <circle cx="52" cy="82" r="9" style="fill:var(--orange)"/><text x="52" y="86" fill="#fff">5</text>
+            </g>
+          </svg>
+        </div>
+        <ul class="marker-legend">
+          <li><span class="mk">1</span><span><b>波导镜片</b> — 单侧小视场，箭头和字幕浮在边缘</span></li>
+          <li><span class="mk">2</span><span><b>摄像头</b> — 认展位号、名片和展品</span></li>
+          <li><span class="mk">3</span><span><b>麦克风阵列</b> — 从展馆噪声里捞出对面人声</span></li>
+          <li><span class="mk">4</span><span><b>鼻托</b> — 长戴不压鼻梁</span></li>
+          <li><span class="mk" style="background:var(--orange)">5</span><span><b>可拆近视内框</b> — 磁吸定制镜片，不用戴隐形</span></li>
+        </ul>
+      </article>
+
+      <!-- 侧视图 -->
+      <article class="card view-card">
+        <h3><span class="en">SIDE VIEW</span>侧视图 · 镜腿</h3>
+        <div class="view-stage">
+          <svg viewBox="0 0 320 178" role="img" aria-label="眼镜侧视图示意：镜腿触控区、电池芯片仓、开放式扬声器位置">
+            <!-- 镜片侧面 -->
+            <path d="M52 34 h16 a8 8 0 0 1 8 8 v78 a30 30 0 0 1 -30 30 h-2 a8 8 0 0 1 -8 -8 V42 a8 8 0 0 1 8 -8 Z" style="fill:var(--teal-soft);stroke:var(--ink2)" stroke-width="3"/>
+            <path d="M46 52 v66" style="stroke:var(--teal)" stroke-width="4" stroke-linecap="round" opacity=".7"/>
+            <!-- 鼻托侧影 -->
+            <path d="M76 128 q14 4 12 16 q-10 2 -16 -6 Z" style="fill:var(--line2)"/>
+            <!-- 镜腿（略粗，带电池/芯片仓） -->
+            <path d="M76 46 h168 a14 14 0 0 1 14 14 v6 q0 10 -10 12 l-10 2 q-6 40 -22 62 q-5 7 -12 3 q-6 -4 -3 -11 q10 -24 12 -52 H76 Z" style="fill:var(--surface);stroke:var(--ink2)" stroke-width="3"/>
+            <!-- 触控区 -->
+            <rect x="118" y="50" width="52" height="22" rx="9" style="fill:var(--teal-soft);stroke:var(--teal)" stroke-width="1.6"/>
+            <path d="M130 61 h28" style="stroke:var(--teal)" stroke-width="3" stroke-linecap="round"/>
+            <!-- 电池/芯片仓 -->
+            <rect x="182" y="50" width="46" height="22" rx="9" style="fill:var(--orange-soft);stroke:var(--orange)" stroke-width="1.6"/>
+            <rect x="196" y="57" width="18" height="9" rx="2" fill="none" style="stroke:var(--orange)" stroke-width="1.8"/>
+            <!-- 扬声器出声孔（镜腿末端下侧） -->
+            <path d="M198 128 l14 -3 M202 134 l14 -3 M206 140 l13 -3" style="stroke:var(--ink3)" stroke-width="2.4" stroke-linecap="round"/>
+            <!-- 前端麦克风 -->
+            <circle cx="84" cy="140" r="2.4" style="fill:var(--ink3)"/><circle cx="92" cy="142" r="2.4" style="fill:var(--ink3)"/>
+            <!-- 编号标记 -->
+            <g font-family="var(--mono)" font-size="10" font-weight="700" text-anchor="middle">
+              <circle cx="144" cy="30" r="9" style="fill:var(--teal)"/><text x="144" y="34" fill="#fff">6</text>
+              <circle cx="205" cy="30" r="9" style="fill:var(--orange)"/><text x="205" y="34" fill="#fff">7</text>
+              <circle cx="228" cy="118" r="9" style="fill:var(--teal)"/><text x="228" y="122" fill="#fff">8</text>
+              <circle cx="98" cy="160" r="9" style="fill:var(--teal)"/><text x="98" y="164" fill="#fff">3</text>
+            </g>
+          </svg>
+        </div>
+        <ul class="marker-legend">
+          <li><span class="mk">6</span><span><b>镜腿触控</b> — 轻触暂停录音，滑动翻卡片</span></li>
+          <li><span class="mk" style="background:var(--orange)">7</span><span><b>电池 / 芯片仓</b> — 所以镜腿比普通眼镜略粗</span></li>
+          <li><span class="mk">8</span><span><b>开放式扬声器</b> — 耳旁出声，不堵耳朵</span></li>
+          <li><span class="mk">3</span><span><b>前端拾音孔</b> — 和前框阵列一起收音</span></li>
+        </ul>
+      </article>
+
+      <!-- 折叠图 -->
+      <article class="card view-card">
+        <h3><span class="en">FOLDED VIEW</span>折叠图 · 收纳状态</h3>
+        <div class="view-stage">
+          <svg viewBox="0 0 320 178" role="img" aria-label="眼镜折叠图示意：镜腿向内折叠后与前框平行收拢">
+            <!-- 前框（俯视压扁示意） -->
+            <path d="M36 62 h104 a10 10 0 0 1 10 10 v22 a30 30 0 0 1 -30 30 h-54 a30 30 0 0 1 -30 -30 Z" style="fill:var(--surface);stroke:var(--ink2)" stroke-width="3"/>
+            <path d="M170 62 h104 a10 10 0 0 1 10 10 v22 a30 30 0 0 1 -30 30 h-54 a30 30 0 0 1 -30 -30 Z" style="fill:var(--surface);stroke:var(--ink2)" stroke-width="3"/>
+            <rect x="188" y="74" width="72" height="38" rx="16" style="fill:var(--teal-soft)"/>
+            <path d="M150 70 q10 -6 20 0" fill="none" style="stroke:var(--ink2)" stroke-width="3" stroke-linecap="round"/>
+            <!-- 折叠后的镜腿：两条平行收在前框下方 -->
+            <rect x="44" y="136" width="232" height="13" rx="6.5" style="fill:var(--surface2);stroke:var(--ink2)" stroke-width="2.4"/>
+            <rect x="44" y="154" width="232" height="13" rx="6.5" style="fill:var(--surface2);stroke:var(--ink2)" stroke-width="2.4"/>
+            <rect x="196" y="138.5" width="40" height="8" rx="4" style="fill:var(--orange-soft);stroke:var(--orange)" stroke-width="1.4"/>
+            <!-- 铰链 -->
+            <circle cx="40" cy="66" r="5" style="fill:var(--ink2)"/>
+            <circle cx="280" cy="66" r="5" style="fill:var(--ink2)"/>
+            <path d="M40 74 v56 M280 74 v56" style="stroke:var(--ink3)" stroke-width="1.6" stroke-dasharray="3 4"/>
+            <!-- 编号标记 -->
+            <g font-family="var(--mono)" font-size="10" font-weight="700" text-anchor="middle">
+              <circle cx="296" cy="46" r="9" style="fill:var(--teal)"/><text x="296" y="50" fill="#fff">9</text>
+              <circle cx="216" cy="120" r="9" style="fill:var(--orange)"/><text x="216" y="124" fill="#fff">7</text>
+            </g>
+          </svg>
+        </div>
+        <ul class="marker-legend">
+          <li><span class="mk">9</span><span><b>折叠铰链</b> — 折好滑进充电盒</span></li>
+          <li><span class="mk" style="background:var(--orange)">7</span><span><b>电池仓朝外</b> — 入盒即充</span></li>
+          <li><span style="flex:none;width:19px"></span><span><b>补电</b> — 摘下充 15 分钟，大约再用 2 小时</span></li>
+        </ul>
+      </article>
+    </div>
+
+    <!-- 配套硬件 -->
+    <div class="kit-grid">
+      <article class="card kit-card">
+        <div class="view-stage" style="margin:0">
+          <svg viewBox="0 0 220 190" role="img" aria-label="肩带夹式录音模块示意：小方盒夹在双肩包肩带上，可弯折短麦克风朝上指向耳旁">
+            <!-- 肩带 -->
+            <rect x="52" y="8" width="46" height="174" rx="10" style="fill:var(--surface2);stroke:var(--line2)" stroke-width="2"/>
+            <path d="M62 14 v162 M88 14 v162" style="stroke:var(--line2)" stroke-width="1.6" stroke-dasharray="4 5"/>
+            <!-- 夹式录音模块本体 -->
+            <rect x="42" y="102" width="66" height="56" rx="10" style="fill:var(--ink)"/>
+            <circle cx="58" cy="118" r="4" style="fill:var(--red)"/>
+            <text x="68" y="122" font-family="var(--mono)" font-size="9" font-weight="700" fill="#fff">REC</text>
+            <path d="M52 140 h46 M52 148 h46" style="stroke:#5b6b64" stroke-width="2.4" stroke-linecap="round"/>
+            <rect x="42" y="102" width="66" height="10" rx="5" style="fill:var(--teal)"/>
+            <!-- 可弯折短麦克风：鹅颈向上弯向耳旁 -->
+            <path d="M96 106 C 118 92, 118 66, 138 48" fill="none" style="stroke:var(--ink)" stroke-width="5" stroke-linecap="round"/>
+            <rect x="132" y="28" width="13" height="26" rx="6.5" transform="rotate(38 138 41)" style="fill:var(--ink)"/>
+            <path d="M146 24 q4 4 0 8 M152 19 q7 8 0 17" fill="none" style="stroke:var(--teal)" stroke-width="2.2" stroke-linecap="round"/>
+            <!-- 耳旁位置示意 -->
+            <circle cx="186" cy="30" r="17" fill="none" style="stroke:var(--orange)" stroke-width="2" stroke-dasharray="4 4"/>
+            <path d="M180 22 a8 8 0 1 1 4 14 a5 5 0 1 0 -2 -8" fill="none" style="stroke:var(--orange)" stroke-width="2.2" stroke-linecap="round"/>
+            <text x="186" y="66" text-anchor="middle" font-size="10.5" style="fill:var(--ink3)">耳旁</text>
+            <text x="75" y="186" text-anchor="middle" font-size="10.5" style="fill:var(--ink3)">双肩包肩带</text>
+          </svg>
+        </div>
+        <div>
+          <h3>肩带录音模块</h3>
+          <p>夹在肩带上，麦克风停在耳下约 10 cm，录到的接近耳朵听到的声音。</p>
+          <ul>
+            <li>独立电池和存储，眼镜没电也继续录</li>
+            <li>侧面一键暂停</li>
+            <li>没有外拉的线</li>
+          </ul>
+        </div>
+      </article>
+      <article class="card kit-card">
+        <div class="view-stage" style="margin:0">
+          <svg viewBox="0 0 220 190" role="img" aria-label="充电收纳盒示意：盒内放折叠后的眼镜与录音模块，盒盖带电量指示">
+            <!-- 盒盖（打开） -->
+            <path d="M28 26 h164 a8 8 0 0 1 8 8 v18 H20 V34 a8 8 0 0 1 8 -8 Z" style="fill:var(--surface2);stroke:var(--line2)" stroke-width="2"/>
+            <circle cx="176" cy="39" r="3" style="fill:var(--green)"/><circle cx="164" cy="39" r="3" style="fill:var(--green)"/><circle cx="152" cy="39" r="3" style="fill:var(--green)"/><circle cx="140" cy="39" r="3" style="fill:var(--line2)"/>
+            <!-- 盒身 -->
+            <path d="M20 52 h180 v96 a16 16 0 0 1 -16 16 H36 a16 16 0 0 1 -16 -16 Z" style="fill:var(--surface);stroke:var(--ink2)" stroke-width="2.6"/>
+            <!-- 盒内折叠眼镜 -->
+            <path d="M44 84 h58 a8 8 0 0 1 8 8 v12 a20 20 0 0 1 -20 20 H64 a20 20 0 0 1 -20 -20 Z" fill="none" style="stroke:var(--ink2)" stroke-width="2.6"/>
+            <path d="M118 84 h58 a8 8 0 0 1 8 8 v12 a20 20 0 0 1 -20 20 h-26 a20 20 0 0 1 -20 -20 Z" fill="none" style="stroke:var(--ink2)" stroke-width="2.6"/>
+            <rect x="130" y="92" width="34" height="20" rx="8" style="fill:var(--teal-soft)"/>
+            <rect x="48" y="132" width="124" height="7" rx="3.5" style="fill:var(--line2)"/>
+            <!-- 录音模块仓位 -->
+            <rect x="182" y="118" width="0" height="0"/>
+            <text x="110" y="156" text-anchor="middle" font-size="10.5" style="fill:var(--ink3)">USB-C · 入盒即充</text>
+          </svg>
+        </div>
+        <div>
+          <h3>充电收纳盒</h3>
+          <p>眼镜和录音模块一起放进去，合盖同时充电。</p>
+          <ul>
+            <li>盒盖四格电量</li>
+            <li>大约能给眼镜补电 3 次</li>
+            <li>离盒太久，手机会提醒</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+
+    <!-- 设计参数表 -->
+    <div class="spec-table" role="table" aria-label="设计参数表（设计目标，示例）">
+      <div class="spec-row head" role="row"><div>参数</div><div>眼镜本体</div><div>肩带录音模块 / 充电盒</div></div>
+      <div class="spec-row" role="row"><div>整机重量</div><div>约 45 g 级（不含近视内框）</div><div>录音模块约 28 g · 充电盒约 180 g</div></div>
+      <div class="spec-row" role="row"><div>显示</div><div>单目波导 · 小视场提示区（约 15°）· 单色绿 / 全彩二选一</div><div>—</div></div>
+      <div class="spec-row" role="row"><div>续航（导航+录音）</div><div>约 5–6 小时连续使用</div><div>录音模块约 20 小时 · 充电盒可为眼镜补电约 3 次</div></div>
+      <div class="spec-row" role="row"><div>充电</div><div>入盒触点快充：15 分钟约用 2 小时</div><div>盒体 USB-C，自身约 1.5 小时充满</div></div>
+      <div class="spec-row" role="row"><div>录音</div><div>多麦克风阵列 · 波束成形降噪</div><div>高灵敏麦克风 · 独立存储 · 双路时间戳对齐</div></div>
+      <div class="spec-row" role="row"><div>定位与连接</div><div>BLE / UWB 信标 + 视觉定位 + 惯性推算 · 蓝牙连手机</div><div>蓝牙与眼镜/手机同步</div></div>
+      <div class="spec-row" role="row"><div>近视适配</div><div>磁吸可拆近视内框（定制镜片）</div><div>内框可单独收纳于盒盖夹层</div></div>
+    </div>
+    <p class="spec-note">以上是设计目标，不是实测规格。</p>
+
+    <!-- 形态取舍 -->
+    <div class="trade-grid">
+      <article class="card trade">
+        <div class="q">取舍 1</div>
+        <h3>镜腿为什么略粗</h3>
+        <p>电池、芯片和扬声器都在镜腿里，所以不用外接线，也不用腰间挂主机。</p>
+      </article>
+      <article class="card trade">
+        <div class="q">取舍 2</div>
+        <h3>为什么只做小视场</h3>
+        <p>现场主要看真实展位。显示只给一个箭头、一张卡片、两行字幕。</p>
+      </article>
+      <article class="card trade">
+        <div class="q">取舍 3</div>
+        <h3>为什么录两路</h3>
+        <p>肩带麦克风更接近耳朵听到的声音，眼镜麦克风做备份。展后取更清楚的一路转写。</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ 演示视频 ============ -->
+  <section id="video">
+    <div class="sec-head">
+      <div class="no">DEMO VIDEO</div>
+      <h2>演示视频</h2>
+    </div>
+    <video class="demo-video" controls playsinline preload="metadata" src="/expolens/expolens-58s-polished-en-voice.mp4">
+      你的浏览器不支持视频播放。
+    </video>
+  </section>
+
+  <!-- ============ 交互演示 ============ -->
+  <section id="demo">
+    <div class="sec-head">
+      <div class="no">LIVE DEMO</div>
+      <h2>交互演示</h2>
+      <p>示例展会。三个标签分别是展前、展中、展后。</p>
+    </div>
+
+    <div class="demo-shell">
+      <div class="demo-tabs" role="tablist" aria-label="演示切换">
+        <button class="dtab" role="tab" aria-selected="true" data-panel="p-map">① 展前 · 分层地图与路线规划</button>
+        <button class="dtab" role="tab" aria-selected="false" data-panel="p-hud">② 展中 · 眼镜 HUD 视角</button>
+        <button class="dtab" role="tab" aria-selected="false" data-panel="p-tl">③ 展后 · 时间轴复盘</button>
+      </div>
+      <div class="demo-body">
+
+        <!-- 面板1：地图 -->
+        <div class="dpanel on" id="p-map" role="tabpanel">
+          <p class="demo-note">点展位看档案，标记已拜访，或规划路线。可切换楼层。</p>
+          <div class="map-layout">
+            <div>
+              <div class="map-toolbar">
+                <button class="fbtn" data-floor="1" aria-pressed="true">1F · 中央大厅</button>
+                <button class="fbtn" data-floor="2" aria-pressed="false">2F · 北馆</button>
+                <button class="btn small primary" id="btnRoute" type="button">规划最优路线</button>
+                <button class="btn small" id="btnReset" type="button">重置进度</button>
+                <div class="legend" aria-hidden="true">
+                  <span><i style="background:var(--green)"></i>已拜访</span>
+                  <span><i style="background:var(--gray-soft);border:1px solid var(--line2)"></i>未拜访</span>
+                  <span><i style="background:var(--orange)"></i>规划路线</span>
+                </div>
+              </div>
+              <div class="mapbox">
+                <svg id="floorSvg" viewBox="0 0 800 500" role="img" aria-label="展馆平面图（示例）"></svg>
+              </div>
+              <div class="progress-wrap">
+                <div class="progress-head"><span>今日拜访完成度（两层合计）</span><b id="progText">0 / 12 家</b></div>
+                <div class="pbar"><i id="progBar" style="width:0%"></i></div>
+              </div>
+              <div class="route-info" id="routeInfo"></div>
+            </div>
+            <aside class="side-panel" id="boothPanel" aria-live="polite"></aside>
+          </div>
+        </div>
+
+        <!-- 面板2：HUD -->
+        <div class="dpanel" id="p-hud" role="tabpanel">
+          <p class="demo-note">点右侧一家，模拟走到展位门口。</p>
+          <div class="hud-layout">
+            <div class="hud" aria-label="眼镜视角模拟">
+              <div class="hud-top">
+                <span>EXPOFLOOR NAV · <span id="hudClock">09:41</span></span>
+                <span class="rec" id="hudRec"><i></i>REC 录音中</span>
+                <span>电量 78%</span>
+              </div>
+              <div class="hud-view">
+                <div class="hud-arrow" aria-hidden="true">
+                  <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="margin:0 auto"><path d="M12 20V5"/><path d="m5 12 7-7 7 7"/></svg>
+                  <div class="dist" id="hudDist">前方 12 m</div>
+                  <div class="dir" id="hudDir">直行 · 即将到达目标展位</div>
+                </div>
+                <div class="hud-card" id="hudCard"></div>
+              </div>
+              <div class="hud-sub" id="hudSub" aria-live="polite"></div>
+            </div>
+            <div class="hud-side">
+              <h3>模拟到达</h3>
+              <div class="arrive-list" id="arriveList"></div>
+              <div class="hud-ctl">
+                <button class="btn small" id="btnSub" type="button" aria-pressed="true">双语字幕：开</button>
+                <button class="btn small" id="btnRec" type="button" aria-pressed="true">录音：开</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 面板3：时间轴 -->
+        <div class="dpanel" id="p-tl" role="tabpanel">
+          <p class="demo-note">拖动时间，看录音、照片、录像怎么对齐。</p>
+          <div class="tl-controls">
+            <button class="btn small primary" id="btnPlay" type="button">▶ 播放这一天</button>
+            <span class="tl-clock" id="tlClock">09:00</span>
+            <span style="font-size:13.5px;color:var(--ink3)">2026-10-21 · 展会第 1 天 · 共 6 次拜访记录（示例）</span>
+            <button class="btn small" id="btnReport" type="button" style="margin-left:auto">生成今日报告摘要</button>
+          </div>
+          <div class="tl-track" id="tlTrack">
+            <div class="tl-line"></div>
+            <div class="tl-fill" id="tlFill"></div>
+            <div class="tl-head" id="tlHead" style="left:0%"></div>
+          </div>
+          <input type="range" class="tl-range" id="tlRange" min="540" max="1020" value="540" step="1" aria-label="时间轴（9点到17点）" />
+          <div class="tl-detail">
+            <div class="tl-col">
+              <h4><span class="ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3"/></svg></span>录音 · 自动转写</h4>
+              <div id="tlAudio"></div>
+            </div>
+            <div class="tl-col">
+              <h4><span class="ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span>手机照片 · 按时间戳对齐</h4>
+              <div id="tlPhoto"></div>
+            </div>
+            <div class="tl-col">
+              <h4><span class="ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg></span>眼镜录像 · 第一视角</h4>
+              <div id="tlVideo"></div>
+            </div>
+          </div>
+          <div id="reportBox" style="display:none;margin-top:14px"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 录音双方案 ============ -->
+  <section id="record">
+    <div class="sec-head">
+      <div class="no">AUDIO</div>
+      <h2>两种录音</h2>
+      <p>肩带麦克风做主录音，眼镜麦克风做备份。</p>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">对比维度</th>
+            <th scope="col">眼镜麦克风</th>
+            <th scope="col">肩带麦克风</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">位置</th><td>离自己近，离对方远</td><td><b>耳旁，接近人耳</b></td></tr>
+          <tr><th scope="row">对方声音</th><td><span class="warn">一般</span>，展馆噪声容易盖住</td><td><span class="good">更清楚</span>，可加指向麦</td></tr>
+          <tr><th scope="row">续航</th><td><span class="warn">和眼镜抢电</span></td><td><span class="good">独立电池</span>，可录一整天</td></tr>
+          <tr><th scope="row">负担</th><td><span class="good">不用多带东西</span></td><td>多一个小盒子</td></tr>
+          <tr><th scope="row">没电时</th><td>导航和录音一起停</td><td><span class="good">另一路还在录</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="verdict"><b>两路都留。</b>肩带做主录音，眼镜做备份，展后取更清楚的一路。</div>
+  </section>
+
+  <!-- ============ 补充关键点 ============ -->
+  <section id="plus">
+    <div class="supplement">
+      <div class="sec-head">
+        <div class="no" style="color:var(--orange)">SUPPLEMENT</div>
+        <h2>还要补上的 7 件事</h2>
+      </div>
+      <div class="sup-grid">
+        <article class="sup-card">
+          <h3><span class="n">1</span>双语字幕</h3>
+          <p>谈的时候就要听懂。英文一行、中文一行，价格和交期高亮。</p>
+        </article>
+        <article class="sup-card">
+          <h3><span class="n">2</span>室内定位</h3>
+          <p>展馆里 GPS 基本没用。信标、认展位号、惯性推算三路一起定位。</p>
+        </article>
+        <article class="sup-card">
+          <h3><span class="n">3</span>拍了就归档</h3>
+          <p>名片和展品一拍，挂到当前这家展商和时间轴上。</p>
+        </article>
+        <article class="sup-card">
+          <h3><span class="n">4</span>纪要和跟进</h3>
+          <p>每家自动出纪要、意向评级，以及一封能发出去的英文邮件。</p>
+        </article>
+        <article class="sup-card">
+          <h3><span class="n">5</span>录音要合法</h3>
+          <p>有的州必须对方同意。开场给一句告知，镜腿可以马上停录。</p>
+        </article>
+        <article class="sup-card">
+          <h3><span class="n">6</span>戴得住一整天</h3>
+          <p>目标大约 45 克、续航 5–6 小时，近视用磁吸镜片，不用戴隐形。</p>
+        </article>
+        <article class="sup-card" style="grid-column:1/-1">
+          <h3><span class="n">7</span>一队人一起逛</h3>
+          <p>同一张地图上看谁去过哪家，避免两个人撞同一家、重点客户没人去。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 商业模式 ============ -->
+  <section id="biz">
+    <div class="sec-head">
+      <div class="no">BUSINESS MODEL</div>
+      <h2>三方都是客户</h2>
+    </div>
+    <div class="biz-grid">
+      <article class="card biz">
+        <div class="who">参展的人</div>
+        <h3>参展商 / 采购商</h3>
+        <ul>
+          <li><b>个人版</b> · 一场通行证</li>
+          <li><b>企业版</b> · 团队看板和 CRM</li>
+          <li><b>硬件</b> · 眼镜和肩麦，现场取还</li>
+        </ul>
+        <div class="price">示意：个人 <b>¥199–399 / 场</b>，企业 <b>¥3,000–8,000 / 团队·场</b>，租赁 <b>¥150–300 / 天</b></div>
+      </article>
+      <article class="card biz">
+        <div class="who">展馆</div>
+        <h3>定位和地图</h3>
+        <ul>
+          <li><b>信标和数字地图</b>，一次建设多年用</li>
+          <li><b>人流热力</b>，给运营看</li>
+          <li><b>入口租赁柜</b>，展馆分成</li>
+        </ul>
+        <div class="price">建设费 + 年费 + 租赁分成</div>
+      </article>
+      <article class="card biz">
+        <div class="who">主办方</div>
+        <h3>下一届更好招商</h3>
+        <ul>
+          <li><b>官方逛展服务</b>，写进参展手册</li>
+          <li><b>展商效果报告</b>，续展有数可讲</li>
+          <li><b>买卖对接</b>，双方自愿</li>
+        </ul>
+        <div class="price">按届授权，外加增值分成</div>
+      </article>
+    </div>
+    <div class="verdict" style="margin-top:16px">先卖单场给参展的人，有了几届数据，再谈主办方和展馆。</div>
+  </section>
+
+  <!-- ============ MVP 路线图 ============ -->
+  <section id="mvp" style="padding-bottom:30px">
+    <div class="sec-head">
+      <div class="no">ROADMAP</div>
+      <h2>先跑通一天，再做平台</h2>
+    </div>
+    <div class="roadmap">
+      <div class="rm-step">
+        <div class="when">阶段 0 · 0–2 个月</div>
+        <h3>纸面验证版</h3>
+        <ul>
+          <li>2D 地图导入 + 标记 + 路线规划（手机端先行）</li>
+          <li>肩带麦克风录音 + 转写 + 时间轴复盘</li>
+          <li>找 3–5 位真实参展业务员陪跑一届展会</li>
+        </ul>
+        <div class="goal">验证指标：单日有效拜访数提升 ≥ 30%</div>
+      </div>
+      <div class="rm-step">
+        <div class="when">阶段 1 · 3–5 个月</div>
+        <h3>MVP · 眼镜端上线</h3>
+        <ul>
+          <li>适配 1–2 款现成 AR 眼镜，HUD 导航 + 展商卡片</li>
+          <li>实时双语字幕、名片 OCR 归档</li>
+          <li>AI 纪要 + 意向评级 + Excel 导出</li>
+        </ul>
+        <div class="goal">验证指标：付费转化 ≥ 10%，NPS ≥ 40</div>
+      </div>
+      <div class="rm-step">
+        <div class="when">阶段 2 · 6–9 个月</div>
+        <h3>团队与合规版</h3>
+        <ul>
+          <li>团队协作、覆盖看板、防撞单</li>
+          <li>按州切换的录音合规模式全量上线</li>
+          <li>CRM 对接（主流外贸 CRM 优先）</li>
+        </ul>
+        <div class="goal">验证指标：签下 ≥ 20 家企业团队客户</div>
+      </div>
+      <div class="rm-step">
+        <div class="when">阶段 3 · 10–15 个月</div>
+        <h3>B 端合作版</h3>
+        <ul>
+          <li>与 1 家主办方做官方合作试点</li>
+          <li>与 1 个展馆落地信标 + 数字地图基建</li>
+          <li>展商效果报告成为续展工具</li>
+        </ul>
+        <div class="goal">验证指标：B 端收入占比 ≥ 30%</div>
+      </div>
+    </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>概念演示。展商、价格和指标都是例子，不是实测。</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+"use strict";
+/* ================= 数据（示例） ================= */
+var BOOTHS = {
+ 1:[
+  {id:"A101",name:"BrightHome Lighting",x:60,y:60,w:150,h:80,prio:"S",cat:"智能照明 · 渠道商",contact:"Sarah Miller · 采购总监",email:"s.miller@example.com",phone:"+1 702-555-0114",bg:"北美智能家居渠道商，年营收约 $2.4 亿，自有品牌 + 代工双线，正在扩充灯具品类。",note:"出发前已邮件联系过两轮，对方明确说想看新款磁吸轨道灯，记得带样品和报价单。",dist:"入口直行 80 m"},
+  {id:"A118",name:"CasaMart Retail Group",x:250,y:60,w:150,h:80,prio:"A",cat:"家居零售连锁",contact:"Diego Fuentes · 品类经理",email:"d.fuentes@example.com",phone:"+1 702-555-0137",bg:"墨西哥及美国南部 120+ 门店的家居连锁，灯具为其增长最快的品类之一。",note:"去年通过阿里国际站询过盘未成交，这次重点谈 MOQ 和交期。",dist:"A101 向右 35 m"},
+  {id:"B204",name:"NordWatt GmbH",x:440,y:60,w:150,h:80,prio:"A",cat:"欧洲分销商",contact:"Anna Becker · 供应链负责人",email:"a.becker@example.com",phone:"+49 30 555 0192",bg:"德国分销商，覆盖 DACH 区域 DIY 渠道，对 CE / ERP 能效认证要求严格。",note:"先确认我方 ERP 证书版本，再谈独家代理区域。",dist:"主通道向北 60 m"},
+  {id:"B231",name:"SunHarbor Trading",x:60,y:200,w:150,h:80,prio:"B",cat:"贸易公司",contact:"Ken Watanabe · 社长",email:"ken@example.com",phone:"+81 3-5550-0118",bg:"日本贸易商，专做家居品类进口，订单小但稳定，回款口碑好。",note:"顺访即可，重点留新品目录和名片。",dist:"南侧通道 45 m"},
+  {id:"C310",name:"VoltEdge Inc.",x:250,y:200,w:150,h:80,prio:"S",cat:"智能家居品牌商",contact:"Mike Chen · 产品副总裁",email:"m.chen@example.com",phone:"+1 415-555-0163",bg:"硅谷智能家居品牌，上一轮融资后正在建自有供应链，潜在 OEM 大单。",note:"本届头号目标。对方对智能调光模组感兴趣，演示机务必充满电。",dist:"中央大厅核心区"},
+  {id:"C326",name:"Lumière Design Studio",x:440,y:200,w:150,h:80,prio:"B",cat:"设计师渠道",contact:"Claire Dubois · 创始人",email:"claire@example.com",phone:"+33 1 55 55 0142",bg:"巴黎灯光设计工作室，做高端酒店项目，单量不大但能带来品牌背书。",note:"带酒店项目案例册，谈工程定制能力。",dist:"C310 向东 40 m"}
+ ],
+ 2:[
+  {id:"D412",name:"Pacific Build Supply",x:60,y:60,w:150,h:80,prio:"A",cat:"建材渠道商",contact:"Tom Alvarez · 采购经理",email:"t.alvarez@example.com",phone:"+1 702-555-0171",bg:"美国西海岸建材连锁，工程灯具toB订单占比高。",note:"重点问工程项目的账期惯例。",dist:"2F 电梯口左转 30 m"},
+  {id:"D420",name:"HotelPro Group",x:250,y:60,w:150,h:80,prio:"S",cat:"酒店集团采购",contact:"Emily Zhang · 采购总监",email:"e.zhang@example.com",phone:"+1 212-555-0148",bg:"管理 40+ 家中端酒店，客房灯具进入两年一换的更新周期。",note:"华人采购总监，可中文沟通；带客房灯样品。",dist:"北馆主通道中段"},
+  {id:"E505",name:"SmartNest Labs",x:440,y:60,w:150,h:80,prio:"B",cat:"智能家居初创",contact:"Raj Patel · CEO",email:"raj@example.com",phone:"+1 650-555-0129",bg:"初创公司做 Matter 协议网关，找灯具联动合作伙伴。",note:"谈生态合作，不急于订单。",dist:"北馆东侧"},
+  {id:"E517",name:"GreenGrid Energy",x:60,y:200,w:150,h:80,prio:"A",cat:"能源方案商",contact:"Julia Novak · 商务拓展",email:"j.novak@example.com",phone:"+420 2 5555 0176",bg:"中东欧能源方案商，政府节能改造项目需要大量合规灯具。",note:"确认能效文件清单，约展后视频会。",dist:"2F 南侧"},
+  {id:"F602",name:"Atlas Procurement",x:250,y:200,w:150,h:80,prio:"B",cat:"政府采购代理",contact:"David Osei · 顾问",email:"d.osei@example.com",phone:"+1 202-555-0155",bg:"代理市政照明采购，流程长但单量大、付款稳。",note:"了解招标时间表即可，不宜久留。",dist:"会议区旁"},
+  {id:"F618",name:"CasaNova Living",x:440,y:200,w:150,h:80,prio:"A",cat:"南美零售商",contact:"Lucía Gómez · 买手",email:"l.gomez@example.com",phone:"+52 55 5555 0133",bg:"拉美家居零售新锐，线上渠道增长快，首次来美国参展找供应商。",note:"西语区客户，翻译字幕会派上用场；谈海运到曼萨尼约港的交期。",dist:"北馆最东端"}
+ ]
+};
+var FLOOR_LABEL={1:"1F · 中央大厅",2:"2F · 北馆"};
+var visited={}; BOOTHS[1].concat(BOOTHS[2]).forEach(function(b){visited[b.id]=false;});
+visited["A101"]=true; visited["C310"]=true;
+var curFloor=1, curBooth=BOOTHS[1][0], routeOn=false;
+
+var $=function(s){return document.querySelector(s)};
+var svgNS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent){var n=document.createElementNS(svgNS,tag);for(var k in attrs)n.setAttribute(k,attrs[k]);if(parent)parent.appendChild(n);return n;}
+function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("on");clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove("on")},2600);}
+
+/* ================= 面板切换 ================= */
+document.querySelectorAll(".dtab").forEach(function(tab){
+  tab.addEventListener("click",function(){
+    document.querySelectorAll(".dtab").forEach(function(x){x.setAttribute("aria-selected","false")});
+    tab.setAttribute("aria-selected","true");
+    document.querySelectorAll(".dpanel").forEach(function(p){p.classList.remove("on")});
+    document.getElementById(tab.getAttribute("data-panel")).classList.add("on");
+  });
+});
+
+/* ================= 地图 ================= */
+var svg=$("#floorSvg");
+function boothCenter(b){return [b.x+b.w/2,b.y+b.h/2];}
+function renderMap(){
+  svg.innerHTML="";
+  /* 通道与入口 */
+  el("rect",{x:0,y:0,width:800,height:500,fill:"var(--surface2)",rx:10},svg);
+  el("rect",{x:40,y:160,width:720,height:26,fill:"var(--gray-soft)",rx:6},svg);
+  el("rect",{x:382,y:40,width:26,height:380,fill:"var(--gray-soft)",rx:6},svg);
+  var ent=el("g",{},svg);
+  el("rect",{x:330,y:436,width:140,height:40,rx:8,fill:"var(--teal)"},ent);
+  var et=el("text",{x:400,y:461,"text-anchor":"middle",fill:"#fff","font-size":15,"font-weight":700},ent);
+  et.textContent = curFloor===1 ? "主入口 ENTRANCE" : "扶梯 / 电梯";
+  var fl=el("text",{x:770,y:482,"text-anchor":"end",fill:"var(--ink3)","font-size":13,"font-family":"var(--mono)"},svg);
+  fl.textContent=FLOOR_LABEL[curFloor]+" · 示例图";
+  /* 路线 */
+  if(routeOn){
+    var list=BOOTHS[curFloor].filter(function(b){return !visited[b.id];});
+    list.sort(function(a,b){var r={S:0,A:1,B:2};return r[a.prio]-r[b.prio];});
+    var pts=[[400,436]].concat(list.map(boothCenter));
+    var path="M"+pts.map(function(p){return p[0]+" "+p[1];}).join(" L ");
+    el("path",{d:path,fill:"none",stroke:"var(--orange)","stroke-width":3.5,"stroke-dasharray":"9 6","stroke-linecap":"round"},svg);
+    list.forEach(function(b,i){
+      var c=boothCenter(b);
+      el("circle",{cx:c[0],cy:c[1]-b.h/2-2,r:11,fill:"var(--orange)"},svg);
+      var t=el("text",{x:c[0],y:c[1]-b.h/2+2,"text-anchor":"middle",fill:"#fff","font-size":12,"font-weight":700,"font-family":"var(--mono)"},svg);
+      t.textContent=String(i+1);
+    });
+  }
+  /* 展位 */
+  BOOTHS[curFloor].forEach(function(b){
+    var g=el("g",{class:"booth"+(curBooth&&curBooth.id===b.id?" sel":""),tabindex:0,role:"button","aria-label":"展位 "+b.id+" "+b.name},svg);
+    var fill = visited[b.id] ? "var(--green-soft)" : "var(--surface)";
+    var stroke = visited[b.id] ? "var(--green)" : null;
+    var r=el("rect",{x:b.x,y:b.y,width:b.w,height:b.h,rx:9,fill:fill},g);
+    if(stroke) r.setAttribute("stroke",stroke);
+    var t1=el("text",{x:b.x+b.w/2,y:b.y+30,"text-anchor":"middle","font-size":13,"font-weight":700,fill:"var(--teal)","font-family":"var(--mono)"},g);
+    t1.textContent=b.id+(visited[b.id]?" ✓ 已访":"");
+    var t2=el("text",{x:b.x+b.w/2,y:b.y+52,"text-anchor":"middle","font-size":12.5,fill:"var(--ink2)"},g);
+    t2.textContent=b.name.length>17?b.name.slice(0,16)+"…":b.name;
+    var t3=el("text",{x:b.x+b.w/2,y:b.y+70,"text-anchor":"middle","font-size":11,fill:"var(--ink3)"},g);
+    t3.textContent="优先级 "+b.prio+" · "+b.cat.split(" ")[0];
+    function pick(){selectBooth(b);}
+    g.addEventListener("click",pick);
+    g.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();pick();}});
+  });
+  updateProgress();
+}
+function updateProgress(){
+  var all=BOOTHS[1].concat(BOOTHS[2]);
+  var done=all.filter(function(b){return visited[b.id];}).length;
+  $("#progText").textContent=done+" / "+all.length+" 家";
+  $("#progBar").style.width=(done/all.length*100)+"%";
+}
+function selectBooth(b){
+  curBooth=b; renderPanel(); renderMapLight();
+}
+function renderMapLight(){ /* 只更新选中描边，避免重绘丢失路线动画感 */
+  renderMap();
+}
+function renderPanel(){
+  var b=curBooth, p=$("#boothPanel");
+  if(!b){p.innerHTML="<h3>点选一个展位</h3><p style='color:var(--ink2);font-size:14px'>左侧地图上每个方块是一家目标展商。绿色 = 已拜访，白色 = 未拜访。</p>";return;}
+  p.innerHTML=
+   "<div class='booth-no'>BOOTH "+b.id+" · "+FLOOR_LABEL[curFloor]+"</div>"+
+   "<h3>"+b.name+"</h3>"+
+   "<dl>"+
+   "<div><dt>类别</dt><dd>"+b.cat+"<span class='prio "+b.prio.toLowerCase()+"' style='margin-left:8px'>优先级 "+b.prio+"</span></dd></div>"+
+   "<div><dt>联系人</dt><dd><b>"+b.contact+"</b></dd></div>"+
+   "<div><dt>联系方式</dt><dd>"+b.email+"<br>"+b.phone+"</dd></div>"+
+   "<div><dt>公司背景</dt><dd>"+b.bg+"</dd></div>"+
+   "<div><dt>我的备注</dt><dd>"+b.note+"</dd></div>"+
+   "<div><dt>位置</dt><dd>"+b.dist+"</dd></div>"+
+   "</dl>"+
+   "<div class='side-actions'>"+
+   "<button class='btn small "+(visited[b.id]?"":"primary")+"' id='btnVisit' type='button'>"+(visited[b.id]?"↩ 取消已访标记":"✓ 标记为已拜访")+"</button>"+
+   "<button class='btn small' id='btnHudGo' type='button'>在眼镜视角中查看 →</button>"+
+   "</div>"+
+   "<p style='font-size:12.5px;color:var(--ink3);margin:10px 0 0'>展商信息为演示用示例数据。真实使用时由展前调研录入或从主办方展商库导入。</p>";
+  $("#btnVisit").addEventListener("click",function(){
+    visited[b.id]=!visited[b.id];
+    if(routeOn) routeOn=false, $("#routeInfo").classList.remove("on");
+    renderMap(); renderPanel();
+    toast(visited[b.id] ? "已标记 "+b.name+" 为已拜访，地图变绿" : "已取消 "+b.name+" 的拜访标记");
+  });
+  $("#btnHudGo").addEventListener("click",function(){
+    document.querySelector('[data-panel="p-hud"]').click();
+    arriveAt(b);
+  });
+}
+document.querySelectorAll(".fbtn").forEach(function(btn){
+  btn.addEventListener("click",function(){
+    document.querySelectorAll(".fbtn").forEach(function(x){x.setAttribute("aria-pressed","false")});
+    btn.setAttribute("aria-pressed","true");
+    curFloor=parseInt(btn.getAttribute("data-floor"),10);
+    curBooth=BOOTHS[curFloor][0];
+    renderMap(); renderPanel();
+  });
+});
+$("#btnRoute").addEventListener("click",function(){
+  routeOn=true; renderMap();
+  var list=BOOTHS[curFloor].filter(function(b){return !visited[b.id];});
+  list.sort(function(a,b){var r={S:0,A:1,B:2};return r[a.prio]-r[b.prio];});
+  var info=$("#routeInfo");
+  if(!list.length){info.innerHTML="本层目标已全部拜访完 🎉 可以去下一层或提前复盘。";}
+  else{
+    var steps=list.map(function(b,i){return (i+1)+". <b>"+b.id+" "+b.name+"</b>（"+b.prio+" 级）";}).join(" → ");
+    info.innerHTML="已按 <b>优先级 + 就近原则</b> 排出本层剩余 "+list.length+" 家的顺序："+steps+"<br>预计步行约 <b>"+(list.length*6+8)+" 分钟</b>，比逐个查找省约 35% 路程（示意估算）。跨楼层时会自动接续下一层路线。";
+  }
+  info.classList.add("on");
+});
+$("#btnReset").addEventListener("click",function(){
+  Object.keys(visited).forEach(function(k){visited[k]=false;});
+  visited["A101"]=true; visited["C310"]=true;
+  routeOn=false; $("#routeInfo").classList.remove("on");
+  renderMap(); renderPanel(); toast("已重置为演示初始状态（2 家已访）");
+});
+renderMap(); renderPanel();
+
+/* ================= HUD ================= */
+var HUD_BOOTH_IDS=["C310","A101","D420","F618"];
+var hudCur=null, subOn=true, recOn=true, subTimer=null, subIdx=0;
+var SUBLINES={
+ "C310":[
+   {who:"MIKE CHEN · 对方",en:"Our retail partners keep asking for tunable white — can your driver dim smoothly down to 1%?",zh:"我们的零售伙伴一直要求可调色温——你们的驱动能平滑调光到 1% 吗？"},
+   {who:"我",en:"Yes, 0–100% flicker-free, and it works with Matter over Thread.",zh:"可以，0–100% 无频闪，而且支持 Matter over Thread。"},
+   {who:"MIKE CHEN · 对方",en:"If the MOQ is 3,000 units, what price are we looking at?",zh:"如果起订量是 3,000 台，价格大概是多少？"},
+   {who:"系统提示",en:"★ 关键数字已标记：MOQ 3,000 · 调光 1% · 已同步到本条录音纪要",zh:"★ 关键数字已标记：MOQ 3,000 · 调光 1% · 已同步到本条录音纪要"}
+ ],
+ "A101":[
+   {who:"SARAH MILLER · 对方",en:"We saw your magnetic track light in the email — do you have the sample here?",zh:"我们在邮件里看到你们的磁吸轨道灯——现场有样品吗？"},
+   {who:"我",en:"Right here. It snaps on and you can slide it anywhere on the track.",zh:"就在这里。吸上去就能沿轨道任意滑动。"},
+   {who:"SARAH MILLER · 对方",en:"Love it. Send me the tier pricing for 5k and 10k units this week.",zh:"很喜欢。这周把 5 千和 1 万台的阶梯价发我。"}
+ ],
+ "D420":[
+   {who:"EMILY ZHANG · 对方",en:"我们 40 多家酒店两年内要换一轮客房灯，你们能做定制色温吗？",zh:"（对方使用中文）我们 40 多家酒店两年内要换一轮客房灯，你们能做定制色温吗？"},
+   {who:"我",en:"可以，2700K–4000K 可调，出厂前按房间类型预设好。",zh:"可以，2700K–4000K 可调，出厂前按房间类型预设好。"}
+ ],
+ "F618":[
+   {who:"LUCÍA GÓMEZ · 对方",en:"Shipping to Manzanillo — is 35 days realistic for a 40-foot container?",zh:"海运到曼萨尼约港——40 尺柜 35 天现实吗？"},
+   {who:"我",en:"Yes, we ship from Shenzhen weekly. I'll confirm the schedule by email.",zh:"可以，我们每周从深圳出货，我邮件里确认船期。"}
+ ]
+};
+function findBooth(id){var r=null;BOOTHS[1].concat(BOOTHS[2]).forEach(function(b){if(b.id===id)r=b;});return r;}
+var arriveList=$("#arriveList");
+HUD_BOOTH_IDS.forEach(function(id){
+  var b=findBooth(id);
+  var btn=document.createElement("button");
+  btn.type="button"; btn.setAttribute("aria-pressed","false");
+  btn.innerHTML="<b>BOOTH "+b.id+"</b>"+b.name+" · "+b.cat;
+  btn.addEventListener("click",function(){arriveAt(b);});
+  btn.setAttribute("data-bid",id);
+  arriveList.appendChild(btn);
+});
+function arriveAt(b,silent){
+  hudCur=b; subIdx=0;
+  arriveList.querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed",x.getAttribute("data-bid")===b.id?"true":"false");});
+  $("#hudDist").textContent="已到达 · 0 m";
+  $("#hudDir").textContent="正前方即是 "+b.id+" 展位 · 档案卡已弹出";
+  $("#hudCard").innerHTML=
+    "<div class='bno'>BOOTH "+b.id+" · "+b.cat.toUpperCase()+"</div>"+
+    "<h4>"+b.name+"</h4>"+
+    "<p>"+b.bg+"</p>"+
+    "<p style='margin-top:6px'><b style='color:#7deddd'>联系人：</b>"+b.contact+"<br><b style='color:#7deddd'>我的备注：</b>"+b.note+"</p>"+
+    "<div class='tags'><span>优先级 "+b.prio+"</span><span>"+(visited[b.id]?"✓ 已拜访":"未拜访")+"</span><span>开口建议：先提上次邮件/询盘</span></div>";
+  startSubs();
+  if(!silent) toast("已模拟到达 "+b.id+" "+b.name+"，档案卡已弹出");
+}
+function renderSub(){
+  var box=$("#hudSub");
+  if(!hudCur){box.innerHTML="<div class='who'>字幕待机</div><div class='en'>—</div>";return;}
+  if(!subOn){box.innerHTML="<div class='who'>字幕已关闭</div><div class='en' style='color:#5f8f86'>（点击右侧「双语字幕」重新开启）</div>";return;}
+  var lines=SUBLINES[hudCur.id]||SUBLINES["C310"];
+  var L=lines[subIdx%lines.length];
+  box.innerHTML="<div class='who'>"+(recOn?"● REC · ":"")+"实时转写 + 翻译 · "+L.who+"</div><div class='en'>"+L.en+"</div><div class='zh'>"+L.zh+"</div>";
+}
+function startSubs(){
+  renderSub();
+  if(subTimer) clearInterval(subTimer);
+  subTimer=setInterval(function(){
+    var sec=41*60+ (subIdx*7)%50; subIdx++;
+    renderSub();
+  },3600);
+}
+$("#btnSub").addEventListener("click",function(){
+  subOn=!subOn; this.setAttribute("aria-pressed",String(subOn));
+  this.textContent="双语字幕："+(subOn?"开":"关"); renderSub();
+});
+$("#btnRec").addEventListener("click",function(){
+  recOn=!recOn; this.setAttribute("aria-pressed",String(recOn));
+  this.textContent="录音："+(recOn?"开":"关");
+  $("#hudRec").style.opacity=recOn?"1":".35";
+  $("#hudRec").lastChild.textContent=recOn?"REC 录音中":"REC 已暂停";
+  renderSub();
+  toast(recOn?"录音已恢复":"录音已暂停（合规一键暂停）");
+});
+arriveAt(findBooth("C310"),true);
+
+/* ================= 时间轴 ================= */
+var TL_START=540, TL_END=1020;
+var EVENTS=[
+ {t:565,id:"A101",booth:"BrightHome Lighting",dur:"09:25–09:52 · 27 分钟",
+  audio:"「…轨道灯这周把 5k / 10k 的阶梯价发我。」对方明确索要报价；我方承诺周五前发送，并附 UL 证书。",
+  photo:{label:"磁吸轨道灯样品特写",color:"#0b766e",meta:"手机拍摄 · 09:31 · 已自动归档到 A101 展商名下，OCR 识别出型号 ML-T20"},
+  video:{label:"样品吸合演示第一视角",dur:"01:24",meta:"眼镜录像 · 09:33 · 已按时间戳对齐到录音 08:12 处"}},
+ {t:640,id:"C310",booth:"VoltEdge Inc.",dur:"10:40–11:25 · 45 分钟",
+  audio:"「MOQ 3,000 台是什么价？」对方关注 1% 平滑调光与 Matter 兼容；约定展后寄 20 台样品走空运。",
+  photo:{label:"展位合影 + 产品墙",color:"#b45309",meta:"手机拍摄 · 11:02 · 名片 OCR 已生成联系人：Mike Chen，产品副总裁"},
+  video:{label:"调光演示全过程",dur:"03:10",meta:"眼镜录像 · 10:58 · 关键片段已自动打标「报价环节」"}},
+ {t:735,id:"B204",booth:"NordWatt GmbH",dur:"12:15–12:40 · 25 分钟",
+  audio:"对方逐项核对 ERP 能效证书版本，提出 DACH 区域独家代理意向，需我方先提供近三年对欧出货数据。",
+  photo:{label:"对方产品目录封面",color:"#475569",meta:"手机拍摄 · 12:22 · 已归档到 B204"},
+  video:null},
+ {t:830,id:"D420",booth:"HotelPro Group",dur:"13:50–14:20 · 30 分钟",
+  audio:"中文沟通：40+ 家酒店客房灯两年内更新，可做 2700K–4000K 定制色温；对方请我方两周内出改造测算表。",
+  photo:{label:"客房灯样品 + 名片正反面",color:"#7c3aed",meta:"手机拍摄 · 14:05 · 名片 OCR 已生成联系人：Emily Zhang，采购总监"},
+  video:{label:"展位洽谈区全景",dur:"00:48",meta:"眼镜录像 · 13:52"}},
+ {t:915,id:"E505",booth:"SmartNest Labs",dur:"15:15–15:35 · 20 分钟",
+  audio:"Matter 网关联动合作意向，对方希望 Q1 做一轮兼容性联调；非订单型拜访，纪要标记为「生态合作」。",
+  photo:null,
+  video:{label:"联调设想白板",dur:"01:02",meta:"眼镜录像 · 15:26 · 白板文字已 OCR 成文本附在纪要里"}},
+ {t:985,id:"F618",booth:"CasaNova Living",dur:"16:25–16:50 · 25 分钟",
+  audio:"海运到曼萨尼约港 40 尺柜 35 天交期已确认；对方首单意向约 2 个柜，付款方式待总部确认后邮件回复。",
+  photo:{label:"对方门店照片（对方出示）",color:"#be185d",meta:"手机翻拍 · 16:40 · 已归档到 F618"},
+  video:null}
+];
+var track=$("#tlTrack");
+EVENTS.forEach(function(ev,i){
+  var pct=(ev.t-TL_START)/(TL_END-TL_START)*100;
+  var btn=document.createElement("button");
+  btn.className="tl-ev"; btn.style.left=pct+"%"; btn.type="button";
+  btn.setAttribute("aria-label",fmt(ev.t)+" "+ev.booth);
+  btn.innerHTML="<span class='tm'>"+fmt(ev.t)+"</span><span class='dot' style='background:"+(i%2?"var(--orange)":"var(--teal)")+"'></span><span class='lb'>"+ev.id+" "+ev.booth.split(" ")[0]+"</span>";
+  btn.addEventListener("click",function(){setTime(ev.t,true);});
+  track.appendChild(btn);
+});
+function fmt(m){var h=Math.floor(m/60),mm=m%60;return (h<10?"0":"")+h+":"+(mm<10?"0":"")+mm;}
+function nearestEvent(m){
+  var best=null,bd=1e9;
+  EVENTS.forEach(function(ev){var d=Math.abs(ev.t-m);if(d<bd){bd=d;best=ev;}});
+  return bd<=40?best:null;
+}
+function waveHTML(seed){
+  var bars="",h;
+  for(var i=0;i<36;i++){h=6+Math.abs(Math.sin(seed*3+i*1.7))*26;bars+="<i style='height:"+h.toFixed(0)+"px'></i>";}
+  return "<div class='wave' aria-hidden='true'>"+bars+"</div>";
+}
+function setTime(m,snap){
+  if(snap){$("#tlRange").value=m;}
+  var pct=(m-TL_START)/(TL_END-TL_START)*100;
+  $("#tlHead").style.left=pct+"%";
+  $("#tlFill").style.width=pct+"%";
+  $("#tlClock").textContent=fmt(m);
+  document.querySelectorAll(".tl-ev").forEach(function(n,i){
+    n.classList.toggle("active",EVENTS[i]&&Math.abs(EVENTS[i].t-m)<=40&&nearestEvent(m)===EVENTS[i]);
+  });
+  var ev=nearestEvent(m);
+  var A=$("#tlAudio"),P=$("#tlPhoto"),V=$("#tlVideo");
+  if(!ev){
+    A.innerHTML="<p class='empty'>此时段在展位间移动中，仅有环境底噪录音（已自动降噪归档），无拜访转写。</p>";
+    P.innerHTML="<p class='empty'>此时段无照片。移动途中拍的照片也会按时间戳自动落到这里。</p>";
+    V.innerHTML="<p class='empty'>此时段无录像片段。</p>";
+    return;
+  }
+  A.innerHTML=waveHTML(ev.t)+"<p><b style='color:var(--ink)'>"+ev.id+" · "+ev.booth+"</b>（"+ev.dur+"）<br>"+ev.audio+"</p>";
+  P.innerHTML= ev.photo
+    ? "<div class='photo-thumb' style='background:linear-gradient(135deg,"+ev.photo.color+","+ev.photo.color+"cc)'><span><svg width='26' height='26' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' style='margin:0 auto 4px'><path d='M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z'/><circle cx='12' cy='13' r='4'/></svg>"+ev.photo.label+"</span></div><p>"+ev.photo.meta+"</p>"
+    : "<p class='empty'>这次拜访没有拍照。录音和纪要仍然完整——这正是多轴对齐的价值：缺哪一路都不影响复盘。</p>";
+  V.innerHTML= ev.video
+    ? "<div class='video-thumb'><span class='play'>▶</span><span class='dur'>"+ev.video.dur+"</span></div><p><b style='color:var(--ink)'>"+ev.video.label+"</b><br>"+ev.video.meta+"</p>"
+    : "<p class='empty'>这次拜访未开启录像（仅录音）。眼镜录像更耗电，系统默认只在检测到演示动作时自动开启。</p>";
+}
+var playing=false, playTimer=null;
+$("#btnPlay").addEventListener("click",function(){
+  var btn=this;
+  if(playing){
+    playing=false; clearInterval(playTimer); btn.textContent="▶ 播放这一天"; return;
+  }
+  playing=true; btn.textContent="⏸ 暂停";
+  var m=parseInt($("#tlRange").value,10);
+  if(m>=TL_END-2) m=TL_START;
+  playTimer=setInterval(function(){
+    m+=3;
+    if(m>=TL_END){m=TL_END;playing=false;clearInterval(playTimer);btn.textContent="▶ 播放这一天";}
+    $("#tlRange").value=m; setTime(m,false);
+  },60);
+});
+$("#tlRange").addEventListener("input",function(){setTime(parseInt(this.value,10),false);});
+$("#btnReport").addEventListener("click",function(){
+  var box=$("#reportBox");
+  box.style.display="block";
+  box.innerHTML="<div class='card' style='padding:20px'>"+
+   "<h3 style='font-size:17px;margin-bottom:8px'>今日报告摘要（AI 生成示例）</h3>"+
+   "<p style='font-size:14.5px;color:var(--ink2);margin:0 0 10px'>全天完成 <b style='color:var(--ink)'>6 次拜访</b>，总洽谈 2 小时 52 分。意向评级：<b style='color:var(--red)'>A 强意向 2 家</b>（VoltEdge 索样 20 台、CasaNova 首单约 2 柜）、<b style='color:var(--amber)'>B 跟进 3 家</b>、C 储备 1 家。</p>"+
+   "<p style='font-size:14.5px;color:var(--ink2);margin:0 0 10px'><b style='color:var(--ink)'>待办（已同步生成英文跟进邮件草稿）：</b>① 周五前给 BrightHome 发阶梯价 + UL 证书；② 给 VoltEdge 寄样并确认空运单号；③ 两周内给 HotelPro 出客房灯改造测算表；④ 向 NordWatt 提供近三年对欧出货数据。</p>"+
+   "<p style='font-size:13.5px;color:var(--ink3);margin:0'>完整版可导出为 Word 报告 / Excel 客户清单 / 导入 CRM——在本演示中为示意文本。</p></div>";
+  box.scrollIntoView({behavior:"smooth",block:"nearest"});
+  toast("已生成今日报告摘要（示例）");
+});
+setTime(640,false);
+})();
+</script>
+</body>
+</html>
