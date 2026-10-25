@@ -59,6 +59,13 @@ async function sendFeedback(body: {
   return response.ok;
 }
 
+function publicOrigin(request: Request) {
+  const url = new URL(request.url);
+  const host = request.headers.get("x-forwarded-host") || request.headers.get("host") || url.host;
+  const proto = (request.headers.get("x-forwarded-proto") || url.protocol.replace(":", "")).split(",")[0].trim();
+  return `${proto}://${host}`;
+}
+
 function backTo(request: Request, flag: "sent" | "short" | "mail" | "send" | "rate") {
   const back = new URL("/medregdata", request.url);
   back.hash = "ask";
@@ -70,7 +77,7 @@ function backTo(request: Request, flag: "sent" | "short" | "mail" | "send" | "ra
 export function GET(request: Request) {
   const url = new URL(request.url);
   const notice = url.searchParams.get("sent") ? "sent" : (url.searchParams.get("e") ?? "");
-  return new NextResponse(renderResume(notice), {
+  return new NextResponse(renderResume(notice, publicOrigin(request)), {
     headers: {
       "Content-Type": "text/html; charset=utf-8",
       "Cache-Control": "no-store",
@@ -106,7 +113,7 @@ export async function POST(request: Request) {
       email: email || "admin@medregdata.com",
       category: "feature",
       message: `${contacts.join("\n")}\n\n${note}`,
-      page_url: "https://naokeyoubao.com/medregdata",
+      page_url: `${publicOrigin(request)}/medregdata`,
     });
     if (!sent) return backTo(request, "send");
   } catch {

@@ -23,7 +23,7 @@ const DATABASES: [string, string, string, string][] = [
   ["马来西亚", "MDA", "49,917", "公共登记中的有效注册"],
 ];
 
-export function renderResume(notice = "") {
+export function renderResume(notice = "", origin = "https://naokeyoubao.com") {
   const askNote =
     notice === "sent"
       ? `<p class="alert" role="status">已收到。接下来的需求，我们会看到。</p>`
@@ -58,11 +58,11 @@ export function renderResume(notice = "") {
 <meta property="og:type" content="website">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:site_name" content="脑壳有包">
-<meta property="og:url" content="https://naokeyoubao.com/medregdata">
+<meta property="og:url" content="${origin}/medregdata">
 <meta property="og:title" content="全球医械数据库 统一搜索入口">
 <meta property="og:description" content="medregdata.com · 作者 Marvin">
-<meta property="og:image" content="https://naokeyoubao.com/medregdata/share.png?v=1">
-<meta property="og:image:secure_url" content="https://naokeyoubao.com/medregdata/share.png?v=1">
+<meta property="og:image" content="${origin}/medregdata/share.png?v=1">
+<meta property="og:image:secure_url" content="${origin}/medregdata/share.png?v=1">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1080">
 <meta property="og:image:height" content="1080">
@@ -70,7 +70,7 @@ export function renderResume(notice = "") {
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="全球医械数据库 统一搜索入口">
 <meta name="twitter:description" content="medregdata.com · 作者 Marvin">
-<meta name="twitter:image" content="https://naokeyoubao.com/medregdata/share.png?v=1">
+<meta name="twitter:image" content="${origin}/medregdata/share.png?v=1">
 <link rel="icon" href="/icon.png?v=4" type="image/png" sizes="32x32">
 <link rel="icon" href="/favicon.ico?v=4" sizes="48x48">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=4">
@@ -430,7 +430,7 @@ button.btn {
           <div class="when">2026.09</div>
           <div>
             <h3>CE 证书 PDF</h3>
-            <p>提取并接入 CE 公开证书 PDF。</p>
+            <p>提取并在 CE 专库中接入 134,757 张 CE 证书 PDF。</p>
           </div>
         </article>
         <article class="row">
@@ -444,7 +444,7 @@ button.btn {
           <div class="when">2026.09</div>
           <div>
             <h3>记录查询 MCP</h3>
-            <p>将网站查询包装为标准化Skill，上线记录查询 MCP，可接入到 workbuddy、豆包、千问、Codex等，方便用自然语言查询。项目在 <a class="gh" href="https://github.com/marvinhny" target="_blank" rel="noreferrer" aria-label="GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.68 7.68 0 0 1 8 4.77c.68.003 1.36.092 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>，欢迎 Star。</p>
+            <p>将网站查询包装为标准化Skill，上线记录查询 MCP，可接入到 workbuddy、豆包、千问、Codex等，方便用自然语言查询。 <a class="gh" href="https://github.com/marvinhny" target="_blank" rel="noreferrer" aria-label="GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.68 7.68 0 0 1 8 4.77c.68.003 1.36.092 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a></p>
           </div>
         </article>
         <article class="row">

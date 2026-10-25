@@ -257,18 +257,6 @@ td b{color:var(--ink)}
 .biz .price{margin-top:14px;border-top:1px dashed var(--line);padding-top:12px;font-size:14px}
 .biz .price b{font-family:var(--mono);color:var(--ink)}
 
-/* 路线图 */
-.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
-.rm-step{padding:20px;border:1px solid var(--line);background:var(--surface);position:relative}
-.rm-step:first-child{border-radius:14px 0 0 14px}
-.rm-step:last-child{border-radius:0 14px 14px 0}
-.rm-step + .rm-step{border-left:none}
-.rm-step .when{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--orange)}
-.rm-step h3{font-size:16.5px;margin:5px 0 8px}
-.rm-step ul{margin:0;padding-left:17px;font-size:13.5px;color:var(--ink2)}
-.rm-step li{margin:4px 0}
-.rm-step .goal{margin-top:10px;font-size:13px;background:var(--teal-soft);color:var(--teal-ink);border-radius:8px;padding:7px 10px;font-weight:700}
-
 /* 页脚 */
 footer{border-top:1px solid var(--line);padding:34px 0 46px;color:var(--ink3);font-size:13.5px}
 footer .cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
@@ -296,20 +284,6 @@ footer p{margin:0}
 .kit-card ul{margin:0;padding-left:17px;font-size:14px;color:var(--ink2)}
 .kit-card li{margin:3px 0}
 .kit-card li b{color:var(--ink)}
-.spec-table{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--surface);box-shadow:var(--shadow);margin-top:14px}
-.spec-row{display:grid;grid-template-columns:170px 1fr 1fr;gap:0}
-.spec-row + .spec-row{border-top:1px solid var(--line)}
-.spec-row > div{padding:12px 16px;font-size:14px;color:var(--ink2)}
-.spec-row > div:first-child{font-weight:700;color:var(--ink);background:color-mix(in srgb,var(--surface2) 55%,transparent)}
-.spec-row.head > div{background:var(--surface2);font-weight:700;color:var(--ink);font-size:14.5px}
-.spec-row.head > div:first-child{background:var(--surface2)}
-.spec-note{font-size:13px;color:var(--ink3);margin-top:10px}
-.trade-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
-.trade{padding:20px}
-.trade .q{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--orange);letter-spacing:.06em}
-.trade h3{font-size:16px;margin:5px 0 8px}
-.trade p{font-size:14px;color:var(--ink2);margin:0}
-.trade p b{color:var(--ink)}
 
 /* ---------- 演示视频分镜 ---------- */
 .story-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:12px}
@@ -343,22 +317,15 @@ footer p{margin:0}
   .hero-grid{grid-template-columns:1fr}
   .hero-stats{grid-template-columns:repeat(2,1fr)}
   .phases,.biz-grid{grid-template-columns:1fr}
-  .hw-grid,.trade-grid{grid-template-columns:1fr}
+  .hw-grid{grid-template-columns:1fr}
   .kit-grid{grid-template-columns:1fr}
   .kit-card{grid-template-columns:1fr}
   .story-grid{grid-template-columns:1fr}
   .story .arr{right:auto;left:50%;top:auto;bottom:-13px;transform:translateX(-50%) rotate(90deg)}
-  .spec-row{grid-template-columns:104px 1fr 1fr}
-  .spec-row > div{padding:10px 11px;font-size:13px}
   .map-layout,.hud-layout{grid-template-columns:1fr}
   .side-panel{position:static}
   .sup-grid{grid-template-columns:1fr}
   .tl-detail{grid-template-columns:1fr}
-  .roadmap{grid-template-columns:1fr}
-  .rm-step{border-radius:0!important}
-  .rm-step:first-child{border-radius:14px 14px 0 0!important}
-  .rm-step:last-child{border-radius:0 0 14px 14px!important}
-  .rm-step + .rm-step{border-left:1px solid var(--line);border-top:none}
   footer .cols{grid-template-columns:1fr}
   .hud-view{flex-direction:column;align-items:stretch}
   .hud-card{max-width:none}
@@ -389,7 +356,6 @@ footer p{margin:0}
       <a href="#record">录音双方案</a>
       <a href="#plus">补充关键点</a>
       <a href="#biz">商业模式</a>
-      <a href="#mvp">MVP 路线图</a>
     </nav>
   </div>
 </header>
@@ -657,38 +623,6 @@ footer p{margin:0}
         </div>
       </article>
     </div>
-
-    <!-- 设计参数表 -->
-    <div class="spec-table" role="table" aria-label="设计参数表（设计目标，示例）">
-      <div class="spec-row head" role="row"><div>参数</div><div>眼镜本体</div><div>肩带录音模块 / 充电盒</div></div>
-      <div class="spec-row" role="row"><div>整机重量</div><div>约 45 g 级（不含近视内框）</div><div>录音模块约 28 g · 充电盒约 180 g</div></div>
-      <div class="spec-row" role="row"><div>显示</div><div>单目波导 · 小视场提示区（约 15°）· 单色绿 / 全彩二选一</div><div>—</div></div>
-      <div class="spec-row" role="row"><div>续航（导航+录音）</div><div>约 5–6 小时连续使用</div><div>录音模块约 20 小时 · 充电盒可为眼镜补电约 3 次</div></div>
-      <div class="spec-row" role="row"><div>充电</div><div>入盒触点快充：15 分钟约用 2 小时</div><div>盒体 USB-C，自身约 1.5 小时充满</div></div>
-      <div class="spec-row" role="row"><div>录音</div><div>多麦克风阵列 · 波束成形降噪</div><div>高灵敏麦克风 · 独立存储 · 双路时间戳对齐</div></div>
-      <div class="spec-row" role="row"><div>定位与连接</div><div>BLE / UWB 信标 + 视觉定位 + 惯性推算 · 蓝牙连手机</div><div>蓝牙与眼镜/手机同步</div></div>
-      <div class="spec-row" role="row"><div>近视适配</div><div>磁吸可拆近视内框（定制镜片）</div><div>内框可单独收纳于盒盖夹层</div></div>
-    </div>
-    <p class="spec-note">以上是设计目标，不是实测规格。</p>
-
-    <!-- 形态取舍 -->
-    <div class="trade-grid">
-      <article class="card trade">
-        <div class="q">取舍 1</div>
-        <h3>镜腿为什么略粗</h3>
-        <p>电池、芯片和扬声器都在镜腿里，所以不用外接线，也不用腰间挂主机。</p>
-      </article>
-      <article class="card trade">
-        <div class="q">取舍 2</div>
-        <h3>为什么只做小视场</h3>
-        <p>现场主要看真实展位。显示只给一个箭头、一张卡片、两行字幕。</p>
-      </article>
-      <article class="card trade">
-        <div class="q">取舍 3</div>
-        <h3>为什么录两路</h3>
-        <p>肩带麦克风更接近耳朵听到的声音，眼镜麦克风做备份。展后取更清楚的一路转写。</p>
-      </article>
-    </div>
   </section>
 
   <!-- ============ 演示视频 ============ -->
@@ -886,7 +820,7 @@ footer p{margin:0}
   <section id="biz">
     <div class="sec-head">
       <div class="no">BUSINESS MODEL</div>
-      <h2>三方都是客户</h2>
+      <h2>商业模式</h2>
     </div>
     <div class="biz-grid">
       <article class="card biz">
@@ -923,55 +857,6 @@ footer p{margin:0}
     <div class="verdict" style="margin-top:16px">先卖单场给参展的人，有了几届数据，再谈主办方和展馆。</div>
   </section>
 
-  <!-- ============ MVP 路线图 ============ -->
-  <section id="mvp" style="padding-bottom:30px">
-    <div class="sec-head">
-      <div class="no">ROADMAP</div>
-      <h2>先跑通一天，再做平台</h2>
-    </div>
-    <div class="roadmap">
-      <div class="rm-step">
-        <div class="when">阶段 0 · 0–2 个月</div>
-        <h3>纸面验证版</h3>
-        <ul>
-          <li>2D 地图导入 + 标记 + 路线规划（手机端先行）</li>
-          <li>肩带麦克风录音 + 转写 + 时间轴复盘</li>
-          <li>找 3–5 位真实参展业务员陪跑一届展会</li>
-        </ul>
-        <div class="goal">验证指标：单日有效拜访数提升 ≥ 30%</div>
-      </div>
-      <div class="rm-step">
-        <div class="when">阶段 1 · 3–5 个月</div>
-        <h3>MVP · 眼镜端上线</h3>
-        <ul>
-          <li>适配 1–2 款现成 AR 眼镜，HUD 导航 + 展商卡片</li>
-          <li>实时双语字幕、名片 OCR 归档</li>
-          <li>AI 纪要 + 意向评级 + Excel 导出</li>
-        </ul>
-        <div class="goal">验证指标：付费转化 ≥ 10%，NPS ≥ 40</div>
-      </div>
-      <div class="rm-step">
-        <div class="when">阶段 2 · 6–9 个月</div>
-        <h3>团队与合规版</h3>
-        <ul>
-          <li>团队协作、覆盖看板、防撞单</li>
-          <li>按州切换的录音合规模式全量上线</li>
-          <li>CRM 对接（主流外贸 CRM 优先）</li>
-        </ul>
-        <div class="goal">验证指标：签下 ≥ 20 家企业团队客户</div>
-      </div>
-      <div class="rm-step">
-        <div class="when">阶段 3 · 10–15 个月</div>
-        <h3>B 端合作版</h3>
-        <ul>
-          <li>与 1 家主办方做官方合作试点</li>
-          <li>与 1 个展馆落地信标 + 数字地图基建</li>
-          <li>展商效果报告成为续展工具</li>
-        </ul>
-        <div class="goal">验证指标：B 端收入占比 ≥ 30%</div>
-      </div>
-    </div>
-</section>
 </main>
 
 <footer>

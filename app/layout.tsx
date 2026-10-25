@@ -45,10 +45,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="zh-CN">
       <body className={`${inter.className} antialiased`}>
-        <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[var(--theme)] px-4 py-8 sm:p-6">
+        <div className="flex min-h-screen w-full flex-col items-center bg-[var(--theme)] px-4 py-8 sm:p-6">
+          <div className="w-full flex-1" />
           {children}
           <p className="mt-6 text-center text-[10px] text-white/80">naokeyoubao.com · 作者 Marvin</p>
           <Socials />
+          <div className="w-full flex-1" />
         </div>
         <GoogleAnalytics />
       </body>
