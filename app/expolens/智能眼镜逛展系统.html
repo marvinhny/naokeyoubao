@@ -270,28 +270,6 @@ footer .cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 footer h4{color:var(--ink2);font-size:14px;margin:0 0 8px}
 footer p{margin:0}
 
-/* ---------- 硬件形态 ---------- */
-.hw-banner{background:var(--teal-soft);border-radius:12px;padding:16px 20px;font-size:15px;color:var(--ink);margin-bottom:18px}
-.hw-banner b{color:var(--teal-ink)}
-.hw-banner .x{color:var(--red);font-weight:700}
-.hw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.view-card{padding:18px}
-.view-card h3{font-size:16.5px;margin-bottom:4px}
-.view-card h3 .en{font-family:var(--mono);font-size:11px;color:var(--ink3);letter-spacing:.1em;display:block;font-weight:500}
-.view-stage{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:10px 6px;margin:10px 0 12px}
-.marker-legend{list-style:none;margin:0;padding:0;display:grid;gap:7px}
-.marker-legend li{display:flex;gap:9px;font-size:13.5px;color:var(--ink2);line-height:1.55;align-items:flex-start}
-.marker-legend li b{color:var(--ink)}
-.mk{flex:none;width:19px;height:19px;border-radius:50%;background:var(--teal);color:#fff;font-family:var(--mono);font-size:11px;font-weight:700;display:grid;place-items:center;margin-top:2px}
-@media (prefers-color-scheme: dark){.mk{color:#06231f}}
-.kit-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
-.kit-card{padding:20px;display:grid;grid-template-columns:220px 1fr;gap:18px;align-items:center}
-.kit-card h3{font-size:16.5px;margin-bottom:6px}
-.kit-card p{font-size:14px;color:var(--ink2);margin:0 0 8px}
-.kit-card ul{margin:0;padding-left:17px;font-size:14px;color:var(--ink2)}
-.kit-card li{margin:3px 0}
-.kit-card li b{color:var(--ink)}
-
 /* ---------- 演示视频分镜 ---------- */
 .story-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:12px}
 .story{padding:14px 12px;position:relative}
@@ -324,9 +302,6 @@ footer p{margin:0}
   .hero-grid{grid-template-columns:1fr}
   .hero-stats{grid-template-columns:repeat(2,1fr)}
   .phases,.biz-grid{grid-template-columns:1fr}
-  .hw-grid{grid-template-columns:1fr}
-  .kit-grid{grid-template-columns:1fr}
-  .kit-card{grid-template-columns:1fr}
   .story-grid{grid-template-columns:1fr}
   .story .arr{right:auto;left:50%;top:auto;bottom:-13px;transform:translateX(-50%) rotate(90deg)}
   .map-layout,.hud-layout{grid-template-columns:1fr}
@@ -357,7 +332,6 @@ footer p{margin:0}
       <span>ExpoLens 展镜<small>SMART GLASSES EXPO NAVIGATOR</small></span>
     </div>
     <nav class="navlinks" aria-label="页面导航">
-      <a href="#hardware">硬件形态</a>
       <a href="#video">演示视频</a>
       <a href="#demo">交互演示</a>
       <a href="#plus">迭代需求</a>
@@ -433,200 +407,6 @@ footer p{margin:0}
           <li><b>纪要</b>：每家一份，带意向和待办</li>
           <li><b>导出</b>：报告、客户清单、跟进邮件</li>
         </ul>
-      </article>
-    </div>
-  </section>
-
-  <!-- ============ 硬件形态 ============ -->
-  <section id="hardware">
-    <div class="sec-head">
-      <div class="no">HARDWARE FORM</div>
-      <h2>一副能戴一整天的眼镜</h2>
-      <p>接近普通眼镜，外加肩带麦克风和充电盒。真实世界是主画面，眼镜只提示箭头、卡片和字幕。</p>
-    </div>
-
-    <div class="hw-grid">
-      <!-- 正视图 -->
-      <article class="card view-card">
-        <h3><span class="en">FRONT VIEW</span>正视图 · 前框</h3>
-        <div class="view-stage">
-          <svg viewBox="0 0 320 178" role="img" aria-label="眼镜正视图示意：波导镜片、摄像头、麦克风阵列、鼻托与近视内框位置">
-            <!-- 镜腿根部 -->
-            <rect x="8" y="52" width="26" height="12" rx="6" style="fill:var(--line2)"/>
-            <rect x="286" y="52" width="26" height="12" rx="6" style="fill:var(--line2)"/>
-            <!-- 镜框 -->
-            <path d="M26 58 h118 a10 10 0 0 1 10 10 v34 a38 38 0 0 1 -38 38 h-52 a38 38 0 0 1 -38 -38 Z" style="fill:var(--surface);stroke:var(--ink2)" stroke-width="3"/>
-            <path d="M166 58 h118 a10 10 0 0 1 10 10 v34 a38 38 0 0 1 -38 38 h-52 a38 38 0 0 1 -38 -38 Z" style="fill:var(--surface);stroke:var(--ink2)" stroke-width="3"/>
-            <!-- 鼻梁 -->
-            <path d="M154 66 q6 -7 12 0" fill="none" style="stroke:var(--ink2)" stroke-width="3" stroke-linecap="round"/>
-            <!-- 波导显示区（右镜片，佩戴者视角左） -->
-            <rect x="182" y="72" width="96" height="56" rx="24" style="fill:var(--teal-soft)"/>
-            <path d="M196 92 h52 M196 104 h68 M196 116 h40" style="stroke:var(--teal)" stroke-width="3" stroke-linecap="round" opacity=".65"/>
-            <path d="M252 82 l8 8 l-8 8" fill="none" style="stroke:var(--orange)" stroke-width="3.5" stroke-linecap="round"/>
-            <!-- 可拆近视内框（左镜片虚线） -->
-            <rect x="46" y="70" width="88" height="60" rx="26" fill="none" style="stroke:var(--orange)" stroke-width="2" stroke-dasharray="5 4"/>
-            <!-- 摄像头 -->
-            <circle cx="160" cy="50" r="6" style="fill:var(--ink)"/>
-            <circle cx="160" cy="50" r="2.4" style="fill:var(--teal)"/>
-            <!-- 鼻托 -->
-            <ellipse cx="146" cy="128" rx="6" ry="9" style="fill:var(--line2)"/>
-            <ellipse cx="174" cy="128" rx="6" ry="9" style="fill:var(--line2)"/>
-            <!-- 麦克风阵列小孔 -->
-            <circle cx="58" cy="146" r="2.2" style="fill:var(--ink3)"/><circle cx="70" cy="148" r="2.2" style="fill:var(--ink3)"/><circle cx="82" cy="149" r="2.2" style="fill:var(--ink3)"/>
-            <circle cx="238" cy="149" r="2.2" style="fill:var(--ink3)"/><circle cx="250" cy="148" r="2.2" style="fill:var(--ink3)"/><circle cx="262" cy="146" r="2.2" style="fill:var(--ink3)"/>
-            <!-- 编号标记 -->
-            <g font-family="var(--mono)" font-size="10" font-weight="700" text-anchor="middle">
-              <circle cx="230" cy="66" r="9" style="fill:var(--teal)"/><text x="230" y="70" fill="#fff">1</text>
-              <circle cx="160" cy="30" r="9" style="fill:var(--teal)"/><text x="160" y="34" fill="#fff">2</text>
-              <circle cx="70" cy="164" r="9" style="fill:var(--teal)"/><text x="70" y="168" fill="#fff">3</text>
-              <circle cx="186" cy="128" r="9" style="fill:var(--teal)"/><text x="186" y="132" fill="#fff">4</text>
-              <circle cx="52" cy="82" r="9" style="fill:var(--orange)"/><text x="52" y="86" fill="#fff">5</text>
-            </g>
-          </svg>
-        </div>
-        <ul class="marker-legend">
-          <li><span class="mk">1</span><span><b>波导镜片</b> — 边缘显示箭头和字幕</span></li>
-          <li><span class="mk">2</span><span><b>摄像头</b> — 认展位、名片、展品</span></li>
-          <li><span class="mk">3</span><span><b>麦克风</b> — 从噪声里拾人声</span></li>
-          <li><span class="mk">4</span><span><b>鼻托</b> — 长戴不压鼻梁</span></li>
-          <li><span class="mk" style="background:var(--orange)">5</span><span><b>近视内框</b> — 磁吸镜片</span></li>
-        </ul>
-      </article>
-
-      <!-- 侧视图 -->
-      <article class="card view-card">
-        <h3><span class="en">SIDE VIEW</span>侧视图 · 镜腿</h3>
-        <div class="view-stage">
-          <svg viewBox="0 0 320 178" role="img" aria-label="眼镜侧视图示意：镜腿触控区、电池芯片仓、开放式扬声器位置">
-            <!-- 镜片侧面 -->
-            <path d="M52 34 h16 a8 8 0 0 1 8 8 v78 a30 30 0 0 1 -30 30 h-2 a8 8 0 0 1 -8 -8 V42 a8 8 0 0 1 8 -8 Z" style="fill:var(--teal-soft);stroke:var(--ink2)" stroke-width="3"/>
-            <path d="M46 52 v66" style="stroke:var(--teal)" stroke-width="4" stroke-linecap="round" opacity=".7"/>
-            <!-- 鼻托侧影 -->
-            <path d="M76 128 q14 4 12 16 q-10 2 -16 -6 Z" style="fill:var(--line2)"/>
-            <!-- 镜腿（略粗，带电池/芯片仓） -->
-            <path d="M76 46 h168 a14 14 0 0 1 14 14 v6 q0 10 -10 12 l-10 2 q-6 40 -22 62 q-5 7 -12 3 q-6 -4 -3 -11 q10 -24 12 -52 H76 Z" style="fill:var(--surface);stroke:var(--ink2)" stroke-width="3"/>
-            <!-- 触控区 -->
-            <rect x="118" y="50" width="52" height="22" rx="9" style="fill:var(--teal-soft);stroke:var(--teal)" stroke-width="1.6"/>
-            <path d="M130 61 h28" style="stroke:var(--teal)" stroke-width="3" stroke-linecap="round"/>
-            <!-- 电池/芯片仓 -->
-            <rect x="182" y="50" width="46" height="22" rx="9" style="fill:var(--orange-soft);stroke:var(--orange)" stroke-width="1.6"/>
-            <rect x="196" y="57" width="18" height="9" rx="2" fill="none" style="stroke:var(--orange)" stroke-width="1.8"/>
-            <!-- 扬声器出声孔（镜腿末端下侧） -->
-            <path d="M198 128 l14 -3 M202 134 l14 -3 M206 140 l13 -3" style="stroke:var(--ink3)" stroke-width="2.4" stroke-linecap="round"/>
-            <!-- 前端麦克风 -->
-            <circle cx="84" cy="140" r="2.4" style="fill:var(--ink3)"/><circle cx="92" cy="142" r="2.4" style="fill:var(--ink3)"/>
-            <!-- 编号标记 -->
-            <g font-family="var(--mono)" font-size="10" font-weight="700" text-anchor="middle">
-              <circle cx="144" cy="30" r="9" style="fill:var(--teal)"/><text x="144" y="34" fill="#fff">6</text>
-              <circle cx="205" cy="30" r="9" style="fill:var(--orange)"/><text x="205" y="34" fill="#fff">7</text>
-              <circle cx="228" cy="118" r="9" style="fill:var(--teal)"/><text x="228" y="122" fill="#fff">8</text>
-              <circle cx="98" cy="160" r="9" style="fill:var(--teal)"/><text x="98" y="164" fill="#fff">3</text>
-            </g>
-          </svg>
-        </div>
-        <ul class="marker-legend">
-          <li><span class="mk">6</span><span><b>镜腿触控</b> — 轻触暂停，滑动翻页</span></li>
-          <li><span class="mk" style="background:var(--orange)">7</span><span><b>电池仓</b> — 镜腿略粗</span></li>
-          <li><span class="mk">8</span><span><b>扬声器</b> — 耳旁出声</span></li>
-          <li><span class="mk">3</span><span><b>拾音孔</b> — 和前框一起收音</span></li>
-        </ul>
-      </article>
-
-      <!-- 折叠图 -->
-      <article class="card view-card">
-        <h3><span class="en">FOLDED VIEW</span>折叠图 · 收纳状态</h3>
-        <div class="view-stage">
-          <svg viewBox="0 0 320 178" role="img" aria-label="眼镜折叠图示意：镜腿向内折叠后与前框平行收拢">
-            <!-- 前框（俯视压扁示意） -->
-            <path d="M36 62 h104 a10 10 0 0 1 10 10 v22 a30 30 0 0 1 -30 30 h-54 a30 30 0 0 1 -30 -30 Z" style="fill:var(--surface);stroke:var(--ink2)" stroke-width="3"/>
-            <path d="M170 62 h104 a10 10 0 0 1 10 10 v22 a30 30 0 0 1 -30 30 h-54 a30 30 0 0 1 -30 -30 Z" style="fill:var(--surface);stroke:var(--ink2)" stroke-width="3"/>
-            <rect x="188" y="74" width="72" height="38" rx="16" style="fill:var(--teal-soft)"/>
-            <path d="M150 70 q10 -6 20 0" fill="none" style="stroke:var(--ink2)" stroke-width="3" stroke-linecap="round"/>
-            <!-- 折叠后的镜腿：两条平行收在前框下方 -->
-            <rect x="44" y="136" width="232" height="13" rx="6.5" style="fill:var(--surface2);stroke:var(--ink2)" stroke-width="2.4"/>
-            <rect x="44" y="154" width="232" height="13" rx="6.5" style="fill:var(--surface2);stroke:var(--ink2)" stroke-width="2.4"/>
-            <rect x="196" y="138.5" width="40" height="8" rx="4" style="fill:var(--orange-soft);stroke:var(--orange)" stroke-width="1.4"/>
-            <!-- 铰链 -->
-            <circle cx="40" cy="66" r="5" style="fill:var(--ink2)"/>
-            <circle cx="280" cy="66" r="5" style="fill:var(--ink2)"/>
-            <path d="M40 74 v56 M280 74 v56" style="stroke:var(--ink3)" stroke-width="1.6" stroke-dasharray="3 4"/>
-            <!-- 编号标记 -->
-            <g font-family="var(--mono)" font-size="10" font-weight="700" text-anchor="middle">
-              <circle cx="296" cy="46" r="9" style="fill:var(--teal)"/><text x="296" y="50" fill="#fff">9</text>
-              <circle cx="216" cy="120" r="9" style="fill:var(--orange)"/><text x="216" y="124" fill="#fff">7</text>
-            </g>
-          </svg>
-        </div>
-        <ul class="marker-legend">
-          <li><span class="mk">9</span><span><b>铰链</b> — 折好入盒</span></li>
-          <li><span class="mk" style="background:var(--orange)">7</span><span><b>电池仓</b> — 入盒即充</span></li>
-          <li><span style="flex:none;width:19px"></span><span><b>补电</b> — 充 15 分钟，再用约 2 小时</span></li>
-        </ul>
-      </article>
-    </div>
-
-    <!-- 配套硬件 -->
-    <div class="kit-grid">
-      <article class="card kit-card">
-        <div class="view-stage" style="margin:0">
-          <svg viewBox="0 0 220 190" role="img" aria-label="肩带夹式录音模块示意：小方盒夹在双肩包肩带上，可弯折短麦克风朝上指向耳旁">
-            <!-- 肩带 -->
-            <rect x="52" y="8" width="46" height="174" rx="10" style="fill:var(--surface2);stroke:var(--line2)" stroke-width="2"/>
-            <path d="M62 14 v162 M88 14 v162" style="stroke:var(--line2)" stroke-width="1.6" stroke-dasharray="4 5"/>
-            <!-- 夹式录音模块本体 -->
-            <rect x="42" y="102" width="66" height="56" rx="10" style="fill:var(--ink)"/>
-            <circle cx="58" cy="118" r="4" style="fill:var(--red)"/>
-            <text x="68" y="122" font-family="var(--mono)" font-size="9" font-weight="700" fill="#fff">REC</text>
-            <path d="M52 140 h46 M52 148 h46" style="stroke:#5b6b64" stroke-width="2.4" stroke-linecap="round"/>
-            <rect x="42" y="102" width="66" height="10" rx="5" style="fill:var(--teal)"/>
-            <!-- 可弯折短麦克风：鹅颈向上弯向耳旁 -->
-            <path d="M96 106 C 118 92, 118 66, 138 48" fill="none" style="stroke:var(--ink)" stroke-width="5" stroke-linecap="round"/>
-            <rect x="132" y="28" width="13" height="26" rx="6.5" transform="rotate(38 138 41)" style="fill:var(--ink)"/>
-            <path d="M146 24 q4 4 0 8 M152 19 q7 8 0 17" fill="none" style="stroke:var(--teal)" stroke-width="2.2" stroke-linecap="round"/>
-            <!-- 耳旁位置示意 -->
-            <circle cx="186" cy="30" r="17" fill="none" style="stroke:var(--orange)" stroke-width="2" stroke-dasharray="4 4"/>
-            <path d="M180 22 a8 8 0 1 1 4 14 a5 5 0 1 0 -2 -8" fill="none" style="stroke:var(--orange)" stroke-width="2.2" stroke-linecap="round"/>
-            <text x="186" y="66" text-anchor="middle" font-size="10.5" style="fill:var(--ink3)">耳旁</text>
-            <text x="75" y="186" text-anchor="middle" font-size="10.5" style="fill:var(--ink3)">双肩包肩带</text>
-          </svg>
-        </div>
-        <div>
-          <h3>肩带录音模块</h3>
-          <p>夹在肩带上，麦克风停在耳下约 10 cm，录到的接近耳朵听到的声音。</p>
-          <ul>
-            <li>独立电池和存储，眼镜没电也继续录</li>
-            <li>侧面一键暂停</li>
-            <li>没有外拉的线</li>
-          </ul>
-        </div>
-      </article>
-      <article class="card kit-card">
-        <div class="view-stage" style="margin:0">
-          <svg viewBox="0 0 220 190" role="img" aria-label="充电收纳盒示意：盒内放折叠后的眼镜与录音模块，盒盖带电量指示">
-            <!-- 盒盖（打开） -->
-            <path d="M28 26 h164 a8 8 0 0 1 8 8 v18 H20 V34 a8 8 0 0 1 8 -8 Z" style="fill:var(--surface2);stroke:var(--line2)" stroke-width="2"/>
-            <circle cx="176" cy="39" r="3" style="fill:var(--green)"/><circle cx="164" cy="39" r="3" style="fill:var(--green)"/><circle cx="152" cy="39" r="3" style="fill:var(--green)"/><circle cx="140" cy="39" r="3" style="fill:var(--line2)"/>
-            <!-- 盒身 -->
-            <path d="M20 52 h180 v96 a16 16 0 0 1 -16 16 H36 a16 16 0 0 1 -16 -16 Z" style="fill:var(--surface);stroke:var(--ink2)" stroke-width="2.6"/>
-            <!-- 盒内折叠眼镜 -->
-            <path d="M44 84 h58 a8 8 0 0 1 8 8 v12 a20 20 0 0 1 -20 20 H64 a20 20 0 0 1 -20 -20 Z" fill="none" style="stroke:var(--ink2)" stroke-width="2.6"/>
-            <path d="M118 84 h58 a8 8 0 0 1 8 8 v12 a20 20 0 0 1 -20 20 h-26 a20 20 0 0 1 -20 -20 Z" fill="none" style="stroke:var(--ink2)" stroke-width="2.6"/>
-            <rect x="130" y="92" width="34" height="20" rx="8" style="fill:var(--teal-soft)"/>
-            <rect x="48" y="132" width="124" height="7" rx="3.5" style="fill:var(--line2)"/>
-            <!-- 录音模块仓位 -->
-            <rect x="182" y="118" width="0" height="0"/>
-            <text x="110" y="156" text-anchor="middle" font-size="10.5" style="fill:var(--ink3)">USB-C · 入盒即充</text>
-          </svg>
-        </div>
-        <div>
-          <h3>充电收纳盒</h3>
-          <p>眼镜和录音模块一起放进去，合盖同时充电。</p>
-          <ul>
-            <li>盒盖四格电量</li>
-            <li>大约能给眼镜补电 3 次</li>
-            <li>离盒太久，手机会提醒</li>
-          </ul>
-        </div>
       </article>
     </div>
   </section>
